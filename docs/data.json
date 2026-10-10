@@ -254,6 +254,38 @@
    "size": 59662
   }
  ],
+ "messages": [
+  {
+   "id": "m1",
+   "at": "2026-10-10",
+   "to": "glin",
+   "from": "mokafor",
+   "done": 8,
+   "next": 10,
+   "read": false,
+   "text": "#8 Write the one-page study summary is done. #10 Submit the protocol to the ethics board (IRB) is still waiting on #17 and #19."
+  },
+  {
+   "id": "m2",
+   "at": "2026-10-10",
+   "to": "tadeyemi",
+   "from": "smarchetti",
+   "done": 9,
+   "next": 20,
+   "read": false,
+   "text": "#9 Set up the shared project folder and tracker is done. #20 Build the case report forms is still waiting on #23."
+  },
+  {
+   "id": "m3",
+   "at": "2026-10-09",
+   "to": "pnatarajan",
+   "from": "hkowalski",
+   "done": 4,
+   "next": 22,
+   "read": true,
+   "text": "#4 Estimate the sample size is done. #22 Draft the recruitment flyer and screening script is still waiting on #17."
+  }
+ ],
  "budget": {
   "approvedDoc": "budget",
   "lines": [
