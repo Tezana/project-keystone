@@ -133,6 +133,28 @@ textarea{min-height:120px;resize:vertical;line-height:1.5}
 .lrow .n{font-size:14px;font-weight:600;text-align:right}
 .panel a.more{display:inline-block;margin-top:6px;font-size:14px;font-weight:600;color:var(--accent);border:0}
 
+/* Attachments */
+.clip{display:inline-flex;align-items:center;gap:3px;color:var(--muted);font-weight:500}
+.files{list-style:none;margin:0 0 14px;padding:0;border:1px solid var(--line);border-radius:12px}
+.files li{display:flex;align-items:center;gap:12px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.files li:last-child{border-bottom:0}
+.files .fnone{color:var(--faint);font-size:14px}
+.kind{flex:none;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:6px;width:76px;text-align:center}
+.k-report{background:var(--accent-soft);color:var(--accent)}
+.k-memo{background:var(--late-soft);color:var(--late)}
+.k-voucher{background:var(--track);color:var(--done)}
+.k-other{border:1px solid var(--line);color:var(--faint)}
+.fmain{min-width:0;flex:1;display:flex;flex-direction:column}
+.fmain a{font-weight:600;overflow-wrap:anywhere}
+.fmain small{font-size:12px;color:var(--faint)}
+.linkbtn.danger{color:var(--danger);font-weight:500;font-size:13px}
+.attach .arow{display:flex;flex-wrap:wrap;gap:12px}
+.attach .arow .field{margin-bottom:10px;flex:0 0 150px}
+.attach .arow .field.grow{flex:1 1 220px;min-width:0}
+.attach input[type=file]{font:inherit;font-size:14px;min-height:44px;padding:9px 10px;border:1px dashed var(--faint);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+.attach .actions{align-items:center;margin-bottom:0}
+.attach .hint{font-size:13px;color:var(--faint)}
+
 /* Team page */
 .dept{margin-bottom:26px}
 .people{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
@@ -265,7 +287,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   function toast(msg){ var t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(function(){ t.hidden = true; }, 2600); }
 
   // ---------- State ----------
-  var S = { base: null, tasks: [], phases: [], labels: {}, milestones: {}, team: [], teamSha: "", owner: !!store(TOKEN_KEY), ui: { show: "open", phase: "", label: "", person: "", q: "", card: "" } };
+  var S = { base: null, tasks: [], phases: [], labels: {}, milestones: {}, team: [], teamSha: "", attach: {}, owner: !!store(TOKEN_KEY), ui: { show: "open", phase: "", label: "", person: "", q: "", card: "" } };
 
   // ---------- GitHub API (owner mode) ----------
   function gh(method, path, body){
@@ -303,6 +325,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     return fetch("data.json?t=" + Date.now(), { cache: "no-store" }).then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(base){
       S.base = base; S.labels = base.labels;
       S.team = (demo().team || base.team || []).slice();
+      S.attach = base.attachments || {};
       var dueByPhase = {}; base.phases.forEach(function(p){ dueByPhase[p.title] = p.due; });
       S.phases = base.phases.map(function(p){ return { title: p.title, due: p.due }; });
       if (S.owner){
@@ -389,8 +412,72 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     var d = demo(); d.team = team; saveDemo(d); S.team = team; return Promise.resolve();
   }
 
+  // ---------- Attachments (owner → docs/attachments/task-N/ in the repo, demo → this browser) ----------
+  var KINDS = [["report","Report"],["memo","Memo"],["voucher","Voucher"],["other","Other"]];
+  var ATTACH_RE = /^(report|memo|voucher|other)--(\d{4}-\d{2}-\d{2})--(.+)$/;
+  var MAX_MB = 10;
+  function kindName(k){ return (KINDS.filter(function(x){ return x[0] === k; })[0] || [k, "File"])[1]; }
+  function fileSize(b){ return b < 1024 ? b + " B" : b < 1048576 ? Math.round(b / 1024) + " KB" : (b / 1048576).toFixed(1) + " MB"; }
+  function safeName(n){ return n.replace(/\s+/g, "_").replace(/[^\w.\-()]/g, "").replace(/^\.+/, "").slice(-120) || "file"; }
+  function idb(){
+    return new Promise(function(ok, no){
+      try { var r = indexedDB.open("keystone-files", 1); r.onupgradeneeded = function(){ r.result.createObjectStore("files"); }; r.onsuccess = function(){ ok(r.result); }; r.onerror = function(){ no(r.error); }; }
+      catch(e){ no(e); }
+    });
+  }
+  function idbDo(mode, fn){
+    return idb().then(function(db){ return new Promise(function(ok, no){ var tx = db.transaction("files", mode), st = tx.objectStore("files"), r = fn(st); tx.oncomplete = function(){ ok(r && r.result); }; tx.onerror = function(){ no(tx.error); }; }); });
+  }
+  function attachCount(n){
+    var d = demo(), hidden = d.hidden || [];
+    if (S.owner) return (S.attach[n] || []).length;
+    return (S.attach[n] || []).filter(function(a){ return hidden.indexOf(a.file) < 0; }).length + ((d.files || {})[n] || []).length;
+  }
+  function listAttachments(n){
+    if (S.owner){
+      return gh("GET", "/contents/docs/attachments/task-" + n + "?ref=main").catch(function(ex){ if (/Not Found|404/.test(ex.message)) return []; throw ex; }).then(function(items){
+        var out = (items || []).map(function(f){ var m = ATTACH_RE.exec(f.name); return m && { kind: m[1], added: m[2], name: m[3], size: f.size, href: f.download_url, path: f.path, sha: f.sha }; }).filter(Boolean);
+        S.attach[n] = out.map(function(a){ return { file: a.path.replace(/^docs\//, ""), kind: a.kind, added: a.added, name: a.name, size: a.size }; });
+        return out;
+      });
+    }
+    var d = demo(), hidden = d.hidden || [];
+    var base = (S.attach[n] || []).filter(function(a){ return hidden.indexOf(a.file) < 0; }).map(function(a){ return Object.assign({ href: a.file }, a); });
+    var mine = ((d.files || {})[n] || []).slice();
+    return Promise.all(mine.map(function(a){
+      return idbDo("readonly", function(st){ return st.get(a.id); }).then(function(blob){ return blob ? Object.assign({ href: URL.createObjectURL(blob) }, a) : null; }).catch(function(){ return null; });
+    })).then(function(local){ return base.concat(local.filter(Boolean)); });
+  }
+  function readB64(file){ return new Promise(function(ok, no){ var r = new FileReader(); r.onload = function(){ ok(String(r.result).split(",")[1] || ""); }; r.onerror = function(){ no(r.error); }; r.readAsDataURL(file); }); }
+  function addAttachment(n, file, kind, existing){
+    if (file.size > MAX_MB * 1048576) return Promise.reject(new Error("That file is over " + MAX_MB + " MB. Try a smaller one."));
+    var name = safeName(file.name), taken = existing.map(function(a){ return a.name; }), i = 2, dot = name.lastIndexOf(".");
+    while (taken.indexOf(name) > -1){ name = (dot > 0 ? name.slice(0, dot) : name).replace(/\(\d+\)$/, "") + "(" + i++ + ")" + (dot > 0 ? safeName(file.name).slice(dot) : ""); }
+    var fname = kind + "--" + today() + "--" + name;
+    var note = "Attached a " + kindName(kind).toLowerCase() + ": " + name.replace(/_/g, " ");
+    if (S.owner){
+      return readB64(file).then(function(b64){ return gh("PUT", "/contents/docs/attachments/task-" + n + "/" + encodeURIComponent(fname), { message: "Attach " + kindName(kind).toLowerCase() + " to task #" + n + ": " + name, content: b64, branch: "main" }); })
+        .catch(function(ex){ throw new Error(/not accessible|Resource/.test(ex.message) ? "Your key can't upload files. Add Contents: Read and write to it." : ex.message); })
+        .then(function(){ return addNote(n, note); });
+    }
+    var id = "f" + Date.now() + Math.random().toString(36).slice(2, 7);
+    return idbDo("readwrite", function(st){ return st.put(file, id); }).catch(function(){ throw new Error("This browser can't store files for the demo (private browsing blocks it)."); }).then(function(){
+      var d = demo(); d.files = d.files || {}; (d.files[n] = d.files[n] || []).push({ id: id, kind: kind, added: today(), name: name, size: file.size }); saveDemo(d);
+      return addNote(n, note);
+    });
+  }
+  function removeAttachment(n, a){
+    var note = "Removed a " + kindName(a.kind).toLowerCase() + ": " + a.name.replace(/_/g, " ");
+    if (S.owner) return gh("DELETE", "/contents/" + a.path.split("/").map(encodeURIComponent).join("/"), { message: "Remove " + a.name + " from task #" + n, sha: a.sha, branch: "main" }).then(function(){ return addNote(n, note); });
+    var d = demo();
+    if (a.id){ d.files[n] = d.files[n].filter(function(x){ return x.id !== a.id; }); idbDo("readwrite", function(st){ return st.delete(a.id); }).catch(function(){}); }
+    else (d.hidden = d.hidden || []).push(a.file);
+    saveDemo(d); return addNote(n, note);
+  }
+
   // ---------- Shared bits ----------
   function labelChip(l){ var dot = el("i"); dot.style.background = S.labels[l] || "#94A3B8"; return el("span", { class: "lbl" }, [dot, l]); }
+  function clipIcon(){ var s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("width", "14"); s.setAttribute("height", "14"); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("aria-hidden", "true"); s.innerHTML = '<path d="M21 11.5l-8.6 8.6a5.5 5.5 0 01-7.8-7.8l8.6-8.6a3.7 3.7 0 015.2 5.2l-8.6 8.6a1.8 1.8 0 01-2.6-2.6l7.9-7.9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'; return s; }
   function avatar(p, small){ return el("span", { class: "av" + (small ? " sm" : ""), "aria-hidden": "true", text: p ? initials(p.name) : "?" }); }
   function ownerName(t){ var p = person(t.owner); return p ? p.name : "Unassigned"; }
   function ownerSelect(id, value, firstText, short){
@@ -410,8 +497,8 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       b.appendChild(el("span", {}, [el("b", { text: "Owner mode. " }), "Changes save to GitHub."]));
       b.appendChild(el("button", { type: "button", class: "linkbtn", text: "Lock owner mode", onclick: function(){ store(TOKEN_KEY, null); S.owner = false; boot("Owner mode locked."); } }));
     } else {
-      b.appendChild(el("span", {}, [el("b", { text: "Live demo: try it. " }), "Open a task, mark it done, add notes, or create a task. Changes stay on this device."]));
-      b.appendChild(el("button", { type: "button", class: "linkbtn", text: "Reset demo", onclick: function(){ saveDemo(null); store(DEMO_KEY, null); boot("Demo reset."); } }));
+      b.appendChild(el("span", {}, [el("b", { text: "Live demo: try it. " }), "Open a task, mark it done, add notes, attach a file, or create a task. Changes stay on this device."]));
+      b.appendChild(el("button", { type: "button", class: "linkbtn", text: "Reset demo", onclick: function(){ saveDemo(null); store(DEMO_KEY, null); idbDo("readwrite", function(st){ return st.clear(); }).catch(function(){}); boot("Demo reset."); } }));
     }
   }
   function setNav(which){ document.querySelectorAll("[data-nav]").forEach(function(a){ if (a.getAttribute("data-nav") === which) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); }); }
@@ -494,6 +581,8 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
         var op = person(t.owner);
         meta.appendChild(el("span", { class: "who" + (op ? "" : " none") }, [avatar(op, true), op ? op.name : "Unassigned"]));
         t.labels.forEach(function(l){ meta.appendChild(labelChip(l)); });
+        var ac = attachCount(t.number);
+        if (ac) meta.appendChild(el("span", { class: "clip", title: ac + " attachment" + (ac === 1 ? "" : "s") }, [clipIcon(), String(ac), el("span", { class: "sr", text: " attachment" + (ac === 1 ? "" : "s") })]));
         if (t.reason === "not_planned") meta.appendChild(el("span", { class: "chip st-Won", text: "Won't do" }));
         list.appendChild(el("li", {}, [el("a", { class: "item" + (isDone ? " done" : ""), href: "#/task/" + t.number, "aria-label": t.title + ", " + taskStatus(t) }, [
           el("div", { class: "row" }, [check, el("div", { style: "min-width:0" }, [el("div", { class: "title", text: t.title }), t.body ? el("div", { class: "body", text: t.body }) : null, meta]), el("span", { class: "chev", "aria-hidden": "true", text: "›" })])
@@ -635,6 +724,46 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       addNote(t.number, v).then(function(){ noteBox.value = ""; noteBtn.disabled = false; toast("Note added."); drawNotes(); }).catch(function(ex){ toast(ex.message); noteBtn.disabled = false; });
     } }, [el("label", { class: "sr", for: "note", text: "Add a note" }), noteBox, el("div", { class: "actions" }, [noteBtn])]);
 
+    // Attachments: reports, memos, vouchers
+    var files = [], fileList = el("ul", { class: "files", "aria-live": "polite" }, [el("li", { class: "fnone", text: "Loading attachments…" })]);
+    function drawFiles(){
+      listAttachments(t.number).then(function(fs){
+        files = fs; fileList.textContent = "";
+        if (!fs.length) fileList.appendChild(el("li", { class: "fnone", text: "Nothing attached yet." }));
+        fs.forEach(function(a){
+          fileList.appendChild(el("li", {}, [
+            el("span", { class: "kind k-" + a.kind, text: kindName(a.kind) }),
+            el("span", { class: "fmain" }, [el("a", { href: a.href, target: "_blank", rel: "noopener", text: a.name.replace(/_/g, " ") }), el("small", { text: fileSize(a.size) + " · added " + niceDate(a.added) })]),
+            el("button", { type: "button", class: "linkbtn danger", text: "Remove", "aria-label": "Remove " + a.name, onclick: function(e){
+              if (!window.confirm("Remove " + a.name + " from this task?")) return;
+              e.target.disabled = true;
+              removeAttachment(t.number, a).then(function(){ toast("Attachment removed."); drawFiles(); drawNotes(); }).catch(function(ex){ toast(ex.message); e.target.disabled = false; });
+            } })
+          ]));
+        });
+      }).catch(function(ex){ fileList.textContent = ""; fileList.appendChild(el("li", { class: "fnone", text: ex.message })); });
+    }
+    var kindSel = el("select", { id: "a-kind" }); KINDS.forEach(function(k){ kindSel.appendChild(el("option", { value: k[0], text: k[1] })); });
+    var fileIn = el("input", { type: "file", id: "a-file", accept: ".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.png,.jpg,.jpeg" });
+    var attErr = el("p", { class: "error", role: "alert", hidden: true });
+    var attBtn = el("button", { type: "submit", class: "btn primary", text: "Attach" });
+    var attForm = el("form", { class: "attach", onsubmit: function(e){
+      e.preventDefault(); attErr.hidden = true;
+      var f = fileIn.files && fileIn.files[0];
+      if (!f){ attErr.textContent = "Choose a file first."; attErr.hidden = false; fileIn.focus(); return; }
+      attBtn.disabled = true; attBtn.textContent = "Attaching…";
+      addAttachment(t.number, f, kindSel.value, files).then(function(){ toast(kindName(kindSel.value) + " attached."); fileIn.value = ""; drawFiles(); drawNotes(); })
+        .catch(function(ex){ attErr.textContent = ex.message; attErr.hidden = false; })
+        .then(function(){ attBtn.disabled = false; attBtn.textContent = "Attach"; });
+    } }, [
+      el("div", { class: "arow" }, [
+        el("div", { class: "field" }, [el("label", { for: "a-kind", text: "Type" }), kindSel]),
+        el("div", { class: "field grow" }, [el("label", { for: "a-file", text: "File" }), fileIn])
+      ]),
+      el("div", { class: "actions" }, [attBtn, el("span", { class: "hint", text: "PDF, Word, Excel, image, or text. Up to " + MAX_MB + " MB." + (S.owner ? " Saves to the repo." : " Demo files stay in this browser.") })]),
+      attErr
+    ]);
+
     var sheet = el("div", { class: "sheet" }, [
       el("div", { class: "row" }, [el("span", { class: "eyebrow", text: "Task #" + t.number }), (function(){ var c = el("span", { class: "chip " + stClass(status), text: status }); c.style.marginLeft = "auto"; return c; })()]),
       el("h2", { class: "t", text: t.title }),
@@ -642,7 +771,8 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       el("div", { style: "height:14px" }),
       actions,
       el("div", { class: "grid2" }, [
-        el("section", {}, [el("h2", { text: "Description" }), el("p", { class: "desc", text: t.body || "No description yet." })]),
+        el("section", {}, [el("h2", { text: "Description" }), el("p", { class: "desc", text: t.body || "No description yet." }),
+          el("h2", { text: "Attachments", style: "margin-top:26px" }), fileList, attForm]),
         el("section", {}, [el("h2", { text: "Notes" }), notesList, noteForm])
       ])
     ]);
@@ -656,7 +786,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       $("f-title").focus();
     }
     mount([el("a", { class: "back", href: "#/", text: "← Back to dashboard" }), sheet], t.title);
-    drawNotes();
+    drawNotes(); drawFiles();
   }
 
   // ---------- View: team ----------
@@ -743,7 +873,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       LINKEDIN ? el("a", { class: "btn", href: LINKEDIN, text: "LinkedIn" }) : null,
       el("a", { class: "btn", href: "https://github.com/" + REPO, text: "Source code" })
     ]);
-    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Team", "Each person's name, title, and department live in a team file in the repo; each task carries its assignee in a hidden note, so assignments survive in GitHub"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
+    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Team", "Each person's name, title, and department live in a team file in the repo; each task carries its assignee in a hidden note, so assignments survive in GitHub"], ["Attachments", "Reports, memos, and vouchers per task. Owner uploads are stored in the repo through the GitHub contents API; demo files stay in the visitor's browser (IndexedDB)"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
     var table = el("table", { class: "simple" }, [el("tr", {}, [el("th", { text: "Layer" }), el("th", { text: "What it uses" })])]);
     rows.forEach(function(r){ table.appendChild(el("tr", {}, [el("td", {}, [el("b", { text: r[0] })]), el("td", { text: r[1] })])); });
     var ch = [["Couldn't create the planned GitHub organization (sign-in lockout)", "Built on the personal account instead, without waiting"], ["Push refused (HTTP 403)", "Granted the app access to the new repo and refreshed the connection"], ["Loading 55 tasks without setup work", "Moved loading into a GitHub Action that uses the repo's own token: one click, safe to repeat"], ["\"Up next\" showed tasks backwards", "GitHub returns newest first; sorted by task number"], ["Visitors shouldn't change real data", "Two modes: demo saves locally; owner mode needs a private key"], ["First demo data was too close to a real project", "Rebuilt with a fictional research study and a clean repository history, since edits leave the old text visible"]];
@@ -757,12 +887,12 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       links,
       el("h3", { text: "How it works" }),
       el("div", { class: "flow" }, [box("Plan file", "phases, tasks, labels"), arr(), box("Load tasks", "GitHub Action"), arr(), box("GitHub Issues", "source of truth", true), arr(), box("Update dashboard", "GitHub Action"), arr(), box("This website", "reads the latest data")]),
-      el("p", { class: "hint", text: "In owner mode, this site also writes straight to GitHub Issues: marking tasks done, editing, reassigning, adding notes, and creating tasks. Team changes save to the team file." }),
+      el("p", { class: "hint", text: "In owner mode, this site also writes straight to GitHub Issues: marking tasks done, editing, reassigning, adding notes, attaching files, and creating tasks. Team changes save to the team file." }),
       el("h3", { text: "Technology" }), table,
       el("h3", { text: "Challenges and fixes" }), ctable,
       el("h3", { text: "Try it" }),
-      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Reassign a task, or open the Team page to add someone and see who owns what." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
-      el("p", { class: "hint", text: "Lanternfield Labs, Project Keystone, the study, and the team are fictional. They exist to demo the tracker with realistic data." })
+      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Attach a report, memo, or voucher to a task. Tasks #4, #5, and #17 already have sample documents." }), el("li", { text: "Reassign a task, or open the Team page to add someone and see who owns what." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
+      el("p", { class: "hint", text: "Lanternfield Labs, Project Keystone, the study, the team, and the sample documents are fictional. They exist to demo the tracker with realistic data." })
     ])], "About this build");
   }
 
@@ -795,7 +925,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
           el("li", {}, ["On GitHub, open ", el("a", { href: "https://github.com/settings/personal-access-tokens/new", target: "_blank", rel: "noopener", text: "new fine-grained token" }), "."]),
           el("li", { text: "Name it \"Keystone tracker\" and pick an expiration date." }),
           el("li", { text: "Repository access: Only select repositories → project-keystone." }),
-          el("li", { text: "Permissions → Repository permissions → Issues: Read and write, and Contents: Read and write (for team changes). Leave everything else as is." }),
+          el("li", { text: "Permissions → Repository permissions → Issues: Read and write, and Contents: Read and write (for team changes and attachments). Leave everything else as is." }),
           el("li", { text: "Click Generate token, copy it, and paste it above." })
         ])
       ])

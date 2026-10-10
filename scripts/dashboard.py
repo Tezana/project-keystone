@@ -74,6 +74,24 @@ def load_local_preview():
     return phases, decisions, tasks
 
 
+ATTACH_RE = re.compile(r"^(report|memo|voucher|other)--(\d{4}-\d{2}-\d{2})--(.+)$")
+
+
+def load_attachments():
+    """Files in docs/attachments/task-N/, named KIND--YYYY-MM-DD--name.ext"""
+    out = {}
+    folder = ROOT / "docs" / "attachments"
+    for d in sorted(folder.glob("task-*")) if folder.exists() else []:
+        for f in sorted(d.iterdir()):
+            m = ATTACH_RE.match(f.name)
+            if not m or not f.is_file():
+                continue
+            out.setdefault(d.name[5:], []).append({
+                "file": f"attachments/{d.name}/{f.name}", "kind": m.group(1),
+                "added": m.group(2), "name": m.group(3), "size": f.stat().st_size})
+    return out
+
+
 def nice_date(iso):
     if not iso:
         return "no date"
@@ -170,6 +188,7 @@ def main():
                     "total": p["total"], "status": status(p)} for p in phases],
         "labels": {l["name"]: "#" + l["color"] for l in plan["labels"]},
         "team": json.loads(team.read_text()) if (team := ROOT / "tracker" / "team.json").exists() else [],
+        "attachments": load_attachments(),
         "tasks": tasks,
     }
     (ROOT / "docs").mkdir(exist_ok=True)
