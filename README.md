@@ -49,6 +49,7 @@ _Updated automatically Oct 10, 2026._
 - **Labels** sort tasks by type: `admin`, `protocol`, `lab`, `analysis`. Two special ones:
   - `decision`: needs a choice from the study lead. These show up in "Decisions waiting on you."
   - `writeup`: material for the final report or a paper.
+- **Every task has an owner.** The study team (name, job title, department) lives in `tracker/team.json`. Each issue stores its owner in a hidden line at the bottom of its description, like `<!-- keystone:owner=mokafor -->`. Assign or reassign people from the website, or on the **Team** page add, edit, and remove team members.
 
 ## First-time setup (one time only)
 
@@ -60,7 +61,8 @@ _Updated automatically Oct 10, 2026._
 
 | Path | What it is |
 | --- | --- |
-| `tracker/tasks.json` | The starting plan: phases, tasks, and labels |
+| `tracker/tasks.json` | The starting plan: phases, tasks, labels, and who owns each task |
+| `tracker/team.json` | The study team: name, job title, and department for each person |
 | `scripts/seed.py` | Loads the plan into Issues and Milestones (skips anything already there) |
 | `scripts/dashboard.py` | Draws the progress panel from live Issues |
 | `.github/workflows/` | The two automations that run those scripts |

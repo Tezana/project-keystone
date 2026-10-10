@@ -1,0 +1,10 @@
+[
+  {"id": "mokafor", "name": "Dr. Maya Okafor", "title": "Principal Investigator", "team": "Study Leadership"},
+  {"id": "smarchetti", "name": "Sofia Marchetti", "title": "Project Manager", "team": "Study Leadership"},
+  {"id": "glin", "name": "Grace Lin", "title": "Regulatory Specialist", "team": "Regulatory Affairs"},
+  {"id": "dreyes", "name": "Daniel Reyes", "title": "Clinical Research Coordinator", "team": "Clinical Operations"},
+  {"id": "pnatarajan", "name": "Priya Natarajan", "title": "Clinical Research Coordinator", "team": "Clinical Operations"},
+  {"id": "mbell", "name": "Marcus Bell", "title": "Laboratory Technician", "team": "Laboratory"},
+  {"id": "hkowalski", "name": "Hannah Kowalski", "title": "Biostatistician", "team": "Data and Analytics"},
+  {"id": "tadeyemi", "name": "Tom Adeyemi", "title": "Data Manager", "team": "Data and Analytics"}
+]

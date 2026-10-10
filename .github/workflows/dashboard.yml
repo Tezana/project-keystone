@@ -9,6 +9,9 @@ on:
     types: [created, edited, closed, opened, deleted]
   schedule:
     - cron: "0 11 * * *"
+  push:
+    branches: [main]
+    paths: ["tracker/**"]   # team or plan changes
   workflow_dispatch:
   workflow_run:
     workflows: ["Load tasks"]

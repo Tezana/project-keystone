@@ -63,7 +63,8 @@ def load_local_preview():
             tasks.append({"number": n, "title": t["title"],
                           "state": "closed" if t["done"] else "open",
                           "phase": p["title"], "labels": t["labels"], "url": "#",
-                          "body": t["body"], "closed": "", "created": "", "reason": ""})
+                          "body": t["body"] + (f"\n<!-- keystone:owner={t['owner']} -->" if t.get("owner") else ""),
+                          "closed": "", "created": "", "reason": ""})
             if not t["done"]:
                 open_items.append(item)
                 if "decision" in t["labels"]:
@@ -168,6 +169,7 @@ def main():
         "phases": [{"title": p["title"], "due": p["due"], "done": p["done"],
                     "total": p["total"], "status": status(p)} for p in phases],
         "labels": {l["name"]: "#" + l["color"] for l in plan["labels"]},
+        "team": json.loads(team.read_text()) if (team := ROOT / "tracker" / "team.json").exists() else [],
         "tasks": tasks,
     }
     (ROOT / "docs").mkdir(exist_ok=True)

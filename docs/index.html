@@ -90,7 +90,8 @@ h2{font-size:15px;font-family:"IBM Plex Mono",monospace;font-weight:500;letter-s
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--card)}
 select,input[type=search],input[type=text],input[type=password],input[type=date],textarea{font:inherit;font-size:15px;min-height:44px;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);width:100%}
 textarea{min-height:120px;resize:vertical;line-height:1.5}
-.toolbar select{width:auto}
+.toolbar select{width:auto;max-width:100%;min-width:0;flex:0 1 auto}
+#personFilter{max-width:220px}
 .toolbar input[type=search]{flex:1 1 160px;min-width:0;width:auto}
 .list{list-style:none;margin:0;padding:0}
 .item{display:block;text-decoration:none;color:inherit;padding:14px 16px;border-bottom:1px solid var(--line)}
@@ -114,10 +115,44 @@ textarea{min-height:120px;resize:vertical;line-height:1.5}
 .panel a:hover{color:var(--accent);border-color:var(--accent)}
 .panel .sub{font-size:13px;color:var(--muted);margin:-6px 0 10px}
 
+.av{flex:none;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:700;letter-spacing:.02em}
+.av.sm{width:22px;height:22px;font-size:10px}
+.who{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-weight:500}
+.who.none{color:var(--faint);font-style:italic}
+.who.none .av{background:transparent;border:1px dashed var(--line);color:var(--faint)}
+.load{list-style:none!important;padding:0!important;margin:0 0 6px!important}
+.load li{margin:0!important}
+.lrow{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:22px minmax(0,1fr) 60px 22px;gap:10px;align-items:center;padding:7px 6px;border-radius:8px}
+.lrow:hover{background:var(--bg)}
+.lrow[aria-pressed="true"]{background:var(--accent-soft)}
+.lrow:focus-visible{outline:3px solid var(--focus)}
+.lrow .nm{min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.lrow .nm b{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lrow .nm small{font-size:12px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lrow .bar{height:6px}
+.lrow .n{font-size:14px;font-weight:600;text-align:right}
+.panel a.more{display:inline-block;margin-top:6px;font-size:14px;font-weight:600;color:var(--accent);border:0}
+
+/* Team page */
+.dept{margin-bottom:26px}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.person{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.person .hd{display:flex;gap:12px;align-items:center}
+.person .hd b{display:block;font-size:16px}
+.person .hd .ttl{display:block;font-size:14px;color:var(--muted)}
+.person .ct{font-size:13px;color:var(--faint)}
+.person .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.person .acts .btn{min-height:38px;padding:0 12px;font-size:13px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:start}
+
 /* Task detail + forms */
 .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:14px;font-weight:500;margin-bottom:14px;min-height:44px}
 .sheet{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
 .sheet h2.t{font-family:inherit;text-transform:none;letter-spacing:0;font-size:26px;color:var(--ink);font-weight:700;margin:6px 0 10px;line-height:1.2}
+.assignee{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin:0 0 14px;padding:8px 14px 8px 8px;border:1px solid var(--line);border-radius:999px}
+.assignee:hover{border-color:var(--accent)}
+.assignee b{display:block;font-size:15px}
+.assignee small{display:block;font-size:13px;color:var(--muted)}
 .facts{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;color:var(--muted);margin-bottom:18px}
 .facts b{color:var(--ink);font-weight:600}
 .actions{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 20px}
@@ -155,7 +190,7 @@ table.simple td{padding:8px;border-bottom:1px solid var(--line);vertical-align:t
 code{font-family:"IBM Plex Mono",monospace;font-size:13px;background:var(--bg);padding:1px 5px;border-radius:5px}
 footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between}
 
-@media (max-width:820px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.phases{grid-template-columns:repeat(1,minmax(0,1fr))}h1{font-size:28px}.grid2{grid-template-columns:1fr}.sheet{padding:18px}}
+@media (max-width:820px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.phases{grid-template-columns:repeat(1,minmax(0,1fr))}h1{font-size:28px}.grid2,.grid3{grid-template-columns:1fr}.sheet{padding:18px}}
 @media (min-width:821px) and (max-width:1000px){.phases{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
@@ -171,6 +206,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     </div>
     <nav aria-label="Main">
       <a class="btn" href="#/" data-nav="home">Dashboard</a>
+      <a class="btn" href="#/team" data-nav="team">Team</a>
       <a class="btn" href="#/about" data-nav="about">About this build</a>
       <a class="btn primary" href="#/new" data-nav="new">+ New task</a>
     </nav>
@@ -192,7 +228,8 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   var LINKEDIN = ""; // add your LinkedIn URL here to show it on the About page
   var API = "https://api.github.com";
   var DEMO_KEY = "keystone-demo-v1", TOKEN_KEY = "keystone-owner-token";
-  var DUE_RE = /\n?<!-- keystone:due=(\d{4}-\d{2}-\d{2}) -->/;
+  // Hidden markers in each issue body hold the due date and the person assigned
+  var MARK_RE = /\n?<!-- keystone:(due|owner)=([\w-]+) -->/g;
 
   // ---------- Small helpers ----------
   function $(id){ return document.getElementById(id); }
@@ -218,12 +255,17 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   function daysUntil(iso){ var p = iso.split("-").map(Number); var due = new Date(p[0], p[1]-1, p[2]); var now = new Date(); now.setHours(0,0,0,0); return Math.round((due - now) / 864e5); }
   function phaseNum(t){ var m = /Phase (\d+)/.exec(t || ""); return m ? +m[1] : 99; }
   function shortPhase(t){ return ((t || "").split(":")[1] || t || "No phase").trim(); }
-  function splitBody(body){ var m = DUE_RE.exec(body || ""); return { text: (body || "").replace(DUE_RE, "").trim(), due: m ? m[1] : "" }; }
-  function joinBody(text, due){ return (text || "").trim() + (due ? "\n\n<!-- keystone:due=" + due + " -->" : ""); }
+  function splitBody(body){
+    var out = { due: "", owner: "" };
+    out.text = (body || "").replace(MARK_RE, function(_, k, v){ out[k] = v; return ""; }).trim();
+    return out;
+  }
+  function joinBody(text, due, owner){ return (text || "").trim() + (due ? "\n\n<!-- keystone:due=" + due + " -->" : "") + (owner ? "\n<!-- keystone:owner=" + owner + " -->" : ""); }
+  function initials(name){ return (name || "?").replace(/^Dr\.?\s+/i, "").split(/\s+/).map(function(w){ return w[0]; }).slice(0,2).join("").toUpperCase(); }
   function toast(msg){ var t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(function(){ t.hidden = true; }, 2600); }
 
   // ---------- State ----------
-  var S = { base: null, tasks: [], phases: [], labels: {}, milestones: {}, owner: !!store(TOKEN_KEY), ui: { show: "open", phase: "", label: "", q: "", card: "" } };
+  var S = { base: null, tasks: [], phases: [], labels: {}, milestones: {}, team: [], teamSha: "", owner: !!store(TOKEN_KEY), ui: { show: "open", phase: "", label: "", person: "", q: "", card: "" } };
 
   // ---------- GitHub API (owner mode) ----------
   function gh(method, path, body){
@@ -244,11 +286,11 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   }
   function fromIssue(i){
     var b = splitBody(i.body);
-    return { number: i.number, title: i.title, state: i.state, reason: i.state_reason || "", phase: i.milestone ? i.milestone.title : "", labels: i.labels.map(function(l){ return l.name; }), body: b.text, due: b.due, closed: (i.closed_at || "").slice(0,10), created: (i.created_at || "").slice(0,10), comments: i.comments || 0 };
+    return { number: i.number, title: i.title, state: i.state, reason: i.state_reason || "", phase: i.milestone ? i.milestone.title : "", labels: i.labels.map(function(l){ return l.name; }), body: b.text, due: b.due, owner: b.owner, closed: (i.closed_at || "").slice(0,10), created: (i.created_at || "").slice(0,10), comments: i.comments || 0 };
   }
 
   // ---------- Demo overlay (visitor's browser only) ----------
-  function demo(){ return store(DEMO_KEY) || { edits: {}, created: [], notes: {}, next: 0 }; }
+  function demo(){ return store(DEMO_KEY) || { edits: {}, created: [], notes: {}, next: 0, team: null }; }
   function saveDemo(d){ store(DEMO_KEY, d); }
   function applyDemo(tasks){
     var d = demo();
@@ -260,10 +302,13 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   function load(){
     return fetch("data.json?t=" + Date.now(), { cache: "no-store" }).then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(base){
       S.base = base; S.labels = base.labels;
+      S.team = (demo().team || base.team || []).slice();
       var dueByPhase = {}; base.phases.forEach(function(p){ dueByPhase[p.title] = p.due; });
       S.phases = base.phases.map(function(p){ return { title: p.title, due: p.due }; });
       if (S.owner){
-        return Promise.all([ghAll("/issues?state=all"), ghAll("/milestones?state=all")]).then(function(res){
+        S.team = (base.team || []).slice();
+        var team = gh("GET", "/contents/tracker/team.json?ref=main").then(function(f){ S.teamSha = f.sha; S.team = JSON.parse(fromB64(f.content)); }).catch(function(){ S.teamSha = ""; });
+        return Promise.all([ghAll("/issues?state=all"), ghAll("/milestones?state=all"), team]).then(function(res){
           var issues = res[0].filter(function(i){ return !i.pull_request; });
           S.milestones = {}; res[1].forEach(function(m){ S.milestones[m.title] = m.number; dueByPhase[m.title] = (m.due_on || "").slice(0,10); });
           S.phases = Object.keys(dueByPhase).map(function(t){ return { title: t, due: dueByPhase[t] }; });
@@ -273,7 +318,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       S.tasks = applyDemo(base.tasks.map(baseTask));
     });
   }
-  function baseTask(t){ var b = splitBody(t.body); return { number: t.number, title: t.title, state: t.state, reason: t.reason || "", phase: t.phase, labels: t.labels, body: b.text, due: b.due, closed: t.closed, created: t.created || "" }; }
+  function baseTask(t){ var b = splitBody(t.body); return { number: t.number, title: t.title, state: t.state, reason: t.reason || "", phase: t.phase, labels: t.labels, body: b.text, due: b.due, owner: b.owner, closed: t.closed, created: t.created || "" }; }
 
   function phaseStats(){
     var live = S.tasks.filter(function(t){ return t.reason !== "not_planned"; });
@@ -292,7 +337,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     if (S.owner){
       var payload = {};
       if ("title" in changes) payload.title = changes.title;
-      if ("body" in changes || "due" in changes) payload.body = joinBody("body" in changes ? changes.body : t.body, "due" in changes ? changes.due : t.due);
+      if ("body" in changes || "due" in changes || "owner" in changes) payload.body = joinBody("body" in changes ? changes.body : t.body, "due" in changes ? changes.due : t.due, "owner" in changes ? changes.owner : t.owner);
       if ("labels" in changes) payload.labels = changes.labels;
       if ("phase" in changes) payload.milestone = S.milestones[changes.phase] || null;
       if ("state" in changes){ payload.state = changes.state; if (changes.state === "closed") payload.state_reason = changes.reason || "completed"; }
@@ -305,12 +350,12 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   }
   function createTask(f){
     if (S.owner){
-      return gh("POST", "/issues", { title: f.title, body: joinBody(f.body, f.due), labels: f.labels, milestone: S.milestones[f.phase] || undefined })
+      return gh("POST", "/issues", { title: f.title, body: joinBody(f.body, f.due, f.owner), labels: f.labels, milestone: S.milestones[f.phase] || undefined })
         .then(function(i){ var t = fromIssue(i); S.tasks.push(t); return t.number; });
     }
     var d = demo(); var maxN = S.tasks.reduce(function(m,t){ return Math.max(m, +t.number || 0); }, 0);
     var n = Math.max(maxN, d.next || 0) + 1; d.next = n;
-    var t = { number: n, title: f.title, state: "open", reason: "", phase: f.phase, labels: f.labels, body: f.body, due: f.due, closed: "", created: today(), demo: true };
+    var t = { number: n, title: f.title, state: "open", reason: "", phase: f.phase, labels: f.labels, body: f.body, due: f.due, owner: f.owner, closed: "", created: today(), demo: true };
     d.created.push(t); saveDemo(d); S.tasks.push(Object.assign({}, t));
     return Promise.resolve(n);
   }
@@ -323,8 +368,40 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     var d = demo(); (d.notes[n] = d.notes[n] || []).push({ text: text, at: today() }); saveDemo(d); return Promise.resolve();
   }
 
+  // ---------- Team (owner → tracker/team.json on GitHub, demo → this browser) ----------
+  function fromB64(b){ var bin = atob(b.replace(/\s/g, "")); return new TextDecoder().decode(Uint8Array.from(bin, function(c){ return c.charCodeAt(0); })); }
+  function toB64(str){ var bytes = new TextEncoder().encode(str), bin = ""; bytes.forEach(function(x){ bin += String.fromCharCode(x); }); return btoa(bin); }
+  function person(id){ return S.team.filter(function(p){ return p.id === id; })[0]; }
+  function departments(){ var out = []; S.team.forEach(function(p){ if (out.indexOf(p.team) < 0) out.push(p.team); }); return out; }
+  function newId(name){
+    var w = name.replace(/^Dr\.?\s+/i, "").toLowerCase().replace(/[^a-z\s-]/g, "").trim().split(/\s+/);
+    var base = ((w[0] || "x")[0] + (w.length > 1 ? w[w.length-1] : "")).replace(/[^a-z-]/g, "") || "member", id = base, i = 2;
+    while (person(id)) id = base + i++;
+    return id;
+  }
+  function saveTeam(team, msg){
+    var json = "[\n" + team.map(function(p){ return "  " + JSON.stringify({ id: p.id, name: p.name, title: p.title, team: p.team }); }).join(",\n") + "\n]\n";
+    if (S.owner){
+      return gh("PUT", "/contents/tracker/team.json", { message: msg, content: toB64(json), sha: S.teamSha || undefined, branch: "main" })
+        .then(function(r){ S.teamSha = r.content.sha; S.team = team; })
+        .catch(function(ex){ throw new Error(/not accessible|403|Resource/.test(ex.message) ? "Your key can't save the team. Add Contents: Read and write to it." : ex.message); });
+    }
+    var d = demo(); d.team = team; saveDemo(d); S.team = team; return Promise.resolve();
+  }
+
   // ---------- Shared bits ----------
   function labelChip(l){ var dot = el("i"); dot.style.background = S.labels[l] || "#94A3B8"; return el("span", { class: "lbl" }, [dot, l]); }
+  function avatar(p, small){ return el("span", { class: "av" + (small ? " sm" : ""), "aria-hidden": "true", text: p ? initials(p.name) : "?" }); }
+  function ownerName(t){ var p = person(t.owner); return p ? p.name : "Unassigned"; }
+  function ownerSelect(id, value, firstText, short){
+    var sel = el("select", { id: id }, [el("option", { value: "", text: firstText })]);
+    departments().forEach(function(dep){
+      var g = el("optgroup", { label: dep });
+      S.team.filter(function(p){ return p.team === dep; }).forEach(function(p){ g.appendChild(el("option", { value: p.id, text: short ? p.name : p.name + " · " + p.title, selected: p.id === value })); });
+      sel.appendChild(g);
+    });
+    return sel;
+  }
   function taskStatus(t){ return t.reason === "not_planned" ? "Won't do" : t.state === "closed" ? "Done" : "Open"; }
   function stClass(s){ return "st-" + s.split(/[ ']/)[0]; }
   function banner(){
@@ -355,17 +432,17 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     function statCard(key, label, filter, kids){
       var active = ui.card === key;
       return el("button", { type: "button", class: "stat", "aria-pressed": String(active), "aria-label": label + ": show these tasks", onclick: function(){
-        if (ui.card === key){ ui.card = ""; ui.show = "open"; ui.phase = ""; ui.label = ""; ui.q = ""; }
+        if (ui.card === key){ ui.card = ""; ui.show = "open"; ui.phase = ""; ui.label = ""; ui.person = ""; ui.q = ""; }
         else { ui.card = key; ui.q = ""; Object.assign(ui, filter); }
         viewHome();
         var t = $("taskSection"); if (t){ t.scrollIntoView({ behavior: "smooth", block: "start" }); t.focus({ preventScroll: true }); }
       } }, kids.concat([el("div", { class: "go", "aria-hidden": "true", text: active ? "Showing ✓" : "View list →" })]));
     }
     var stats = el("section", { class: "stats", "aria-label": "Summary" }, [
-      statCard("all", "Overall progress", { show: "all", phase: "", label: "" }, [el("div", { class: "k", text: "Overall progress" }), el("div", { class: "v", text: pct + "%" }), (function(){ var b = el("div", { class: "bar" }, [el("span")]); b.style.marginTop = "10px"; b.firstChild.style.width = pct + "%"; return b; })()]),
-      statCard("done", "Tasks done", { show: "done", phase: "", label: "" }, [el("div", { class: "k", text: "Tasks done" }), el("div", { class: "v", text: done + " / " + live.length }), el("div", { class: "s", text: (live.length - done) + " still open" })]),
-      statCard("deadline", "Next deadline", { show: "open", phase: next ? next.title : "", label: "" }, [el("div", { class: "k", text: "Next deadline" }), el("div", { class: "v", text: next ? (nd < 0 ? Math.abs(nd) + " days late" : nd === 0 ? "Today" : nd + " days") : "All clear" }), el("div", { class: "s", text: next ? next.title + " · " + niceDate(next.due) : "" })]),
-      statCard("decisions", "Decisions waiting", { show: "open", phase: "", label: "decision" }, [el("div", { class: "k", text: "Decisions waiting" }), el("div", { class: "v", text: String(decisions.length) }), el("div", { class: "s", text: "Need a choice from the study lead" })])
+      statCard("all", "Overall progress", { show: "all", phase: "", label: "", person: "" }, [el("div", { class: "k", text: "Overall progress" }), el("div", { class: "v", text: pct + "%" }), (function(){ var b = el("div", { class: "bar" }, [el("span")]); b.style.marginTop = "10px"; b.firstChild.style.width = pct + "%"; return b; })()]),
+      statCard("done", "Tasks done", { show: "done", phase: "", label: "", person: "" }, [el("div", { class: "k", text: "Tasks done" }), el("div", { class: "v", text: done + " / " + live.length }), el("div", { class: "s", text: (live.length - done) + " still open" })]),
+      statCard("deadline", "Next deadline", { show: "open", phase: next ? next.title : "", label: "", person: "" }, [el("div", { class: "k", text: "Next deadline" }), el("div", { class: "v", text: next ? (nd < 0 ? Math.abs(nd) + " days late" : nd === 0 ? "Today" : nd + " days") : "All clear" }), el("div", { class: "s", text: next ? next.title + " · " + niceDate(next.due) : "" })]),
+      statCard("decisions", "Decisions waiting", { show: "open", phase: "", label: "decision", person: "" }, [el("div", { class: "k", text: "Decisions waiting" }), el("div", { class: "v", text: String(decisions.length) }), el("div", { class: "s", text: "Need a choice from the study lead" })])
     ]);
 
     var cards = el("div", { class: "phases" });
@@ -385,13 +462,16 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     });
     var sel = el("select", { id: "labelFilter", onchange: function(e){ ui.card = ""; ui.label = e.target.value; viewHome(); } }, [el("option", { value: "", text: "All labels" })]);
     Object.keys(S.labels).forEach(function(l){ sel.appendChild(el("option", { value: l, text: l, selected: ui.label === l })); });
+    var who = ownerSelect("personFilter", ui.person, "Everyone", true);
+    who.insertBefore(el("option", { value: "none", text: "Unassigned", selected: ui.person === "none" }), who.children[1] || null);
+    who.addEventListener("change", function(e){ ui.card = ""; ui.person = e.target.value; viewHome(); });
     var search = el("input", { type: "search", id: "search", placeholder: "Search tasks", value: ui.q, oninput: function(e){ ui.q = e.target.value; drawList(); } });
-    var toolbar = el("div", { class: "toolbar" }, [seg, el("label", { class: "sr", for: "labelFilter", text: "Filter by label" }), sel, el("label", { class: "sr", for: "search", text: "Search tasks" }), search]);
+    var toolbar = el("div", { class: "toolbar" }, [seg, el("label", { class: "sr", for: "labelFilter", text: "Filter by label" }), sel, el("label", { class: "sr", for: "personFilter", text: "Filter by person" }), who, el("label", { class: "sr", for: "search", text: "Search tasks" }), search]);
     var cardNames = { all: "All tasks", done: "Done tasks", deadline: "Next deadline: " + (ui.phase || ""), decisions: "Decisions waiting" };
     var parts = [];
     if (ui.card) parts.push(cardNames[ui.card]);
-    else { if (ui.phase) parts.push(ui.phase); if (ui.label) parts.push("label: " + ui.label); }
-    var note = parts.length ? el("div", { class: "toolbar filterbar" }, [el("span", {}, ["Showing ", el("b", { text: parts.join(" · ") })]), (function(){ var c = el("button", { type: "button", class: "btn", text: "Clear filter", onclick: function(){ ui.card = ""; ui.show = "open"; ui.phase = ""; ui.label = ""; ui.q = ""; viewHome(); } }); c.style.marginLeft = "auto"; return c; })()]) : null;
+    else { if (ui.phase) parts.push(ui.phase); if (ui.label) parts.push("label: " + ui.label); if (ui.person) parts.push("assigned to: " + (ui.person === "none" ? "nobody" : (person(ui.person) || { name: "former member" }).name)); }
+    var note = parts.length ? el("div", { class: "toolbar filterbar" }, [el("span", {}, ["Showing ", el("b", { text: parts.join(" · ") })]), (function(){ var c = el("button", { type: "button", class: "btn", text: "Clear filter", onclick: function(){ ui.card = ""; ui.show = "open"; ui.phase = ""; ui.label = ""; ui.person = ""; ui.q = ""; viewHome(); } }); c.style.marginLeft = "auto"; return c; })()]) : null;
     var list = el("ul", { class: "list", id: "list" });
     function drawList(){
       var q = ui.q.toLowerCase(); list.textContent = "";
@@ -401,7 +481,8 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
         if (ui.show === "done" && t.state !== "closed") return false;
         if (ui.phase && t.phase !== ui.phase) return false;
         if (ui.label && t.labels.indexOf(ui.label) < 0) return false;
-        if (q && (t.title + " " + t.body).toLowerCase().indexOf(q) < 0) return false;
+        if (ui.person === "none" ? person(t.owner) : ui.person && t.owner !== ui.person) return false;
+        if (q && (t.title + " " + t.body + " " + ownerName(t)).toLowerCase().indexOf(q) < 0) return false;
         return true;
       }).sort(function(a,b){ return phaseNum(a.phase) - phaseNum(b.phase) || a.number - b.number; });
       if (!shown.length) list.appendChild(el("li", { class: "empty", text: "Nothing here. Try another filter." }));
@@ -410,6 +491,8 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
         var check = el("span", { class: "check", "aria-hidden": "true" });
         if (isDone) check.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>';
         var meta = el("div", { class: "meta" }, [el("span", { text: "#" + t.number + " · " + shortPhase(t.phase) + (t.due ? " · due " + niceDate(t.due) : "") })]);
+        var op = person(t.owner);
+        meta.appendChild(el("span", { class: "who" + (op ? "" : " none") }, [avatar(op, true), op ? op.name : "Unassigned"]));
         t.labels.forEach(function(l){ meta.appendChild(labelChip(l)); });
         if (t.reason === "not_planned") meta.appendChild(el("span", { class: "chip st-Won", text: "Won't do" }));
         list.appendChild(el("li", {}, [el("a", { class: "item" + (isDone ? " done" : ""), href: "#/task/" + t.number, "aria-label": t.title + ", " + taskStatus(t) }, [
@@ -429,12 +512,28 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     if (!decisions.length) dl.appendChild(el("li", { text: "None right now." }));
     decisions.forEach(function(t){ dl.appendChild(el("li", {}, [el("a", { href: "#/task/" + t.number, text: t.title })])); });
 
+    // Open tasks per person: click a name to see their list
+    var load = el("ul", { class: "load" });
+    var openLive = live.filter(function(t){ return t.state === "open"; });
+    var maxOpen = 1;
+    var rowsW = S.team.map(function(p){ var n = openLive.filter(function(t){ return t.owner === p.id; }).length; maxOpen = Math.max(maxOpen, n); return { p: p, n: n }; })
+      .sort(function(a,b){ return b.n - a.n || a.p.name.localeCompare(b.p.name); });
+    rowsW.forEach(function(r){
+      var b = el("span", { class: "bar" }, [el("span")]); b.firstChild.style.width = (100 * r.n / maxOpen) + "%";
+      load.appendChild(el("li", {}, [el("button", { type: "button", class: "lrow", "aria-pressed": String(ui.person === r.p.id), "aria-label": r.p.name + ", " + r.n + " open tasks", onclick: function(){
+        ui.card = ""; ui.show = "open"; ui.person = ui.person === r.p.id ? "" : r.p.id; viewHome();
+        var t = $("taskSection"); if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
+      } }, [avatar(r.p, true), el("span", { class: "nm" }, [el("b", { text: r.p.name }), el("small", { text: r.p.title })]), b, el("span", { class: "n", text: String(r.n) })])]));
+    });
+    if (!rowsW.length) load.appendChild(el("li", { text: "No team members yet." }));
+
     mount([stats, el("h2", { text: "Phases" }), cards,
       el("div", { class: "main" }, [
         el("section", { class: "tasks", id: "taskSection", tabindex: "-1", "aria-label": "Tasks" }, [note, toolbar, list]),
         el("aside", { class: "side" }, [
           el("div", { class: "panel" }, [el("h2", { text: "Up next" }), upSub, up]),
-          el("div", { class: "panel" }, [el("h2", { text: "Decisions waiting" }), dl])
+          el("div", { class: "panel" }, [el("h2", { text: "Decisions waiting" }), dl]),
+          el("div", { class: "panel" }, [el("h2", { text: "Who's on what" }), el("div", { class: "sub", text: "Open tasks per person" }), load, el("a", { class: "more", href: "#/team", text: "See the full team →" })])
         ])
       ])
     ]);
@@ -448,6 +547,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     var phase = el("select", { id: "f-phase" });
     phaseStats().forEach(function(p){ phase.appendChild(el("option", { value: p.title, text: p.title, selected: p.title === t.phase })); });
     var due = el("input", { type: "date", id: "f-due", value: t.due || "" });
+    var owner = ownerSelect("f-owner", t.owner || "", "Unassigned");
     var checks = el("div", { class: "checks" });
     Object.keys(S.labels).forEach(function(l){
       var id = "f-l-" + l;
@@ -457,13 +557,14 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     var form = el("form", { novalidate: true, onsubmit: function(e){
       e.preventDefault();
       if (!title.value.trim()){ err.textContent = "Give the task a title."; err.hidden = false; title.focus(); return; }
-      var f = { title: title.value.trim(), body: body.value, phase: phase.value, due: due.value, labels: Array.prototype.filter.call(checks.querySelectorAll("input"), function(i){ return i.checked; }).map(function(i){ return i.value; }) };
+      var f = { title: title.value.trim(), body: body.value, phase: phase.value, due: due.value, owner: owner.value, labels: Array.prototype.filter.call(checks.querySelectorAll("input"), function(i){ return i.checked; }).map(function(i){ return i.value; }) };
       submit.disabled = true; submit.textContent = "Saving…";
       onSubmit(f).catch(function(ex){ err.textContent = ex.message; err.hidden = false; submit.disabled = false; submit.textContent = submitText; });
     } }, [
       el("div", { class: "field" }, [el("label", { for: "f-title", text: "Title" }), title]),
       el("div", { class: "field" }, [el("label", { for: "f-body", text: "Description" }), body, el("span", { class: "hint", text: "What needs to happen, and anything you'll want to remember." })]),
-      el("div", { class: "grid2" }, [
+      el("div", { class: "grid3" }, [
+        el("div", { class: "field" }, [el("label", { for: "f-owner", text: "Assigned to" }), owner]),
         el("div", { class: "field" }, [el("label", { for: "f-phase", text: "Phase" }), phase]),
         el("div", { class: "field" }, [el("label", { for: "f-due", text: "Due date (optional)" }), due])
       ]),
@@ -483,7 +584,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       el("div", { class: "sheet" }, [
         el("div", { class: "eyebrow", text: S.owner ? "New task · saves to GitHub" : "New task · demo" }),
         el("h2", { class: "t", text: "Add a task" }),
-        taskForm({ phase: first ? first.title : "", labels: [] }, function(f){
+        taskForm({ phase: first ? first.title : "", labels: [], owner: person(S.ui.person) ? S.ui.person : "" }, function(f){
           return createTask(f).then(function(n){ toast("Task created."); location.hash = "#/task/" + n; });
         }, function(){ location.hash = "#/"; }, "Create task")
       ])
@@ -509,6 +610,8 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       el("button", { type: "button", class: "btn", text: "Edit", onclick: function(){ edit(); } })
     ]);
     var labels = el("div", { class: "meta" }); t.labels.forEach(function(l){ labels.appendChild(labelChip(l)); });
+    var op = person(t.owner);
+    var assigned = el("a", { class: "assignee", href: "#/team" }, [avatar(op), el("span", {}, op ? [el("b", { text: op.name }), el("small", { text: op.title + " · " + op.team })] : [el("b", { text: "Unassigned" }), el("small", { text: t.owner ? "Former team member" : "Use Edit to assign someone" })])]);
     var facts = el("div", { class: "facts" }, [
       el("span", {}, ["Phase: ", el("b", { text: shortPhase(t.phase) })]),
       t.due ? el("span", {}, ["Due: ", el("b", { text: niceDate(t.due) })]) : null,
@@ -535,7 +638,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     var sheet = el("div", { class: "sheet" }, [
       el("div", { class: "row" }, [el("span", { class: "eyebrow", text: "Task #" + t.number }), (function(){ var c = el("span", { class: "chip " + stClass(status), text: status }); c.style.marginLeft = "auto"; return c; })()]),
       el("h2", { class: "t", text: t.title }),
-      facts, labels.childNodes.length ? labels : null,
+      assigned, facts, labels.childNodes.length ? labels : null,
       el("div", { style: "height:14px" }),
       actions,
       el("div", { class: "grid2" }, [
@@ -548,12 +651,85 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       sheet.appendChild(el("div", { class: "eyebrow", text: "Editing task #" + t.number }));
       sheet.appendChild(el("h2", { class: "t", text: "Edit task" }));
       sheet.appendChild(taskForm(t, function(f){
-        return saveTask(t.number, { title: f.title, body: f.body, phase: f.phase, labels: f.labels, due: f.due }).then(function(){ toast("Saved."); viewTask(n); });
+        return saveTask(t.number, { title: f.title, body: f.body, phase: f.phase, labels: f.labels, due: f.due, owner: f.owner }).then(function(){ toast("Saved."); viewTask(n); });
       }, function(){ viewTask(n); }, "Save changes"));
       $("f-title").focus();
     }
     mount([el("a", { class: "back", href: "#/", text: "← Back to dashboard" }), sheet], t.title);
     drawNotes();
+  }
+
+  // ---------- View: team ----------
+  function viewTeam(){
+    setNav("team");
+    var live = S.tasks.filter(function(t){ return t.reason !== "not_planned"; });
+    var unassigned = live.filter(function(t){ return t.state === "open" && !person(t.owner); }).length;
+    var formBox = el("div");
+    function memberForm(m){
+      formBox.textContent = "";
+      var err = el("p", { class: "error", role: "alert", hidden: true });
+      var name = el("input", { type: "text", id: "m-name", value: m ? m.name : "", maxlength: 80, autocomplete: "off" });
+      var title = el("input", { type: "text", id: "m-title", value: m ? m.title : "", maxlength: 80, autocomplete: "off" });
+      var dept = el("input", { type: "text", id: "m-team", value: m ? m.team : "", maxlength: 80, list: "m-teams", autocomplete: "off" });
+      var dl = el("datalist", { id: "m-teams" }); departments().forEach(function(d){ dl.appendChild(el("option", { value: d })); });
+      var go = el("button", { type: "submit", class: "btn primary", text: m ? "Save changes" : "Add member" });
+      formBox.appendChild(el("div", { class: "sheet" }, [
+        el("div", { class: "eyebrow", text: m ? "Edit team member" : "New team member" }),
+        el("form", { novalidate: true, onsubmit: function(e){
+          e.preventDefault();
+          var f = { name: name.value.trim(), title: title.value.trim(), team: dept.value.trim() };
+          var miss = !f.name ? name : !f.title ? title : !f.team ? dept : null;
+          if (miss){ err.textContent = "Fill in name, job title, and department or team."; err.hidden = false; miss.focus(); return; }
+          var team = S.team.map(function(p){ return Object.assign({}, p); });
+          if (m) Object.assign(team.filter(function(p){ return p.id === m.id; })[0], f);
+          else team.push(Object.assign({ id: newId(f.name) }, f));
+          go.disabled = true; go.textContent = "Saving…";
+          saveTeam(team, (m ? "Update " : "Add ") + f.name + " on the team").then(function(){ toast(m ? "Saved." : f.name + " added."); viewTeam(); })
+            .catch(function(ex){ err.textContent = ex.message; err.hidden = false; go.disabled = false; go.textContent = m ? "Save changes" : "Add member"; });
+        } }, [
+          el("div", { class: "grid3" }, [
+            el("div", { class: "field" }, [el("label", { for: "m-name", text: "Name" }), name]),
+            el("div", { class: "field" }, [el("label", { for: "m-title", text: "Job title" }), title]),
+            el("div", { class: "field" }, [el("label", { for: "m-team", text: "Department or team" }), dept, dl, el("span", { class: "hint", text: "Pick one or type a new one." })])
+          ]),
+          el("div", { class: "actions" }, [go, el("button", { type: "button", class: "btn", text: "Cancel", onclick: function(){ formBox.textContent = ""; } })]),
+          err
+        ])
+      ]));
+      formBox.style.marginBottom = "24px";
+      name.focus();
+    }
+    function remove(p, open){
+      var msg = "Remove " + p.name + " from the team?" + (open ? " Their " + open + " open task" + (open === 1 ? "" : "s") + " will show as unassigned." : "");
+      if (!window.confirm(msg)) return;
+      saveTeam(S.team.filter(function(x){ return x.id !== p.id; }), "Remove " + p.name + " from the team").then(function(){ toast(p.name + " removed."); viewTeam(); }).catch(function(ex){ toast(ex.message); });
+    }
+    var groups = departments().map(function(dep){
+      var grid = el("div", { class: "people" });
+      S.team.filter(function(p){ return p.team === dep; }).forEach(function(p){
+        var mine = live.filter(function(t){ return t.owner === p.id; });
+        var open = mine.filter(function(t){ return t.state === "open"; }).length;
+        grid.appendChild(el("article", { class: "person", "aria-label": p.name }, [
+          el("div", { class: "hd" }, [avatar(p), el("div", { style: "min-width:0" }, [el("b", { text: p.name }), el("span", { class: "ttl", text: p.title })])]),
+          el("div", { class: "ct", text: open + " open · " + (mine.length - open) + " done" }),
+          el("div", { class: "acts" }, [
+            el("button", { type: "button", class: "btn primary", text: "View tasks", onclick: function(){ Object.assign(S.ui, { card: "", show: "open", phase: "", label: "", q: "", person: p.id }); location.hash = "#/"; } }),
+            el("button", { type: "button", class: "btn", text: "Edit", "aria-label": "Edit " + p.name, onclick: function(){ memberForm(p); } }),
+            el("button", { type: "button", class: "btn danger", text: "Remove", "aria-label": "Remove " + p.name, onclick: function(){ remove(p, open); } })
+          ])
+        ]));
+      });
+      return el("section", { class: "dept", "aria-label": dep }, [el("h2", { text: dep }), grid]);
+    });
+    mount([
+      el("a", { class: "back", href: "#/", text: "← Back to dashboard" }),
+      el("div", { class: "row", style: "align-items:flex-end;flex-wrap:wrap;margin-bottom:20px" }, [
+        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? "Study team · saves to GitHub" : "Study team · demo" }), el("h2", { class: "t", text: "Team", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 4px" }),
+          el("p", { style: "margin:0;color:var(--muted)", text: S.team.length + " people in " + departments().length + " departments" + (unassigned ? " · " + unassigned + " open task" + (unassigned === 1 ? "" : "s") + " unassigned" : " · every open task has an owner") })]),
+        (function(){ var b = el("button", { type: "button", class: "btn primary", text: "+ Add member", onclick: function(){ memberForm(null); } }); b.style.marginLeft = "auto"; return b; })()
+      ]),
+      formBox
+    ].concat(groups.length ? groups : [el("p", { class: "empty", text: "No team members yet. Add the first one." })]), "Team");
   }
 
   // ---------- View: about ----------
@@ -567,7 +743,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       LINKEDIN ? el("a", { class: "btn", href: LINKEDIN, text: "LinkedIn" }) : null,
       el("a", { class: "btn", href: "https://github.com/" + REPO, text: "Source code" })
     ]);
-    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
+    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Team", "Each person's name, title, and department live in a team file in the repo; each task carries its assignee in a hidden note, so assignments survive in GitHub"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
     var table = el("table", { class: "simple" }, [el("tr", {}, [el("th", { text: "Layer" }), el("th", { text: "What it uses" })])]);
     rows.forEach(function(r){ table.appendChild(el("tr", {}, [el("td", {}, [el("b", { text: r[0] })]), el("td", { text: r[1] })])); });
     var ch = [["Couldn't create the planned GitHub organization (sign-in lockout)", "Built on the personal account instead, without waiting"], ["Push refused (HTTP 403)", "Granted the app access to the new repo and refreshed the connection"], ["Loading 55 tasks without setup work", "Moved loading into a GitHub Action that uses the repo's own token: one click, safe to repeat"], ["\"Up next\" showed tasks backwards", "GitHub returns newest first; sorted by task number"], ["Visitors shouldn't change real data", "Two modes: demo saves locally; owner mode needs a private key"], ["First demo data was too close to a real project", "Rebuilt with a fictional research study and a clean repository history, since edits leave the old text visible"]];
@@ -576,17 +752,17 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     mount([el("article", { class: "prose" }, [
       el("div", { class: "eyebrow", text: "About this build" }),
       el("h2", { class: "t", text: "A project tracker that runs on GitHub", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 10px" }),
-      el("p", { text: "This is a working project tracker built on GitHub. To show it with realistic data, it's running a fictional research study: a 60-participant clinical validation of a wearable hydration sensor, tracked as 55 tasks across six phases with deadlines and decisions." }), el("p", { text: "GitHub is the system of record: every task is an Issue and every phase is a Milestone. This site sits on top, so anyone can see progress at a glance and try the workflow." }),
+      el("p", { text: "This is a working project tracker built on GitHub. To show it with realistic data, it's running a fictional research study: a 60-participant clinical validation of a wearable hydration sensor, tracked as 55 tasks across six phases, assigned to an eight-person team across five departments." }), el("p", { text: "GitHub is the system of record: every task is an Issue and every phase is a Milestone. This site sits on top, so anyone can see progress at a glance and try the workflow." }),
       el("p", { text: "I built it with an AI pair-programmer. I set the requirements, made the design and scope decisions, and tested and accepted the work." }),
       links,
       el("h3", { text: "How it works" }),
       el("div", { class: "flow" }, [box("Plan file", "phases, tasks, labels"), arr(), box("Load tasks", "GitHub Action"), arr(), box("GitHub Issues", "source of truth", true), arr(), box("Update dashboard", "GitHub Action"), arr(), box("This website", "reads the latest data")]),
-      el("p", { class: "hint", text: "In owner mode, this site also writes straight to GitHub Issues: marking tasks done, editing, adding notes, and creating tasks." }),
+      el("p", { class: "hint", text: "In owner mode, this site also writes straight to GitHub Issues: marking tasks done, editing, reassigning, adding notes, and creating tasks. Team changes save to the team file." }),
       el("h3", { text: "Technology" }), table,
       el("h3", { text: "Challenges and fixes" }), ctable,
       el("h3", { text: "Try it" }),
-      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
-      el("p", { class: "hint", text: "Lanternfield Labs, Project Keystone, and the study are fictional. They exist to demo the tracker with realistic data." })
+      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Reassign a task, or open the Team page to add someone and see who owns what." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
+      el("p", { class: "hint", text: "Lanternfield Labs, Project Keystone, the study, and the team are fictional. They exist to demo the tracker with realistic data." })
     ])], "About this build");
   }
 
@@ -619,7 +795,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
           el("li", {}, ["On GitHub, open ", el("a", { href: "https://github.com/settings/personal-access-tokens/new", target: "_blank", rel: "noopener", text: "new fine-grained token" }), "."]),
           el("li", { text: "Name it \"Keystone tracker\" and pick an expiration date." }),
           el("li", { text: "Repository access: Only select repositories → project-keystone." }),
-          el("li", { text: "Permissions → Repository permissions → Issues: Read and write. Leave everything else as is." }),
+          el("li", { text: "Permissions → Repository permissions → Issues: Read and write, and Contents: Read and write (for team changes). Leave everything else as is." }),
           el("li", { text: "Click Generate token, copy it, and paste it above." })
         ])
       ])
@@ -633,6 +809,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     if (m) viewTask(m[1]);
     else if (h === "new") viewNew();
     else if (h === "about") viewAbout();
+    else if (h === "team") viewTeam();
     else if (h === "owner") viewOwner();
     else viewHome();
     window.scrollTo(0, 0);
