@@ -479,7 +479,7 @@
     "admin"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/5",
-   "body": "Covers sensors, lab assays, participant reimbursement, and staff time.\n<!-- keystone:owner=smarchetti -->",
+   "body": "Covers sensors, lab assays, participant reimbursement, and staff time.\n<!-- keystone:owner=smarchetti -->\n<!-- keystone:after=4 -->",
    "closed": "2026-10-10",
    "created": "2026-10-10",
    "reason": "completed"
@@ -522,7 +522,7 @@
     "writeup"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/8",
-   "body": "Plain-language summary for the team and the ethics board.\n<!-- keystone:owner=mokafor -->",
+   "body": "Plain-language summary for the team and the ethics board.\n<!-- keystone:owner=mokafor -->\n<!-- keystone:after=3 -->",
    "closed": "2026-10-10",
    "created": "2026-10-10",
    "reason": "completed"
@@ -550,7 +550,7 @@
     "admin"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/10",
-   "body": "Include the protocol, consent form, recruitment flyer, and data security plan.\n<!-- keystone:owner=glin -->",
+   "body": "Include the protocol, consent form, recruitment flyer, and data security plan.\n<!-- keystone:owner=glin -->\n<!-- keystone:after=8,17,19 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -564,7 +564,7 @@
     "admin"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/11",
-   "body": "Track each question and the change made in response.\n<!-- keystone:owner=glin -->",
+   "body": "Track each question and the change made in response.\n<!-- keystone:owner=glin -->\n<!-- keystone:after=10 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -578,7 +578,7 @@
     "admin"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/12",
-   "body": "Required before the first participant is enrolled.\n<!-- keystone:owner=glin -->",
+   "body": "Required before the first participant is enrolled.\n<!-- keystone:owner=glin -->\n<!-- keystone:after=10 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -651,7 +651,7 @@
     "decision"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/17",
-   "body": "Healthy adults 18 to 65; exclude kidney disease and recent illness.\n<!-- keystone:owner=mokafor -->",
+   "body": "Healthy adults 18 to 65; exclude kidney disease and recent illness.\n<!-- keystone:owner=mokafor -->\n<!-- keystone:after=3 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -681,7 +681,7 @@
     "writeup"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/19",
-   "body": "Plain language, eighth-grade reading level, with a short summary on page one.\n<!-- keystone:owner=dreyes -->",
+   "body": "Plain language, eighth-grade reading level, with a short summary on page one.\n<!-- keystone:owner=dreyes -->\n<!-- keystone:after=17,18 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -695,7 +695,7 @@
     "protocol"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/20",
-   "body": "One form per visit: vitals, sensor readings, sample times, notes.\n<!-- keystone:owner=tadeyemi -->",
+   "body": "One form per visit: vitals, sensor readings, sample times, notes.\n<!-- keystone:owner=tadeyemi -->\n<!-- keystone:after=9,23 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -710,7 +710,7 @@
     "lab"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/21",
-   "body": "Step-by-step, with a pass/fail check before each visit.\n<!-- keystone:owner=mbell -->",
+   "body": "Step-by-step, with a pass/fail check before each visit.\n<!-- keystone:owner=mbell -->\n<!-- keystone:after=6 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -724,7 +724,7 @@
     "protocol"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/22",
-   "body": "Both go to the ethics board with the protocol.\n<!-- keystone:owner=pnatarajan -->",
+   "body": "Both go to the ethics board with the protocol.\n<!-- keystone:owner=pnatarajan -->\n<!-- keystone:after=4,17 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -754,7 +754,7 @@
     "decision"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/24",
-   "body": "Compare cost, audit trail, and ease of use for coordinators.\n<!-- keystone:owner=tadeyemi -->",
+   "body": "Compare cost, audit trail, and ease of use for coordinators.\n<!-- keystone:owner=tadeyemi -->\n<!-- keystone:after=23 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -798,7 +798,7 @@
     "lab"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/27",
-   "body": "All 12 sensors pass the calibration check.\n<!-- keystone:owner=mbell -->",
+   "body": "All 12 sensors pass the calibration check.\n<!-- keystone:owner=mbell -->\n<!-- keystone:after=21 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -826,7 +826,7 @@
     "lab"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/29",
-   "body": "Consent process, visit steps, and data entry.\n<!-- keystone:owner=smarchetti -->",
+   "body": "Consent process, visit steps, and data entry.\n<!-- keystone:owner=smarchetti -->\n<!-- keystone:after=19,21 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -840,7 +840,7 @@
     "analysis"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/30",
-   "body": "Coded participant IDs only; access limited to the study team.\n<!-- keystone:owner=tadeyemi -->",
+   "body": "Coded participant IDs only; access limited to the study team.\n<!-- keystone:owner=tadeyemi -->\n<!-- keystone:after=24 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -855,7 +855,7 @@
     "writeup"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/31",
-   "body": "Time each step and fix anything confusing before real visits.\n<!-- keystone:owner=dreyes -->",
+   "body": "Time each step and fix anything confusing before real visits.\n<!-- keystone:owner=dreyes -->\n<!-- keystone:after=27,28,29,30 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -869,7 +869,7 @@
     "lab"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/32",
-   "body": "Post flyers and start the screening line. Target: 60 enrolled.\n<!-- keystone:owner=pnatarajan -->",
+   "body": "Post flyers and start the screening line. Target: 60 enrolled.\n<!-- keystone:owner=pnatarajan -->\n<!-- keystone:after=11,22 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -898,7 +898,7 @@
     "writeup"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/34",
-   "body": "Full visit with the study lead present.\n<!-- keystone:owner=dreyes -->",
+   "body": "Full visit with the study lead present.\n<!-- keystone:owner=dreyes -->\n<!-- keystone:after=31,32 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -1096,7 +1096,7 @@
     "analysis"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/48",
-   "body": "No changes after lock without a documented reason.\n<!-- keystone:owner=tadeyemi -->",
+   "body": "No changes after lock without a documented reason.\n<!-- keystone:owner=tadeyemi -->\n<!-- keystone:after=47 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -1110,7 +1110,7 @@
     "analysis"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/49",
-   "body": "Follow the plan written before the data was unblinded.\n<!-- keystone:owner=hkowalski -->",
+   "body": "Follow the plan written before the data was unblinded.\n<!-- keystone:owner=hkowalski -->\n<!-- keystone:after=48 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -1125,7 +1125,7 @@
     "writeup"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/50",
-   "body": "Bland-Altman plot and limits of agreement between sensor and lab.\n<!-- keystone:owner=hkowalski -->",
+   "body": "Bland-Altman plot and limits of agreement between sensor and lab.\n<!-- keystone:owner=hkowalski -->\n<!-- keystone:after=48 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -1140,7 +1140,7 @@
     "writeup"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/51",
-   "body": "Methods, results, limitations, and plain-language summary.\n<!-- keystone:owner=hkowalski -->",
+   "body": "Methods, results, limitations, and plain-language summary.\n<!-- keystone:owner=hkowalski -->\n<!-- keystone:after=49,50 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -1154,7 +1154,7 @@
     "analysis"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/52",
-   "body": "Team reads the report and challenges the conclusions.\n<!-- keystone:owner=mokafor -->",
+   "body": "Team reads the report and challenges the conclusions.\n<!-- keystone:owner=mokafor -->\n<!-- keystone:after=51 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -1169,7 +1169,7 @@
     "decision"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/53",
-   "body": "Depends on results strength and the sponsor agreement.\n<!-- keystone:owner=mokafor -->",
+   "body": "Depends on results strength and the sponsor agreement.\n<!-- keystone:owner=mokafor -->\n<!-- keystone:after=52 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -1183,7 +1183,7 @@
     "writeup"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/54",
-   "body": "30-minute briefing with questions.\n<!-- keystone:owner=smarchetti -->",
+   "body": "30-minute briefing with questions.\n<!-- keystone:owner=smarchetti -->\n<!-- keystone:after=52 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
@@ -1197,7 +1197,7 @@
     "admin"
    ],
    "url": "https://github.com/Tezana/project-keystone/issues/55",
-   "body": "Notify the ethics board and archive records per the retention policy.\n<!-- keystone:owner=glin -->",
+   "body": "Notify the ethics board and archive records per the retention policy.\n<!-- keystone:owner=glin -->\n<!-- keystone:after=54 -->",
    "closed": "",
    "created": "2026-10-10",
    "reason": ""
