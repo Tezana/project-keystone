@@ -232,6 +232,90 @@ textarea{min-height:120px;resize:vertical;line-height:1.5}
 @media (max-width:820px){.bgrid{grid-template-columns:1fr}}
 @media (max-width:600px){.exp li{flex-wrap:wrap}.exp .fmain{flex-basis:calc(100% - 64px)}.exp .xamt{margin-left:64px}.exp .xacts{margin-left:auto}}
 
+/* Status report */
+.rctl{margin-bottom:20px}
+.rctl .flabel{font-size:14px;font-weight:600}
+.rsum-edit{min-height:110px}
+.report{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 30px;--good:#0ca30c}
+.rhead{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--accent);padding-bottom:16px;margin-bottom:18px}
+.rtitle{font-size:28px;font-weight:700;margin:4px 0 4px;color:var(--ink);font-family:inherit;text-transform:none;letter-spacing:0}
+.rsub{font-size:14px;color:var(--muted)}
+.roverall{display:flex;flex-direction:column;align-items:flex-end;gap:2px;border:1px solid var(--line);border-radius:12px;padding:10px 16px;min-width:150px}
+.roverall .rk,.rind .rk{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-family:"IBM Plex Mono",monospace}
+.roverall .rv{font-size:22px;font-weight:700;display:inline-flex;gap:8px;align-items:center}
+.ri{font-size:.9em}
+.r-ok .ri{color:var(--good)} .r-watch .ri{color:var(--warn)} .r-risk .ri{color:var(--crit)}
+.roverall.r-ok{border-left:6px solid var(--good)} .roverall.r-watch{border-left:6px solid var(--warn)} .roverall.r-risk{border-left:6px solid var(--crit)}
+.rinds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.rind{border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.rag{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:16px;margin-top:4px}
+.rwhy{font-size:13px;color:var(--muted);margin-top:4px}
+.rsec{margin-bottom:18px;break-inside:avoid}
+.rsec h3{font-size:13px;font-family:"IBM Plex Mono",monospace;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.rsum-print{margin:0;font-size:15px;white-space:pre-wrap}
+.rkpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.rkpis div{background:var(--bg);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column}
+.rkpis b{font-size:22px}
+.rkpis span{font-size:13px;color:var(--muted)}
+table.simple.rtable{font-size:14px}
+.rscroll{overflow-x:auto}
+.rtable td.nw{white-space:nowrap}
+.rtable .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rtable .rtot td{font-weight:700;border-top:2px solid var(--line)}
+.rbar{display:inline-block;vertical-align:middle;width:90px;height:8px;border-radius:4px;background:var(--accent-soft);overflow:hidden;margin-right:8px}
+.rbar>span{display:block;height:100%;background:var(--accent);border-radius:4px}
+.rnum{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.rcols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.rlist{margin:0;padding-left:18px;font-size:14px}
+.rlist li{margin:4px 0}
+.rlist a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+.rlist .rnone{list-style:none;margin-left:-18px;color:var(--faint)}
+.rmeta{color:var(--faint);font-size:13px}
+.rflag{font-size:12px;font-weight:600;white-space:nowrap}
+.rflag.f-near::first-letter{color:var(--warn)}
+.rflag.f-over::first-letter{color:var(--crit)}
+.rflag{display:inline-block;margin-left:4px}
+.rflag.soon{margin:0 6px 0 0}
+.rflag.f-near{color:var(--ink)}
+.rfoot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:12px;color:var(--faint);border-top:1px solid var(--line);padding-top:10px;margin-top:6px}
+@media (max-width:600px){.rbar{display:none}table.simple.rtable th,table.simple.rtable td{padding:6px 4px}table.simple.rtable{font-size:13px}}
+@media (max-width:820px){.rinds,.rcols{grid-template-columns:1fr}.rkpis{grid-template-columns:repeat(2,minmax(0,1fr))}.report{padding:18px}.roverall{align-items:flex-start}}
+@media print{
+  :root{--bg:#F4F6F8;--card:#FFFFFF;--ink:#0F172A;--muted:#475569;--faint:#64748B;--line:#E2E8F0;--track:#E2E8F0;--accent:#0F766E;--accent-soft:#E6F2F1;--done:#334155;--late:#B45309;--late-soft:#FEF3E2}
+  @page{size:Letter;margin:0.5in}
+  html,body{background:#fff}
+  .banner,.wrap>header,.wrap>footer,.noprint,.toast,.vtip{display:none !important}
+  .wrap{max-width:none;padding:0}
+  .report{border:0;padding:0;border-radius:0}
+  .rinds,.rcols{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .rcols{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rkpis{grid-template-columns:repeat(4,minmax(0,1fr))}
+  a{color:inherit !important;border:0 !important}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html,body{font-size:12px}
+  .rhead{padding-bottom:10px;margin-bottom:12px}
+  .rtitle{font-size:22px}
+  .rsub,.rwhy,.rmeta,.rnum{font-size:11px}
+  .rinds,.rkpis{gap:8px;margin-bottom:12px}
+  .rind{padding:8px 10px}
+  .rag{font-size:13px}
+  .roverall .rv{font-size:18px}
+  .rkpis div{padding:6px 10px}
+  .rkpis b{font-size:17px}
+  .rkpis span{font-size:11px}
+  .rsec{margin-bottom:12px}
+  .rsec h3{font-size:11px;margin-bottom:5px}
+  .rsum-print{font-size:12.5px}
+  table.simple.rtable{font-size:11.5px;margin:2px 0}
+  .rfoot{break-inside:avoid;margin-top:0}
+  table.simple.rtable th,table.simple.rtable td{padding:3px 6px}
+  .rtable .chip{font-size:10px;padding:1px 7px}
+  .rlist{font-size:11.5px}
+  .rlist li{margin:2px 0}
+  .rcols{gap:16px}
+  .rbar{height:6px}
+}
+
 /* Team page */
 .dept{margin-bottom:26px}
 .people{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
@@ -308,6 +392,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       <a class="btn" href="#/team" data-nav="team">Team</a>
       <a class="btn" href="#/documents" data-nav="documents">Documents</a>
       <a class="btn" href="#/budget" data-nav="budget">Budget</a>
+      <a class="btn" href="#/report" data-nav="report">Report</a>
       <a class="btn" href="#/about" data-nav="about">About this build</a>
       <a class="btn primary" href="#/new" data-nav="new">+ New task</a>
     </nav>
@@ -1430,6 +1515,156 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     if (ids.length) resolveBlobs(ids).then(function(m){ blobs = m; drawList(); });
   }
 
+  // ---------- View: stakeholder status report ----------
+  var REPORT_KEY = "keystone-report-v1";
+  function addDays(iso, n){ var p = iso.split("-").map(Number), d = new Date(p[0], p[1]-1, p[2] + n); return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
+  function reportData(days){
+    var now = today(), from = addDays(now, -days);
+    var ph = phaseStats(), live = S.tasks.filter(function(t){ return t.reason !== "not_planned"; });
+    var done = live.filter(function(t){ return t.state === "closed"; }).length;
+    var openPh = ph.filter(function(p){ return p.done < p.total; }).sort(function(a, b){ return (a.due || "9999").localeCompare(b.due || "9999"); });
+    var next = openPh[0];
+    var late = ph.filter(function(p){ return p.status === "Past due"; });
+    var decisions = live.filter(function(t){ return t.state === "open" && t.labels.indexOf("decision") > -1; });
+    var soonPh = ph.filter(function(p){ return p.done < p.total && p.due && daysUntil(p.due) <= 21; }).map(function(p){ return p.title; });
+    var urgentDec = decisions.filter(function(t){ return soonPh.indexOf(t.phase) > -1; });
+    var b = S.budget ? budgetStats() : null;
+    var over = b ? b.lines.filter(function(l){ return l.status === "over"; }) : [], near = b ? b.lines.filter(function(l){ return l.status === "near"; }) : [];
+    var nd = next ? daysUntil(next.due) : null;
+    var sched = late.length ? { s: "risk", why: late.map(function(p){ return shortPhase(p.title); }).join(", ") + " past due" }
+      : next && nd <= 7 && next.done / next.total < 0.5 ? { s: "watch", why: shortPhase(next.title) + " due in " + nd + " days, " + next.done + " of " + next.total + " done" }
+      : { s: "ok", why: next ? "Next deadline " + niceDate(next.due) + " (" + shortPhase(next.title) + ")" : "All phases complete" };
+    var budg = !b ? { s: "ok", why: "No budget set" } : over.length ? { s: "risk", why: over.map(function(l){ return l.name; }).join(", ") + " over budget" }
+      : near.length ? { s: "watch", why: near.map(function(l){ return l.name; }).join(", ") + " near limit" } : { s: "ok", why: Math.round(b.pct * 100) + "% spent, every line under 90%" };
+    var dec = urgentDec.length > 3 ? { s: "risk", why: urgentDec.length + " decisions block work due within 3 weeks" }
+      : urgentDec.length ? { s: "watch", why: urgentDec.length + " of " + decisions.length + " open decisions affect work due within 3 weeks" } : { s: "ok", why: decisions.length ? decisions.length + " open, none urgent" : "None open" };
+    var rank = { ok: 0, watch: 1, risk: 2 };
+    var overall = [sched, budg, dec].reduce(function(a, x){ return rank[x.s] > rank[a] ? x.s : a; }, "ok");
+    var completed = live.filter(function(t){ return t.state === "closed" && t.closed && t.closed >= from && t.closed <= now; }).sort(function(a, b){ return b.closed.localeCompare(a.closed) || a.number - b.number; });
+    var coming = live.filter(function(t){ return t.state === "open" && openPh.slice(0, 2).some(function(p){ return p.title === t.phase; }); })
+      .sort(function(a, b){ return ((a.due || (ph.filter(function(p){ return p.title === a.phase; })[0] || {}).due || "9999").localeCompare(b.due || (ph.filter(function(p){ return p.title === b.phase; })[0] || {}).due || "9999")) || a.number - b.number; }).slice(0, 8);
+    var drafts = S.docs.filter(function(d){ return d.status !== "approved"; });
+    var draftSummary = [
+      done === live.length ? "All work is complete." : Math.round(100 * done / live.length) + "% of tasks are done (" + done + " of " + live.length + ")" + (completed.length ? ", with " + completed.length + " finished in the last " + days + " days." : "."),
+      next ? "Next deadline is " + shortPhase(next.title) + " on " + niceDate(next.due) + " (" + next.done + " of " + next.total + " tasks done)." : "",
+      decisions.length ? decisions.length + " decisions are open" + (urgentDec.length ? "; " + urgentDec.length + " affect work due within three weeks and need a call soon." : ".") : "",
+      b ? money(b.spent) + " spent of " + money(b.total) + " (" + Math.round(b.pct * 100) + "%)" + (over.length || near.length ? "; " + over.concat(near).map(function(l){ return l.name + (l.status === "over" ? " is over budget" : " is near its limit"); }).join(", ") + "." : ".") : "",
+      drafts.length ? drafts.length + " program document" + (drafts.length === 1 ? " is" : "s are") + " waiting for approval." : ""
+    ].filter(Boolean).join(" ");
+    return { now: now, from: from, days: days, ph: ph, live: live, done: done, next: next, nd: nd, decisions: decisions, urgentDec: urgentDec, b: b, sched: sched, budg: budg, dec: dec, overall: overall, completed: completed, coming: coming, drafts: drafts, draftSummary: draftSummary };
+  }
+  var RAG = { ok: ["✓", "On track"], watch: ["●", "Watch"], risk: ["▲", "At risk"] };
+  function ragChip(s){ return el("span", { class: "rag r-" + s }, [el("span", { class: "ri", "aria-hidden": "true", text: RAG[s][0] }), RAG[s][1]]); }
+
+  function viewReport(){
+    setNav("report");
+    var saved = store(REPORT_KEY) || {};
+    var ui = S.rui = S.rui || { days: saved.days || 14, by: saved.by || (person("smarchetti") ? "smarchetti" : (S.team[0] || {}).id || "") };
+    var R = reportData(ui.days);
+    var summaryText = saved.summary && saved.summaryFor === R.draftSummary ? saved.summary : saved.summary && saved.keep ? saved.summary : R.draftSummary;
+    function persist(extra){ store(REPORT_KEY, Object.assign(store(REPORT_KEY) || {}, { days: ui.days, by: ui.by }, extra || {})); }
+    function who(id){ var p = person(id); return p ? p.name : "Unassigned"; }
+    var author = person(ui.by);
+
+    // Controls (not printed)
+    var period = el("select", { id: "r-days", onchange: function(e){ ui.days = +e.target.value; persist(); viewReport(); } });
+    [[7, "Last 7 days"], [14, "Last 14 days"], [30, "Last 30 days"]].forEach(function(o){ period.appendChild(el("option", { value: String(o[0]), text: o[1], selected: ui.days === o[0] })); });
+    var by = ownerSelect("r-by", ui.by, "Choose who is reporting");
+    by.addEventListener("change", function(e){ ui.by = e.target.value; persist(); viewReport(); });
+    var summary = el("textarea", { id: "r-summary", class: "rsum-edit" }); summary.value = summaryText;
+    summary.addEventListener("input", function(){ persist({ summary: summary.value, summaryFor: R.draftSummary, keep: summary.value !== R.draftSummary }); sumPrint.textContent = summary.value; });
+    var sumPrint = el("p", { class: "rsum-print", text: summaryText });
+    function plainText(){
+      var L = [];
+      L.push(S.base.company + " · " + S.base.project + " — Status report");
+      L.push("Report date: " + niceDate(R.now) + " · Period: " + niceDate(R.from) + " to " + niceDate(R.now) + (author ? " · Prepared by " + author.name + ", " + author.title : ""));
+      L.push("");
+      L.push("OVERALL: " + RAG[R.overall][1].toUpperCase());
+      L.push("- Schedule: " + RAG[R.sched.s][1] + " — " + R.sched.why);
+      L.push("- Budget: " + RAG[R.budg.s][1] + " — " + R.budg.why);
+      L.push("- Decisions: " + RAG[R.dec.s][1] + " — " + R.dec.why);
+      L.push(""); L.push("SUMMARY"); L.push(summary.value.trim());
+      L.push(""); L.push("PHASES");
+      R.ph.forEach(function(p){ L.push("- " + p.title + ": " + p.done + "/" + p.total + " done, due " + niceDate(p.due) + " (" + p.status + ")"); });
+      L.push(""); L.push("COMPLETED THIS PERIOD");
+      if (!R.completed.length) L.push("- None"); R.completed.forEach(function(t){ L.push("- #" + t.number + " " + t.title + " (" + who(t.owner) + ")"); });
+      L.push(""); L.push("COMING UP");
+      R.coming.forEach(function(t){ L.push("- #" + t.number + " " + t.title + " (" + who(t.owner) + ", " + shortPhase(t.phase) + ")"); });
+      L.push(""); L.push("DECISIONS NEEDED");
+      if (!R.decisions.length) L.push("- None"); R.decisions.forEach(function(t){ L.push("- #" + t.number + " " + t.title + " (" + who(t.owner) + ")" + (R.urgentDec.indexOf(t) > -1 ? " — needed soon" : "")); });
+      if (R.b){ L.push(""); L.push("BUDGET"); L.push("Spent " + money(R.b.spent) + " of " + money(R.b.total) + " (" + Math.round(R.b.pct * 100) + "%), " + money(R.b.left) + " remaining");
+        R.b.lines.filter(function(l){ return l.status !== "ok"; }).forEach(function(l){ L.push("- " + l.name + ": " + money(l.spent) + " of " + money(l.budget) + " (" + (l.status === "over" ? "over budget" : "near limit") + ")"); }); }
+      if (R.drafts.length){ L.push(""); L.push("DOCUMENTS AWAITING APPROVAL"); R.drafts.forEach(function(d){ L.push("- " + d.title + " v" + d.version); }); }
+      L.push(""); L.push("Live tracker: " + location.href.split("#")[0]);
+      return L.join("\n");
+    }
+    function copyText(){
+      var txt = plainText();
+      function fallback(){ var ta = el("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); toast("Report copied. Paste it into an email."); } catch(e){ toast("Couldn't copy. Select the text and copy it yourself."); } ta.remove(); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function(){ toast("Report copied. Paste it into an email."); }, fallback); else fallback();
+    }
+    var controls = el("div", { class: "sheet noprint rctl" }, [
+      el("div", { class: "grid3" }, [
+        el("div", { class: "field" }, [el("label", { for: "r-days", text: "Reporting period" }), period]),
+        el("div", { class: "field" }, [el("label", { for: "r-by", text: "Prepared by" }), by]),
+        el("div", { class: "field" }, [el("span", { class: "flabel", text: "Share it" }), el("div", { class: "actions", style: "margin:0" }, [
+          el("button", { type: "button", class: "btn primary", text: "Print or save as PDF", onclick: function(){ window.print(); } }),
+          el("button", { type: "button", class: "btn", text: "Copy for email", onclick: copyText })
+        ])])
+      ]),
+      el("div", { class: "field", style: "margin:0" }, [el("label", { for: "r-summary", text: "Summary for stakeholders" }), summary,
+        el("div", { class: "row", style: "gap:10px;align-items:center" }, [el("span", { class: "hint", text: "Drafted from the tracker. Edit it in your own words; it's saved in this browser." }),
+          (function(){ var r = el("button", { type: "button", class: "linkbtn", text: "Redo draft", onclick: function(){ summary.value = R.draftSummary; sumPrint.textContent = R.draftSummary; persist({ summary: "", keep: false }); } }); r.style.marginLeft = "auto"; return r; })()])])
+    ]);
+
+    // The report itself
+    function sec(title, kids, cls){ return el("section", { class: "rsec" + (cls ? " " + cls : "") }, [el("h3", { text: title })].concat(kids)); }
+    function taskLi(t, extra){ return el("li", {}, [el("a", { href: "#/task/" + t.number, text: "#" + t.number + " " + t.title }), el("span", { class: "rmeta", text: " · " + who(t.owner) + (extra ? " · " + extra : "") })]); }
+    var pct = R.live.length ? Math.round(100 * R.done / R.live.length) : 0;
+    var phaseTable = el("table", { class: "simple rtable" }, [el("tr", {}, [el("th", { text: "Phase" }), el("th", { text: "Due" }), el("th", { text: "Progress" }), el("th", { text: "Status" })])]);
+    R.ph.forEach(function(p){
+      var bar = el("span", { class: "rbar" }, [el("span")]); bar.firstChild.style.width = (p.total ? 100 * p.done / p.total : 0) + "%";
+      phaseTable.appendChild(el("tr", {}, [el("td", { text: p.title }), el("td", { class: "nw", text: niceDate(p.due) }), el("td", {}, [bar, el("span", { class: "rnum", text: p.done + "/" + p.total })]), el("td", {}, [el("span", { class: "chip " + stClass(p.status), text: p.status })])]));
+    });
+    var budgetBlock = [];
+    if (R.b){
+      var bt = el("table", { class: "simple rtable" }, [el("tr", {}, [el("th", { text: "Budget line" }), el("th", { class: "num", text: "Spent" }), el("th", { class: "num", text: "Budget" }), el("th", { class: "num", text: "Used" })])]);
+      R.b.lines.forEach(function(l){ bt.appendChild(el("tr", {}, [el("td", {}, [l.name, l.status !== "ok" ? el("span", { class: "rflag f-" + l.status, text: l.status === "over" ? " ▲ Over" : " ● Near limit" }) : null]), el("td", { class: "num", text: money(l.spent) }), el("td", { class: "num", text: money(l.budget) }), el("td", { class: "num", text: Math.round(l.pct * 100) + "%" })])); });
+      bt.appendChild(el("tr", { class: "rtot" }, [el("td", { text: "Total" }), el("td", { class: "num", text: money(R.b.spent) }), el("td", { class: "num", text: money(R.b.total) }), el("td", { class: "num", text: Math.round(R.b.pct * 100) + "%" })]));
+      budgetBlock = [el("div", { class: "rscroll" }, [bt])];
+    }
+    function list(items, empty){ var u = el("ul", { class: "rlist" }); if (!items.length) u.appendChild(el("li", { class: "rnone", text: empty })); items.forEach(function(i){ u.appendChild(i); }); return u; }
+
+    var report = el("article", { class: "report", "aria-label": "Status report" }, [
+      el("header", { class: "rhead" }, [
+        el("div", {}, [el("div", { class: "eyebrow", text: S.base.company + " · " + S.base.project }), el("h2", { class: "rtitle", text: "Status report" }),
+          el("div", { class: "rsub", text: "Report date " + niceDate(R.now) + " · Period " + niceDate(R.from) + " to " + niceDate(R.now) }),
+          author ? el("div", { class: "rsub", text: "Prepared by " + author.name + ", " + author.title }) : null]),
+        el("div", { class: "roverall r-" + R.overall }, [el("span", { class: "rk", text: "Overall" }), el("span", { class: "rv" }, [el("span", { class: "ri", "aria-hidden": "true", text: RAG[R.overall][0] }), RAG[R.overall][1]])])
+      ]),
+      el("div", { class: "rinds" }, [["Schedule", R.sched], ["Budget", R.budg], ["Decisions", R.dec]].map(function(x){ return el("div", { class: "rind" }, [el("div", { class: "rk", text: x[0] }), ragChip(x[1].s), el("div", { class: "rwhy", text: x[1].why })]); })),
+      sec("Summary", [sumPrint]),
+      el("div", { class: "rkpis" }, [
+        el("div", {}, [el("b", { text: pct + "%" }), el("span", { text: "complete" })]),
+        el("div", {}, [el("b", { text: R.done + " / " + R.live.length }), el("span", { text: "tasks done" })]),
+        el("div", {}, [el("b", { text: R.next ? (R.nd < 0 ? Math.abs(R.nd) + " days late" : R.nd + " days") : "None" }), el("span", { text: R.next ? "to " + shortPhase(R.next.title) : "deadlines left" })]),
+        R.b ? el("div", {}, [el("b", { text: money(R.b.spent) }), el("span", { text: Math.round(R.b.pct * 100) + "% of budget spent" })]) : null
+      ]),
+      sec("Phases", [el("div", { class: "rscroll" }, [phaseTable])]),
+      R.b ? sec("Budget", budgetBlock) : null,
+      el("div", { class: "rcols" }, [
+        sec("Completed this period", [list(R.completed.map(function(t){ return taskLi(t, niceDate(t.closed)); }), "Nothing closed in this period.")]),
+        sec("Coming up next", [list(R.coming.map(function(t){ return taskLi(t, shortPhase(t.phase)); }), "Nothing open.")])
+      ]),
+      el("div", { class: "rcols" }, [
+        sec("Decisions needed", [list(R.decisions.map(function(t){ var li = taskLi(t); if (R.urgentDec.indexOf(t) > -1) li.insertBefore(el("span", { class: "rflag f-near soon", text: "● Needed soon" }), li.firstChild); return li; }), "No open decisions.")]),
+        sec("Documents awaiting approval", [list(R.drafts.map(function(d){ return el("li", {}, [el("a", { href: "#/documents", text: d.title + " v" + d.version }), el("span", { class: "rmeta", text: " · " + who(d.owner) + " · updated " + niceDate(d.updated) })]); }), "All program documents are approved.")])
+      ]),
+      el("footer", { class: "rfoot" }, [el("span", { text: "Generated from the live tracker on " + niceDate(R.now) + "." }), el("span", { text: "Fictional study for demonstration." })])
+    ]);
+    mount([el("a", { class: "back noprint", href: "#/", text: "← Back to dashboard" }), controls, report], "Status report");
+  }
+
   // ---------- View: about ----------
   function viewAbout(){
     setNav("about");
@@ -1441,7 +1676,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       LINKEDIN ? el("a", { class: "btn", href: LINKEDIN, text: "LinkedIn" }) : null,
       el("a", { class: "btn", href: "https://github.com/" + REPO, text: "Source code" })
     ]);
-    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Team", "Each person's name, title, and department live in a team file in the repo; each task carries its assignee in a hidden note, so assignments survive in GitHub"], ["Budget", "Spending against the approved budget: summary tiles, a bar per budget line that turns amber near the limit and red when over, a donut of where the money went, and an expense log with vouchers"], ["Documents", "A document register: program documents with versions, version history, and Draft/Approved status with who approved and when; plus every task file in one searchable list"], ["Attachments", "Reports, memos, and vouchers per task. Owner uploads are stored in the repo through the GitHub contents API; demo files stay in the visitor's browser (IndexedDB)"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
+    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Team", "Each person's name, title, and department live in a team file in the repo; each task carries its assignee in a hidden note, so assignments survive in GitHub"], ["Status report", "A stakeholder snapshot built from live data: overall status with schedule, budget, and decision indicators, an editable summary, phase progress, recent and upcoming work, decisions, budget, and documents awaiting approval. Prints to PDF or copies as plain text for email"], ["Budget", "Spending against the approved budget: summary tiles, a bar per budget line that turns amber near the limit and red when over, a donut of where the money went, and an expense log with vouchers"], ["Documents", "A document register: program documents with versions, version history, and Draft/Approved status with who approved and when; plus every task file in one searchable list"], ["Attachments", "Reports, memos, and vouchers per task. Owner uploads are stored in the repo through the GitHub contents API; demo files stay in the visitor's browser (IndexedDB)"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
     var table = el("table", { class: "simple" }, [el("tr", {}, [el("th", { text: "Layer" }), el("th", { text: "What it uses" })])]);
     rows.forEach(function(r){ table.appendChild(el("tr", {}, [el("td", {}, [el("b", { text: r[0] })]), el("td", { text: r[1] })])); });
     var ch = [["Couldn't create the planned GitHub organization (sign-in lockout)", "Built on the personal account instead, without waiting"], ["Push refused (HTTP 403)", "Granted the app access to the new repo and refreshed the connection"], ["Loading 55 tasks without setup work", "Moved loading into a GitHub Action that uses the repo's own token: one click, safe to repeat"], ["\"Up next\" showed tasks backwards", "GitHub returns newest first; sorted by task number"], ["Visitors shouldn't change real data", "Two modes: demo saves locally; owner mode needs a private key"], ["First demo data was too close to a real project", "Rebuilt with a fictional research study and a clean repository history, since edits leave the old text visible"]];
@@ -1459,7 +1694,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       el("h3", { text: "Technology" }), table,
       el("h3", { text: "Challenges and fixes" }), ctable,
       el("h3", { text: "Try it" }),
-      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Open Budget and log an expense. Watch the line bars and the donut chart update, and see the warning when a line nears its limit." }), el("li", { text: "Open Documents to see the program plan, budget, and schedule. Approve the draft risk register, or upload a new version and watch it go back to Draft." }), el("li", { text: "Attach a report, memo, or voucher to a task. Tasks #4, #5, and #17 already have sample documents." }), el("li", { text: "Reassign a task, or open the Team page to add someone and see who owns what." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
+      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Open Report for a stakeholder status snapshot. Edit the summary, then save it as a PDF or copy it into an email." }), el("li", { text: "Open Budget and log an expense. Watch the line bars and the donut chart update, and see the warning when a line nears its limit." }), el("li", { text: "Open Documents to see the program plan, budget, and schedule. Approve the draft risk register, or upload a new version and watch it go back to Draft." }), el("li", { text: "Attach a report, memo, or voucher to a task. Tasks #4, #5, and #17 already have sample documents." }), el("li", { text: "Reassign a task, or open the Team page to add someone and see who owns what." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
       el("p", { class: "hint", text: "Lanternfield Labs, Project Keystone, the study, the team, and the sample documents are fictional. They exist to demo the tracker with realistic data." })
     ])], "About this build");
   }
@@ -1510,6 +1745,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     else if (h === "team") viewTeam();
     else if (h === "documents") viewDocs();
     else if (h === "budget") viewBudget();
+    else if (h === "report") viewReport();
     else if (h === "owner") viewOwner();
     else viewHome();
     window.scrollTo(0, 0);
