@@ -7,7 +7,37 @@ A working project tracker built on GitHub, demoed with a fictional research stud
 ## Status
 
 <!-- STATUS:START -->
-_The dashboard appears here after the first run of the "Load tasks" action._
+![Progress](dashboard/progress.svg)
+
+| Phase | Due | Done | Status |
+| --- | --- | --- | --- |
+| Phase 0: Study concept | Oct 10, 2026 | 9 / 9 | Complete |
+| Phase 1: Approvals | Nov 30, 2026 | 0 / 7 | Not started |
+| Phase 2: Protocol and materials | Oct 31, 2026 | 0 / 7 | Not started |
+| Phase 3: Lab setup | Nov 7, 2026 | 0 / 8 | Not started |
+| Phase 4: Participant testing | Dec 19, 2026 | 0 / 16 | Not started |
+| Phase 5: Analysis and report | Jan 30, 2027 | 0 / 8 | Not started |
+
+**Up next (Phase 2: Protocol and materials):**
+
+- [ ] [#17 Confirm inclusion and exclusion criteria](https://github.com/Tezana/project-keystone/issues/17)
+- [ ] [#18 Decide the visit schedule: one visit or two](https://github.com/Tezana/project-keystone/issues/18)
+- [ ] [#19 Write the informed consent form](https://github.com/Tezana/project-keystone/issues/19)
+- [ ] [#20 Build the case report forms](https://github.com/Tezana/project-keystone/issues/20)
+- [ ] [#21 Write the sensor calibration procedure](https://github.com/Tezana/project-keystone/issues/21)
+
+**Decisions waiting on you:**
+
+- [#16 Decide whether to add a second study site](https://github.com/Tezana/project-keystone/issues/16)
+- [#17 Confirm inclusion and exclusion criteria](https://github.com/Tezana/project-keystone/issues/17)
+- [#18 Decide the visit schedule: one visit or two](https://github.com/Tezana/project-keystone/issues/18)
+- [#23 Decide: paper or electronic data capture](https://github.com/Tezana/project-keystone/issues/23)
+- [#24 Choose the data capture platform](https://github.com/Tezana/project-keystone/issues/24)
+- [#25 Choose the statistics software](https://github.com/Tezana/project-keystone/issues/25)
+- [#26 Choose the sample storage vendor](https://github.com/Tezana/project-keystone/issues/26)
+- [#53 Decide whether to submit to a journal](https://github.com/Tezana/project-keystone/issues/53)
+
+_Updated automatically Oct 10, 2026._
 <!-- STATUS:END -->
 
 ## How this tracker works
