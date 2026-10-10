@@ -1,0 +1,23 @@
+{
+  "levels": [
+    {"id": "study", "name": "Study-wide"},
+    {"id": "leadership", "name": "Leadership"},
+    {"id": "department", "name": "Department"}
+  ],
+  "meetings": [
+    {"id": "mt1", "title": "Team status meeting", "level": "study", "team": "", "start": "2026-09-07", "until": "2027-01-29", "time": "09:30", "minutes": 30, "every": 1, "attendees": ["mokafor", "smarchetti", "glin", "dreyes", "pnatarajan", "mbell", "hkowalski", "tadeyemi"], "location": "Conference room B and video", "notes": "Tracker on screen: what's late, what's blocked, what needs a decision."},
+    {"id": "mt2", "title": "Decision review", "level": "leadership", "team": "Study Leadership", "start": "2026-09-10", "until": "2027-01-28", "time": "14:00", "minutes": 30, "every": 1, "attendees": ["mokafor", "smarchetti"], "location": "PI office", "notes": "Work through open tasks labeled decision."},
+    {"id": "mt3", "title": "Status report to lab leadership", "level": "leadership", "team": "Study Leadership", "start": "2026-09-11", "until": "2027-01-29", "time": "11:00", "minutes": 30, "every": 2, "attendees": ["smarchetti", "mokafor"], "location": "Video call", "notes": "Share the progress report from the tracker."},
+    {"id": "mt4", "title": "Clinical Operations huddle", "level": "department", "team": "Clinical Operations", "start": "2026-09-08", "until": "2027-01-26", "time": "09:00", "minutes": 20, "every": 1, "attendees": ["dreyes", "pnatarajan"], "location": "Clinic workroom", "notes": ""},
+    {"id": "mt5", "title": "Laboratory check-in", "level": "department", "team": "Laboratory", "start": "2026-09-09", "until": "2027-01-27", "time": "10:00", "minutes": 30, "every": 1, "attendees": ["mbell", "dreyes"], "location": "Lab 2", "notes": "Sensors, analyzer, and sample storage."},
+    {"id": "mt6", "title": "Data and Analytics sync", "level": "department", "team": "Data and Analytics", "start": "2026-09-11", "until": "2027-01-29", "time": "13:00", "minutes": 45, "every": 2, "attendees": ["hkowalski", "tadeyemi"], "location": "Video call", "notes": ""},
+    {"id": "mt7", "title": "Regulatory check-in", "level": "department", "team": "Regulatory Affairs", "start": "2026-09-15", "until": "2027-01-26", "time": "15:00", "minutes": 30, "every": 2, "attendees": ["glin", "smarchetti"], "location": "Video call", "notes": "Ethics board, registry, and privacy review status."},
+    {"id": "mt8", "title": "Ethics board meeting (protocol review)", "level": "leadership", "team": "Study Leadership", "start": "2026-11-18", "until": "", "time": "13:00", "minutes": 60, "every": 0, "attendees": ["mokafor", "glin"], "location": "Ethics review board", "notes": "Board reviews the submitted protocol."},
+    {"id": "mt9", "title": "Testing kickoff", "level": "study", "team": "", "start": "2026-11-30", "until": "", "time": "10:00", "minutes": 60, "every": 0, "attendees": ["mokafor", "smarchetti", "glin", "dreyes", "pnatarajan", "mbell", "hkowalski", "tadeyemi"], "location": "Conference room B", "notes": "Walk through the first participant visit end to end."},
+    {"id": "mt10", "title": "Mid-study safety review", "level": "leadership", "team": "Study Leadership", "start": "2026-12-09", "until": "", "time": "15:00", "minutes": 60, "every": 0, "attendees": ["mokafor", "dreyes", "pnatarajan", "glin"], "location": "PI office", "notes": "See task #43."}
+  ],
+  "closed": [
+    {"from": "2026-11-26", "to": "2026-11-27", "title": "Thanksgiving: office closed"},
+    {"from": "2026-12-21", "to": "2027-01-03", "title": "Lab closed for the holidays"}
+  ]
+}

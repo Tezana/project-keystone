@@ -35,13 +35,15 @@ for phase in plan["phases"]:
     phase_number[phase["key"]] = m["number"]
 
 # Issues, one per task. Hidden markers at the bottom of each issue body hold
-# who owns the task (<!-- keystone:owner=ID -->) and which tasks must finish
+# the due date (<!-- keystone:due=2026-10-16 -->), who owns the task (<!-- keystone:owner=ID -->) and which tasks must finish
 # first (<!-- keystone:after=8,17 -->), so the website can show them.
-MARK = re.compile(r"\n?<!-- keystone:(owner|after)=[\w,-]+ -->")
+MARK = re.compile(r"\n*<!-- keystone:(due|owner|after)=[\w,-]+ -->")
 
 
 def markers(task):
     out = ""
+    if task.get("due"):
+        out += f"\n\n<!-- keystone:due={task['due']} -->"
     if task.get("owner"):
         out += f"\n<!-- keystone:owner={task['owner']} -->"
     if task.get("after"):
@@ -65,6 +67,8 @@ for task in plan["tasks"]:
             add.pop("owner", None)
         if "keystone:after=" in body:
             add.pop("after", None)
+        if "keystone:due=" in body:
+            add.pop("due", None)
         extra = markers(add)
         if extra:
             call("PATCH", f"/issues/{issue['number']}", {"body": body.rstrip() + extra})

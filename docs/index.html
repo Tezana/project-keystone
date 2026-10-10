@@ -14,7 +14,7 @@
   --line:#E2E8F0; --track:#E2E8F0; --accent:#0F766E; --accent-soft:#E6F2F1;
   --done:#334155; --late:#B45309; --late-soft:#FEF3E2; --focus:#0EA5E9; --danger:#B91C1C;
   /* chart colors: validated categorical slots + fixed status colors */
-  --c1:#2a78d6; --c2:#eb6834; --c3:#1baf7a; --c4:#eda100; --c5:#e87ba4; --c6:#008300;
+  --c1:#2a78d6; --c2:#eb6834; --c3:#1baf7a; --c4:#eda100; --c5:#e87ba4; --c6:#008300; --c7:#6250d6;
   --warn:#fab219; --crit:#d03b3b;
 }
 @media (prefers-color-scheme: dark){
@@ -22,7 +22,7 @@
     --bg:#0B1220; --card:#111A2B; --ink:#E5EAF2; --muted:#A3B0C2; --faint:#8593A8;
     --line:#22304A; --track:#22304A; --accent:#2DB3A3; --accent-soft:#12302E;
     --done:#94A3B8; --late:#F0A04B; --late-soft:#33240F; --danger:#F87171;
-    --c1:#3987e5; --c2:#d95926; --c3:#199e70; --c4:#c98500; --c5:#d55181; --c6:#008300;
+    --c1:#3987e5; --c2:#d95926; --c3:#199e70; --c4:#c98500; --c5:#d55181; --c6:#008300; --c7:#9085e9;
   }
 }
 *{box-sizing:border-box}
@@ -318,6 +318,11 @@ table.simple.rtable{font-size:14px}
 
 /* Menu */
 nav{position:relative;align-items:center}
+header{align-items:flex-start}
+.corner{display:flex;gap:8px;align-items:center;margin-left:auto}
+.btn.icon{position:relative;width:44px;padding:0}
+.btn.icon .badge{position:absolute;top:-6px;right:-6px;border:2px solid var(--bg)}
+.btn.icon[aria-current="page"]{border-color:var(--ink)}
 .menu{position:relative}
 .burger{display:inline-flex;flex-direction:column;gap:3px;width:16px}
 .burger i{display:block;height:2px;border-radius:1px;background:currentColor}
@@ -329,7 +334,7 @@ nav{position:relative;align-items:center}
 .menu-panel b{font-size:15px;font-weight:600}
 .menu-panel span{font-size:13px;color:var(--faint)}
 .badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--danger);color:#fff;font-size:12px;font-weight:700}
-@media (max-width:600px){nav{width:100%}.menu{position:static}.menu-panel{left:0;right:0;width:auto;max-width:none}}
+@media (max-width:600px){header{position:relative;padding-top:52px}.corner{position:absolute;top:0;right:0;width:auto}.menu{position:static}.menu-panel{left:auto;right:0;width:calc(100vw - 40px);max-width:340px}.mlabel{display:none}#menuBtn{width:44px;padding:0}}
 
 /* Dashboard panels */
 .dash{columns:3 300px;column-gap:20px}
@@ -376,6 +381,59 @@ nav{position:relative;align-items:center}
 .mbody p{margin:4px 0 8px;font-size:15px}
 .macts{display:flex;flex-wrap:wrap;gap:8px}
 .macts .btn{min-height:36px;padding:0 12px;font-size:13px}
+
+/* Calendar */
+.cal .ctop{gap:8px}
+.cal .ctop .btn{min-height:40px}
+.cmonth{margin:0 4px;font-family:inherit;text-transform:none;letter-spacing:0;font-size:20px;font-weight:700;color:var(--ink);min-width:170px;text-align:center}
+.tgl{display:inline-flex;align-items:center;gap:6px;font-size:14px;min-height:40px;cursor:pointer}
+.tgl input{width:18px;height:18px;accent-color:var(--accent)}
+.cgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--line)}
+.cdow{font-size:12px;font-weight:600;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;padding:8px;border-bottom:1px solid var(--line)}
+.cday{all:unset;box-sizing:border-box;cursor:pointer;min-height:112px;padding:6px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:3px;min-width:0}
+.cday:nth-child(7n+7){border-right:0}
+.cday:hover{background:var(--bg)}
+.cday:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
+.cday.other{background:var(--bg)}
+.cday.other .cnum{color:var(--faint)}
+.cday.closed{background:repeating-linear-gradient(135deg,transparent 0 6px,var(--track) 6px 7px)}
+.cday.sel{box-shadow:inset 0 0 0 2px var(--accent)}
+.cnum{font-size:13px;font-weight:600;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%}
+.cday.today .cnum{background:var(--accent);color:#fff}
+.ev{display:block;font-size:11.5px;line-height:1.3;padding:2px 6px;border-radius:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:3px solid transparent;background:var(--bg);color:var(--ink)}
+.ev-study{border-left-color:var(--c1);background:color-mix(in srgb,var(--c1) 12%,var(--card))}
+.ev-leadership{border-left-color:var(--c7);background:color-mix(in srgb,var(--c7) 12%,var(--card))}
+.ev-department{border-left-color:var(--c3);background:color-mix(in srgb,var(--c3) 12%,var(--card))}
+.ev-task{border-left-color:var(--late);background:var(--late-soft)}
+.ev-done{color:var(--muted);text-decoration:line-through}
+.ev-phase{border:1px solid var(--late);border-left-width:3px;background:var(--card);font-weight:600}
+.ev-closed{border-left-color:var(--faint);color:var(--muted);font-style:italic}
+.more{font-size:11.5px;color:var(--muted);padding-left:6px}
+.clegend{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;border-top:1px solid var(--line)}
+.clegend .ev{font-size:12px}
+.dayview{margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.dayview .shead h2{margin:0;font-family:inherit;text-transform:none;letter-spacing:0;font-size:18px;color:var(--ink)}
+.evlist{list-style:none;margin:10px 0 0;padding:0}
+.evlist>li{display:flex;gap:12px;align-items:flex-start;padding:10px 10px;margin:0 0 8px;border-radius:10px;white-space:normal;font-size:14px;overflow:visible}
+.evlist>li.fnone{color:var(--faint);padding:4px 0}
+.etime{flex:none;width:118px;font-size:13px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:1px}
+.emain{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.emain b,.emain a{font-weight:600;font-size:15px}
+.emain small{font-size:13px;color:var(--muted)}
+.eppl{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:4px}
+.avs{display:inline-flex}
+.avs .av{border:2px solid var(--card);margin-left:-6px}
+.avs .av:first-child{margin-left:0}
+.eacts{flex:none;display:flex;gap:2px}
+.agenda{padding:8px 16px}
+.aday{padding:8px 0;border-bottom:1px solid var(--line)}
+.aday:last-child{border-bottom:0}
+.aday h3{font-size:14px;margin:4px 0 0;color:var(--muted)}
+.aday.today h3{color:var(--accent)}
+.week{list-style:none!important;padding:0!important;margin:0 0 6px!important}
+.week li{margin:0 0 6px!important;font-size:14px;white-space:normal;overflow:visible}
+.week li small{display:block;color:var(--muted);font-size:12px}
+@media (max-width:820px){.cday{min-height:64px;padding:4px}.cday .ev,.cday .more{display:none}.cday .cnum{margin:0 auto}.cday{align-items:center}.cday.has::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent)}.evlist>li{flex-direction:column;gap:4px}.etime{width:auto}.eacts{align-self:flex-end;margin-top:-4px}.enote,.enames{display:none}.cmonth{min-width:0;font-size:17px}}
 
 /* Team page */
 .dept{margin-bottom:26px}
@@ -442,19 +500,25 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
 <div class="wrap">
   <div class="banner" id="banner" role="status"></div>
   <header>
-    <div>
+    <div class="htext">
       <div class="eyebrow" id="company">Lanternfield Labs</div>
       <h1><a href="#/" id="project">Project Keystone</a></h1>
       <div class="updated" id="summary"></div>
       <div class="updated" id="updated">Loading…</div>
     </div>
-    <nav aria-label="Main">
-      <a class="btn" href="#/" data-nav="home">Dashboard</a>
-      <a class="btn" href="#/messages" data-nav="messages" id="msgLink">Messages <span class="badge" id="msgBadge" hidden></span></a>
+    <nav aria-label="Main" class="corner">
+      <a class="btn primary" href="#/new" data-nav="new">+ New task</a>
+      <a class="btn icon" href="#/messages" data-nav="messages" id="msgLink" aria-label="Messages" title="Messages">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+        <span class="badge" id="msgBadge" hidden></span>
+      </a>
       <div class="menu">
-        <button type="button" class="btn" id="menuBtn" aria-expanded="false" aria-controls="menuPanel"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>Menu</button>
+        <button type="button" class="btn" id="menuBtn" aria-expanded="false" aria-controls="menuPanel"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="mlabel">Menu</span></button>
         <div class="menu-panel" id="menuPanel" hidden>
+          <a href="#/" data-nav="home"><b>Dashboard</b><span>Progress at a glance</span></a>
           <a href="#/tasks" data-nav="tasks"><b>Tasks</b><span>Every task, with filters</span></a>
+          <a href="#/calendar" data-nav="calendar"><b>Calendar</b><span>Due dates and team meetings</span></a>
+          <a href="#/messages" data-nav="messages"><b>Messages</b><span>Who's been told what's ready</span></a>
           <a href="#/team" data-nav="team"><b>Team</b><span>People, titles, and departments</span></a>
           <a href="#/documents" data-nav="documents"><b>Documents</b><span>Program documents and task files</span></a>
           <a href="#/budget" data-nav="budget"><b>Budget</b><span>Spending against the approved budget</span></a>
@@ -462,7 +526,6 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
           <a href="#/about" data-nav="about"><b>About this build</b><span>How it works, and the build history</span></a>
         </div>
       </div>
-      <a class="btn primary" href="#/new" data-nav="new">+ New task</a>
     </nav>
   </header>
   <main id="view" tabindex="-1"></main>
@@ -520,7 +583,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   function toast(msg){ var t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(function(){ t.hidden = true; }, 2600); }
 
   // ---------- State ----------
-  var S = { base: null, tasks: [], phases: [], labels: {}, milestones: {}, team: [], teamSha: "", attach: {}, docs: [], docsSha: "", budget: null, budgetSha: "", msgs: [], msgsSha: "", owner: !!store(TOKEN_KEY), ui: { show: "open", phase: "", label: "", person: "", q: "", card: "" } };
+  var S = { base: null, tasks: [], phases: [], labels: {}, milestones: {}, team: [], teamSha: "", attach: {}, docs: [], docsSha: "", budget: null, budgetSha: "", msgs: [], msgsSha: "", cal: null, calSha: "", owner: !!store(TOKEN_KEY), ui: { show: "open", phase: "", label: "", person: "", q: "", card: "" } };
 
   // ---------- GitHub API (owner mode) ----------
   function gh(method, path, body){
@@ -562,6 +625,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       S.docs = JSON.parse(JSON.stringify(demo().docs || base.documents || []));
       S.budget = JSON.parse(JSON.stringify(demo().budget || base.budget || null));
       S.msgs = JSON.parse(JSON.stringify(demo().msgs || base.messages || []));
+      S.cal = JSON.parse(JSON.stringify(demo().cal || base.calendar || { meetings: [], closed: [] }));
       var dueByPhase = {}; base.phases.forEach(function(p){ dueByPhase[p.title] = p.due; });
       S.phases = base.phases.map(function(p){ return { title: p.title, due: p.due }; });
       if (S.owner){
@@ -573,7 +637,9 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
         var budget = gh("GET", "/contents/tracker/budget.json?ref=main").then(function(f){ S.budgetSha = f.sha; S.budget = JSON.parse(fromB64(f.content)); }).catch(function(){ S.budgetSha = ""; });
         S.msgs = JSON.parse(JSON.stringify(base.messages || []));
         var msgs = gh("GET", "/contents/tracker/messages.json?ref=main").then(function(f){ S.msgsSha = f.sha; S.msgs = JSON.parse(fromB64(f.content)); }).catch(function(){ S.msgsSha = ""; });
-        return Promise.all([ghAll("/issues?state=all"), ghAll("/milestones?state=all"), team, docs, budget, msgs]).then(function(res){
+        S.cal = JSON.parse(JSON.stringify(base.calendar || { meetings: [], closed: [] }));
+        var cal = gh("GET", "/contents/tracker/calendar.json?ref=main").then(function(f){ S.calSha = f.sha; S.cal = JSON.parse(fromB64(f.content)); }).catch(function(){ S.calSha = ""; });
+        return Promise.all([ghAll("/issues?state=all"), ghAll("/milestones?state=all"), team, docs, budget, msgs, cal]).then(function(res){
           var issues = res[0].filter(function(i){ return !i.pull_request; });
           S.milestones = {}; res[1].forEach(function(m){ S.milestones[m.title] = m.number; dueByPhase[m.title] = (m.due_on || "").slice(0,10); });
           S.phases = Object.keys(dueByPhase).map(function(t){ return { title: t, due: dueByPhase[t] }; });
@@ -828,7 +894,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   function setNav(which){
     document.querySelectorAll("[data-nav]").forEach(function(a){ if (a.getAttribute("data-nav") === which) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
     var inMenu = !!document.querySelector('#menuPanel [data-nav="' + which + '"]'), mb = $("menuBtn");
-    if (mb){ mb.classList.toggle("is-current", inMenu); var cur = document.querySelector('#menuPanel [aria-current="page"] b'); mb.lastChild.textContent = inMenu && cur ? cur.textContent : "Menu"; }
+    if (mb){ mb.classList.toggle("is-current", inMenu && which !== "home"); var cur = document.querySelector('#menuPanel [aria-current="page"] b'); mb.querySelector(".mlabel").textContent = inMenu && cur && which !== "home" ? cur.textContent : "Menu"; }
   }
   function mount(nodes, title){ var v = $("view"); v.textContent = ""; nodes.forEach(function(n){ if (n) v.appendChild(n); }); document.title = (title ? title + " · " : "") + "Project Keystone Tracker"; }
 
@@ -908,7 +974,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     return saveMsgs(out, "Notify " + andList(names) + ": #" + t.number + " is done").then(function(){ return note; }, function(ex){ return "Couldn't send messages: " + ex.message; });
   }
   function unread(){ return S.msgs.filter(function(m){ return !m.read; }).length; }
-  function badge(){ var n = unread(), b = $("msgBadge"); if (!b) return; b.textContent = n ? String(n) : ""; b.hidden = !n; $("msgLink").setAttribute("aria-label", "Messages" + (n ? ", " + n + " unread" : "")); }
+  function badge(){ var n = unread(), b = $("msgBadge"); if (!b) return; b.textContent = n ? String(n) : ""; b.hidden = !n; $("msgLink").setAttribute("aria-label", "Messages" + (n ? ", " + n + " unread" : "")); $("msgLink").title = n ? n + " unread message" + (n === 1 ? "" : "s") : "Messages"; }
 
   // ---------- Menu ----------
   function setupMenu(){
@@ -1063,6 +1129,16 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     });
     if (!rowsW.length) loadL.appendChild(el("li", { text: "No team members yet." }));
 
+    // This week: meetings and due dates for the next 7 days
+    var wk = calItems(today(), addDays(today(), 6)).filter(function(x){ return x.kind !== "closed" && !(x.kind === "task" && x.t.state === "closed"); });
+    var wl = el("ul", { class: "week" });
+    wk.slice(0, 7).forEach(function(x){
+      var dd = dateOf(x.date).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+      wl.appendChild(el("li", { class: itemClass(x) }, [x.kind === "task" ? el("a", { href: "#/task/" + x.t.number, text: itemLabel(x) }) : el("span", { text: itemLabel(x) }), el("small", { text: dd + (x.kind === "meeting" ? " · " + meetingLevelName(x.m) : x.kind === "task" ? " · " + ownerName(x.t) : "") })]));
+    });
+    if (!wk.length) wl.appendChild(el("li", { class: "fnone", text: "Nothing in the next 7 days." }));
+    if (wk.length > 7) wl.appendChild(el("li", { class: "fnone", text: "+" + (wk.length - 7) + " more" }));
+
     // Latest messages
     var ml = el("ul", { class: "mini-msgs" });
     S.msgs.slice(0, 3).forEach(function(m){ ml.appendChild(el("li", { class: m.read ? "" : "unread" }, [el("b", { text: "To " + ((person(m.to) || {}).name || "someone") + " · " + niceDate(m.at) }), el("span", { text: m.text })])); });
@@ -1073,6 +1149,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       el("div", { class: "dash" }, [
         el("section", { class: "panel", "aria-label": "Up next" }, [el("h2", { text: "Up next" }), upSub, up, el("a", { class: "more", href: "#/tasks", onclick: function(e){ e.preventDefault(); goTasks({ show: "open", phase: next ? next.title : "" }); }, text: "See all " + (next ? shortPhase(next.title) : "") + " tasks →" })]),
         el("section", { class: "panel", "aria-label": "Decisions waiting" }, [el("h2", { text: "Decisions waiting" }), dl, blockedN ? el("a", { class: "more", href: "#/tasks", onclick: function(e){ e.preventDefault(); goTasks({ card: "blocked", blocked: true }); }, text: blockedN + " tasks are waiting on other tasks →" }) : null]),
+        el("section", { class: "panel", "aria-label": "This week" }, [el("h2", { text: "This week" }), el("div", { class: "sub", text: "Meetings and due dates, next 7 days" }), wl, el("a", { class: "more", href: "#/calendar", text: "Open the calendar →" })]),
         budgetPanel,
         el("section", { class: "panel", "aria-label": "Messages" }, [el("h2", { text: "Messages" }), el("div", { class: "sub", text: nUnread ? nUnread + " unread" : "All caught up" }), ml, el("a", { class: "more", href: "#/messages", text: "Open messages →" })]),
         el("section", { class: "panel", "aria-label": "Who's on what" }, [el("h2", { text: "Who's on what" }), el("div", { class: "sub", text: "Open tasks per person" }), loadL, el("a", { class: "more", href: "#/team", text: "See the full team →" })])
@@ -1958,6 +2035,240 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     mount([el("a", { class: "back noprint", href: "#/", text: "← Back to dashboard" }), controls, report], "Status report");
   }
 
+  // ---------- Calendar (owner → tracker/calendar.json, demo → this browser) ----------
+  var LEVELS = { study: "Study-wide", leadership: "Leadership", department: "Department" };
+  function saveCal(cal, msg){
+    if (S.owner){
+      return gh("PUT", "/contents/tracker/calendar.json", { message: msg, content: toB64(JSON.stringify(cal, null, 2) + "\n"), sha: S.calSha || undefined, branch: "main" })
+        .then(function(r){ S.calSha = r.content.sha; S.cal = cal; })
+        .catch(function(ex){ throw new Error(/not accessible|Resource/.test(ex.message) ? "Your key can't save the calendar. Add Contents: Read and write to it." : ex.message); });
+    }
+    var d = demo(); d.cal = cal; saveDemo(d); S.cal = cal; return Promise.resolve();
+  }
+  function isoOf(d){ return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
+  function dateOf(iso){ var p = iso.split("-").map(Number); return new Date(p[0], p[1]-1, p[2]); }
+  function closedOn(iso){ return ((S.cal || {}).closed || []).filter(function(c){ return iso >= c.from && iso <= c.to; })[0]; }
+  function timeLabel(t){ if (!t) return ""; var p = t.split(":").map(Number), h = p[0] % 12 || 12; return h + (p[1] ? ":" + String(p[1]).padStart(2, "0") : "") + (p[0] < 12 ? " am" : " pm"); }
+  function meetingLevelName(m){ return m.level === "department" ? (m.team || "Department") : LEVELS[m.level] || m.level; }
+  // Every calendar item between two dates (inclusive), as { date, kind, ... }
+  function calItems(from, to){
+    var out = [], cal = S.cal || { meetings: [] };
+    cal.meetings.forEach(function(m){
+      if (!m.every){ if (m.start >= from && m.start <= to) out.push({ date: m.start, kind: "meeting", m: m }); return; }
+      var d = dateOf(m.start > from ? m.start : from), end = m.until && m.until < to ? m.until : to, s0 = dateOf(m.start), dow = s0.getDay();
+      while (d.getDay() !== dow) d.setDate(d.getDate() + 1);
+      for (; isoOf(d) <= end; d.setDate(d.getDate() + 7)){
+        var weeks = Math.round((d - s0) / 6048e5);
+        if (weeks % m.every) continue;
+        var iso = isoOf(d); if (closedOn(iso)) continue;
+        out.push({ date: iso, kind: "meeting", m: m });
+      }
+    });
+    S.tasks.forEach(function(t){ if (t.due && t.reason !== "not_planned" && t.due >= from && t.due <= to) out.push({ date: t.due, kind: "task", t: t }); });
+    phaseStats().forEach(function(p){ if (p.due && p.due >= from && p.due <= to) out.push({ date: p.due, kind: "phase", p: p }); });
+    (cal.closed || []).forEach(function(c){ var d = dateOf(c.from > from ? c.from : from); for (; isoOf(d) <= (c.to < to ? c.to : to); d.setDate(d.getDate() + 1)) out.push({ date: isoOf(d), kind: "closed", c: c }); });
+    var rank = { closed: 0, phase: 1, task: 2, meeting: 3 };
+    return out.sort(function(a, b){ return a.date.localeCompare(b.date) || rank[a.kind] - rank[b.kind] || ((a.m || {}).time || "").localeCompare((b.m || {}).time || ""); });
+  }
+  function calFilter(items, f){
+    return items.filter(function(x){
+      if (x.kind === "meeting"){
+        if (!f.meetings) return false;
+        if (f.level && (f.level === "study" || f.level === "leadership" ? x.m.level !== f.level : x.m.team !== f.level)) return false;
+        if (f.person && x.m.attendees.indexOf(f.person) < 0) return false;
+        return true;
+      }
+      if (x.kind === "task"){ if (!f.work) return false; if (f.person && x.t.owner !== f.person) return false; if (f.level && f.level !== "study" && f.level !== "leadership" && (person(x.t.owner) || {}).team !== f.level) return false; return true; }
+      if (x.kind === "phase") return f.work && !f.person;
+      return true;
+    });
+  }
+  function itemLabel(x){
+    if (x.kind === "meeting") return timeLabel(x.m.time) + " " + x.m.title;
+    if (x.kind === "task") return (x.t.state === "closed" ? "✓ " : "Due: ") + "#" + x.t.number + " " + x.t.title;
+    if (x.kind === "phase") return "Deadline: " + x.p.title;
+    return x.c.title;
+  }
+  function itemClass(x){ return x.kind === "meeting" ? "ev ev-" + x.m.level : x.kind === "task" ? "ev ev-task" + (x.t.state === "closed" ? " ev-done" : "") : x.kind === "phase" ? "ev ev-phase" : "ev ev-closed"; }
+
+  function viewCalendar(){
+    setNav("calendar");
+    var ui = S.cui = S.cui || { month: today().slice(0, 7), day: today(), view: "month", level: "", person: "", meetings: true, work: true };
+    var y = +ui.month.slice(0, 4), mo = +ui.month.slice(5, 7) - 1;
+    var first = new Date(y, mo, 1), gridStart = new Date(y, mo, 1 - first.getDay()), gridEnd = new Date(gridStart); gridEnd.setDate(gridEnd.getDate() + 41);
+    var items = calFilter(calItems(isoOf(gridStart), isoOf(gridEnd)), ui);
+    var byDay = {}; items.forEach(function(x){ (byDay[x.date] = byDay[x.date] || []).push(x); });
+    var formBox = el("div"), dayBox = el("div", { class: "dayview", "aria-live": "polite" });
+    function who(id){ var p = person(id); return p ? p.name : "Former member"; }
+    function shift(n){ var d = new Date(y, mo + n, 1); ui.month = isoOf(d).slice(0, 7); ui.day = ui.month === today().slice(0, 7) ? today() : isoOf(d); viewCalendar(); }
+
+    function meetingForm(m, presetDate){
+      formBox.textContent = "";
+      var err = el("p", { class: "error", role: "alert", hidden: true });
+      var title = el("input", { type: "text", id: "c-title", maxlength: 100, value: m ? m.title : "", autocomplete: "off" });
+      var level = el("select", { id: "c-level" }, [el("option", { value: "study", text: "Study-wide (whole team)" }), el("option", { value: "leadership", text: "Leadership" })]);
+      departments().filter(function(d){ return d !== "Study Leadership"; }).forEach(function(d){ level.appendChild(el("option", { value: "dept:" + d, text: "Department: " + d })); });
+      level.value = m ? (m.level === "department" ? "dept:" + m.team : m.level) : "study";
+      var date = el("input", { type: "date", id: "c-date", value: m ? m.start : (presetDate || ui.day) });
+      var time = el("input", { type: "time", id: "c-time", value: m ? m.time : "10:00", step: 900 });
+      var mins = el("select", { id: "c-mins" }); [15, 20, 30, 45, 60, 90, 120].forEach(function(n){ mins.appendChild(el("option", { value: String(n), text: n < 60 ? n + " minutes" : n / 60 + (n === 60 ? " hour" : " hours"), selected: (m ? m.minutes : 30) === n })); });
+      var every = el("select", { id: "c-every" }, [el("option", { value: "0", text: "Does not repeat" }), el("option", { value: "1", text: "Every week" }), el("option", { value: "2", text: "Every 2 weeks" })]);
+      every.value = String(m ? m.every : 0);
+      var until = el("input", { type: "date", id: "c-until", value: m && m.until ? m.until : "2027-01-29" });
+      var untilField = el("div", { class: "field" }, [el("label", { for: "c-until", text: "Repeats until" }), until]);
+      function syncUntil(){ untilField.hidden = every.value === "0"; } every.addEventListener("change", syncUntil); syncUntil();
+      var place = el("input", { type: "text", id: "c-place", maxlength: 80, value: m ? m.location : "", autocomplete: "off", placeholder: "Room or video call" });
+      var notes = el("input", { type: "text", id: "c-notes", maxlength: 160, value: m ? m.notes : "", autocomplete: "off", placeholder: "Agenda or purpose (optional)" });
+      var att = el("div", { class: "checks" });
+      S.team.forEach(function(p){ att.appendChild(el("label", { for: "c-a-" + p.id }, [el("input", { type: "checkbox", id: "c-a-" + p.id, value: p.id, checked: m ? m.attendees.indexOf(p.id) > -1 : true }), p.name])); });
+      function preset(){ // pick the obvious people for the level
+        var v = level.value;
+        att.querySelectorAll("input").forEach(function(i){ var p = person(i.value); i.checked = v === "study" ? true : v === "leadership" ? p.team === "Study Leadership" : p.team === v.slice(5); });
+      }
+      level.addEventListener("change", preset); if (!m) preset();
+      var go = el("button", { type: "submit", class: "btn primary", text: m ? "Save meeting" : "Add meeting" });
+      formBox.appendChild(el("div", { class: "sheet" }, [
+        el("div", { class: "eyebrow", text: m ? "Edit meeting" + (m.every ? " (all repeats)" : "") : "New meeting" }),
+        el("form", { novalidate: true, onsubmit: function(e){
+          e.preventDefault(); err.hidden = true;
+          var people = Array.prototype.filter.call(att.querySelectorAll("input"), function(i){ return i.checked; }).map(function(i){ return i.value; });
+          var bad = !title.value.trim() ? [title, "Give the meeting a name."] : !date.value ? [date, "Pick a date."] : !time.value ? [time, "Pick a start time."] : !people.length ? [att.querySelector("input"), "Pick at least one person."] : every.value !== "0" && until.value && until.value < date.value ? [until, "The repeat end date is before the first meeting."] : null;
+          if (bad){ err.textContent = bad[1]; err.hidden = false; bad[0].focus(); return; }
+          var lv = level.value.indexOf("dept:") === 0 ? "department" : level.value;
+          var rec = { title: title.value.trim(), level: lv, team: lv === "department" ? level.value.slice(5) : lv === "leadership" ? "Study Leadership" : "", start: date.value, until: every.value === "0" ? "" : until.value, time: time.value, minutes: +mins.value, every: +every.value, attendees: people, location: place.value.trim(), notes: notes.value.trim() };
+          var cal = JSON.parse(JSON.stringify(S.cal));
+          if (m) Object.assign(cal.meetings.filter(function(x){ return x.id === m.id; })[0], rec);
+          else { var n = cal.meetings.reduce(function(a, x){ return Math.max(a, +String(x.id).replace(/\D/g, "") || 0); }, 0) + 1; cal.meetings.push(Object.assign({ id: "mt" + n }, rec)); }
+          go.disabled = true; go.textContent = "Saving…";
+          saveCal(cal, (m ? "Update" : "Add") + " meeting: " + rec.title).then(function(){ toast(m ? "Meeting saved." : "Meeting added."); ui.day = rec.start; ui.month = rec.start.slice(0, 7); viewCalendar(); })
+            .catch(function(ex){ err.textContent = ex.message; err.hidden = false; go.disabled = false; go.textContent = m ? "Save meeting" : "Add meeting"; });
+        } }, [
+          el("div", { class: "grid3" }, [
+            el("div", { class: "field" }, [el("label", { for: "c-title", text: "Meeting name" }), title]),
+            el("div", { class: "field" }, [el("label", { for: "c-level", text: "Level" }), level]),
+            el("div", { class: "field" }, [el("label", { for: "c-place", text: "Where" }), place])
+          ]),
+          el("div", { class: "grid3" }, [
+            el("div", { class: "field" }, [el("label", { for: "c-date", text: m && m.every ? "First meeting" : "Date" }), date]),
+            el("div", { class: "field" }, [el("label", { for: "c-time", text: "Start time" }), time]),
+            el("div", { class: "field" }, [el("label", { for: "c-mins", text: "Length" }), mins])
+          ]),
+          el("div", { class: "grid3" }, [
+            el("div", { class: "field" }, [el("label", { for: "c-every", text: "Repeats" }), every]),
+            untilField,
+            el("div", { class: "field" }, [el("label", { for: "c-notes", text: "Notes" }), notes])
+          ]),
+          el("fieldset", {}, [el("legend", { class: "field", text: "Who attends" }), att, el("span", { class: "hint", text: "Picking a level selects the usual people. Change them as needed." })]),
+          el("div", { class: "actions" }, [go, el("button", { type: "button", class: "btn", text: "Cancel", onclick: function(){ formBox.textContent = ""; } })]),
+          err
+        ])
+      ]));
+      formBox.style.marginBottom = "20px"; title.focus();
+    }
+
+    function itemRow(x){
+      if (x.kind === "meeting"){
+        var m = x.m, end = (function(){ var p = m.time.split(":").map(Number), t = p[0] * 60 + p[1] + m.minutes; return String(Math.floor(t / 60)).padStart(2, "0") + ":" + String(t % 60).padStart(2, "0"); })();
+        var people = el("span", { class: "avs" }); m.attendees.slice(0, 8).forEach(function(id){ var a = avatar(person(id), true); a.title = who(id); people.appendChild(a); });
+        return el("li", { class: itemClass(x) }, [
+          el("span", { class: "etime", text: timeLabel(m.time) + "–" + timeLabel(end) }),
+          el("div", { class: "emain" }, [
+            el("b", { text: m.title }),
+            el("small", { text: meetingLevelName(m) + " meeting" + (m.every ? " · every " + (m.every === 1 ? "week" : "2 weeks") : "") + (m.location ? " · " + m.location : "") }),
+            m.notes ? el("small", { class: "enote", text: m.notes }) : null,
+            el("div", { class: "eppl" }, [people, el("small", { class: "enames", text: m.attendees.length === S.team.length ? "Whole team" : m.attendees.map(who).join(", ") })])
+          ]),
+          el("span", { class: "eacts" }, [
+            el("button", { type: "button", class: "linkbtn", text: "Edit", "aria-label": "Edit " + m.title, onclick: function(){ meetingForm(m); window.scrollTo({ top: formBox.offsetTop - 20, behavior: "smooth" }); } }),
+            el("button", { type: "button", class: "linkbtn danger", text: "Delete", "aria-label": "Delete " + m.title, onclick: function(e){
+              if (!window.confirm("Delete " + m.title + (m.every ? " and all its repeats?" : "?"))) return;
+              e.target.disabled = true;
+              var cal = JSON.parse(JSON.stringify(S.cal)); cal.meetings = cal.meetings.filter(function(y){ return y.id !== m.id; });
+              saveCal(cal, "Delete meeting: " + m.title).then(function(){ toast("Meeting deleted."); viewCalendar(); }).catch(function(ex){ toast(ex.message); e.target.disabled = false; });
+            } })
+          ])
+        ]);
+      }
+      if (x.kind === "task"){ var t = x.t;
+        return el("li", { class: itemClass(x) }, [el("span", { class: "etime", text: t.state === "closed" ? "Done" : "Due" }), el("div", { class: "emain" }, [el("a", { href: "#/task/" + t.number, text: "#" + t.number + " " + t.title }), el("small", { text: ownerName(t) + " · " + shortPhase(t.phase) + (t.state === "open" && blockers(t).length ? " · waiting on " + blockers(t).map(function(b){ return "#" + b.number; }).join(", ") : "") })])]); }
+      if (x.kind === "phase") return el("li", { class: itemClass(x) }, [el("span", { class: "etime", text: "Deadline" }), el("div", { class: "emain" }, [el("a", { href: "#/tasks", onclick: function(e){ e.preventDefault(); goTasks({ show: "all", phase: x.p.title }); }, text: x.p.title }), el("small", { text: x.p.done + " of " + x.p.total + " tasks done · " + x.p.status })])]);
+      return el("li", { class: itemClass(x) }, [el("span", { class: "etime", text: "All day" }), el("div", { class: "emain" }, [el("b", { text: x.c.title }), el("small", { text: "Recurring meetings are skipped." })])]);
+    }
+    function drawDay(){
+      dayBox.textContent = "";
+      var list = byDay[ui.day] || [];
+      var d = dateOf(ui.day);
+      dayBox.appendChild(el("div", { class: "shead" }, [el("h2", { text: d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }) }),
+        el("button", { type: "button", class: "btn", text: "+ Meeting on this day", onclick: function(){ meetingForm(null, ui.day); window.scrollTo({ top: formBox.offsetTop - 20, behavior: "smooth" }); } })]));
+      var ul = el("ul", { class: "evlist" });
+      if (!list.length) ul.appendChild(el("li", { class: "fnone", text: "Nothing scheduled." }));
+      list.forEach(function(x){ ul.appendChild(itemRow(x)); });
+      dayBox.appendChild(ul);
+    }
+
+    // Month grid
+    var grid = el("div", { class: "cgrid", role: "grid", "aria-label": first.toLocaleDateString("en-US", { month: "long", year: "numeric" }) });
+    ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(function(n){ grid.appendChild(el("div", { class: "cdow", role: "columnheader", text: n })); });
+    for (var i = 0; i < 42; i++){
+      var d = new Date(gridStart); d.setDate(d.getDate() + i);
+      var iso = isoOf(d), its = byDay[iso] || [], other = d.getMonth() !== mo;
+      var cell = el("button", { type: "button", class: "cday" + (other ? " other" : "") + (iso === today() ? " today" : "") + (iso === ui.day ? " sel" : "") + (closedOn(iso) ? " closed" : ""), "data-date": iso, "aria-pressed": String(iso === ui.day), "aria-label": d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }) + (its.length ? ", " + its.length + " item" + (its.length === 1 ? "" : "s") : ""), onclick: (function(iso){ return function(){ ui.day = iso; grid.querySelectorAll(".cday").forEach(function(c){ var on = c.getAttribute("data-date") === iso; c.classList.toggle("sel", on); c.setAttribute("aria-pressed", String(on)); }); drawDay(); }; })(iso) }, [
+        el("span", { class: "cnum", text: String(d.getDate()) })
+      ]);
+      if (its.length) cell.classList.add("has");
+      its.slice(0, 3).forEach(function(x){ cell.appendChild(el("span", { class: itemClass(x), text: itemLabel(x) })); });
+      if (its.length > 3) cell.appendChild(el("span", { class: "more", text: "+" + (its.length - 3) + " more" }));
+      grid.appendChild(cell);
+    }
+
+    // Agenda (list) view: the month, day by day
+    var agenda = el("div", { class: "agenda" });
+    var days = Object.keys(byDay).filter(function(k){ return k.slice(0, 7) === ui.month; }).sort();
+    if (!days.length) agenda.appendChild(el("p", { class: "empty", text: "Nothing scheduled this month." }));
+    days.forEach(function(k){
+      var ul = el("ul", { class: "evlist" }); byDay[k].forEach(function(x){ ul.appendChild(itemRow(x)); });
+      agenda.appendChild(el("section", { class: "aday" + (k === today() ? " today" : "") }, [el("h3", { text: dateOf(k).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) + (k === today() ? " · Today" : "") }), ul]));
+    });
+
+    // Filters
+    var lvl = el("select", { id: "c-flevel", onchange: function(e){ ui.level = e.target.value; viewCalendar(); } }, [el("option", { value: "", text: "All levels" }), el("option", { value: "study", text: "Study-wide" }), el("option", { value: "leadership", text: "Leadership" })]);
+    departments().filter(function(d){ return d !== "Study Leadership"; }).forEach(function(d){ lvl.appendChild(el("option", { value: d, text: d })); });
+    lvl.value = ui.level;
+    var ppl = ownerSelect("c-fperson", ui.person, "Everyone", true); ppl.addEventListener("change", function(e){ ui.person = e.target.value; viewCalendar(); });
+    function toggle(key, label){ var id = "c-show-" + key; return el("label", { class: "tgl", for: id }, [el("input", { type: "checkbox", id: id, checked: ui[key], onchange: function(e){ ui[key] = e.target.checked; viewCalendar(); } }), label]); }
+    var viewSeg = el("div", { class: "seg", role: "group", "aria-label": "View" });
+    [["month", "Month"], ["agenda", "List"]].forEach(function(o){ viewSeg.appendChild(el("button", { type: "button", "aria-pressed": String(ui.view === o[0]), text: o[1], onclick: function(){ ui.view = o[0]; viewCalendar(); } })); });
+    var legend = el("div", { class: "clegend", "aria-label": "Key" }, [
+      el("span", { class: "ev ev-study", text: "Study-wide meeting" }), el("span", { class: "ev ev-leadership", text: "Leadership meeting" }), el("span", { class: "ev ev-department", text: "Department meeting" }),
+      el("span", { class: "ev ev-task", text: "Due: task" }), el("span", { class: "ev ev-phase", text: "Deadline: phase" }), el("span", { class: "ev ev-closed", text: "Closed" })
+    ]);
+
+    mount([
+      el("a", { class: "back", href: "#/", text: "← Back to dashboard" }),
+      el("div", { class: "row", style: "align-items:flex-end;flex-wrap:wrap;margin-bottom:16px" }, [
+        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? "Calendar · saves to GitHub" : "Calendar · demo" }),
+          el("h2", { class: "t", text: "Calendar", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 4px" }),
+          el("p", { style: "margin:0;color:var(--muted)", text: "What's due and when the team meets, at every level." })]),
+        (function(){ var b = el("button", { type: "button", class: "btn primary", text: "+ Add meeting", onclick: function(){ meetingForm(null); } }); b.style.marginLeft = "auto"; return b; })()
+      ]),
+      formBox,
+      el("div", { class: "tasks cal" }, [
+        el("div", { class: "toolbar ctop" }, [
+          el("button", { type: "button", class: "btn", "aria-label": "Previous month", text: "‹", onclick: function(){ shift(-1); } }),
+          el("h2", { class: "cmonth", text: first.toLocaleDateString("en-US", { month: "long", year: "numeric" }) }),
+          el("button", { type: "button", class: "btn", "aria-label": "Next month", text: "›", onclick: function(){ shift(1); } }),
+          el("button", { type: "button", class: "btn", text: "Today", onclick: function(){ ui.month = today().slice(0, 7); ui.day = today(); viewCalendar(); } }),
+          (function(){ viewSeg.style.marginLeft = "auto"; return viewSeg; })()
+        ]),
+        el("div", { class: "toolbar" }, [el("label", { class: "sr", for: "c-flevel", text: "Level" }), lvl, el("label", { class: "sr", for: "c-fperson", text: "Person" }), ppl, toggle("meetings", "Meetings"), toggle("work", "Due dates")]),
+        ui.view === "month" ? grid : agenda,
+        legend
+      ]),
+      ui.view === "month" ? dayBox : null
+    ], "Calendar");
+    if (ui.view === "month") drawDay();
+  }
+
   // ---------- View: about ----------
   function viewAbout(){
     setNav("about");
@@ -1969,7 +2280,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       LINKEDIN ? el("a", { class: "btn", href: LINKEDIN, text: "LinkedIn" }) : null,
       el("a", { class: "btn", href: "https://github.com/" + REPO, text: "Source code" })
     ]);
-    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Team", "Each person's name, title, and department live in a team file in the repo; each task carries its assignee in a hidden note, so assignments survive in GitHub"], ["Task links and messages", "A task can wait on other tasks. When one is marked done, the owner of each waiting task gets a message, unless it's the same person. Links are stored in each GitHub issue; messages in a file in the repo"], ["Status report", "A stakeholder snapshot built from live data: overall status with schedule, budget, and decision indicators, an editable summary, phase progress, recent and upcoming work, decisions, budget, and documents awaiting approval. Prints to PDF or copies as plain text for email"], ["Budget", "Spending against the approved budget: summary tiles, a bar per budget line that turns amber near the limit and red when over, a donut of where the money went, and an expense log with vouchers"], ["Documents", "A document register: program documents with versions, version history, and Draft/Approved status with who approved and when; plus every task file in one searchable list"], ["Attachments", "Reports, memos, and vouchers per task. Owner uploads are stored in the repo through the GitHub contents API; demo files stay in the visitor's browser (IndexedDB)"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
+    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Team", "Each person's name, title, and department live in a team file in the repo; each task carries its assignee in a hidden note, so assignments survive in GitHub"], ["Calendar", "Month and list views of task due dates, phase deadlines, and team meetings at study-wide, leadership, and department level, with repeating meetings, closures, and filters by level and person"], ["Task links and messages", "A task can wait on other tasks. When one is marked done, the owner of each waiting task gets a message, unless it's the same person. Links are stored in each GitHub issue; messages in a file in the repo"], ["Status report", "A stakeholder snapshot built from live data: overall status with schedule, budget, and decision indicators, an editable summary, phase progress, recent and upcoming work, decisions, budget, and documents awaiting approval. Prints to PDF or copies as plain text for email"], ["Budget", "Spending against the approved budget: summary tiles, a bar per budget line that turns amber near the limit and red when over, a donut of where the money went, and an expense log with vouchers"], ["Documents", "A document register: program documents with versions, version history, and Draft/Approved status with who approved and when; plus every task file in one searchable list"], ["Attachments", "Reports, memos, and vouchers per task. Owner uploads are stored in the repo through the GitHub contents API; demo files stay in the visitor's browser (IndexedDB)"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
     var table = el("table", { class: "simple" }, [el("tr", {}, [el("th", { text: "Layer" }), el("th", { text: "What it uses" })])]);
     rows.forEach(function(r){ table.appendChild(el("tr", {}, [el("td", {}, [el("b", { text: r[0] })]), el("td", { text: r[1] })])); });
     var ch = [["Couldn't create the planned GitHub organization (sign-in lockout)", "Built on the personal account instead, without waiting"], ["Push refused (HTTP 403)", "Granted the app access to the new repo and refreshed the connection"], ["Loading 55 tasks without setup work", "Moved loading into a GitHub Action that uses the repo's own token: one click, safe to repeat"], ["\"Up next\" showed tasks backwards", "GitHub returns newest first; sorted by task number"], ["Visitors shouldn't change real data", "Two modes: demo saves locally; owner mode needs a private key"], ["First demo data was too close to a real project", "Rebuilt with a fictional research study and a clean repository history, since edits leave the old text visible"]];
@@ -1987,7 +2298,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       el("h3", { text: "Technology" }), table,
       el("h3", { text: "Challenges and fixes" }), ctable,
       el("h3", { text: "Try it" }),
-      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Open task #19 and mark it done, then open Messages: Grace Lin is told the ethics board submission (#10) is still waiting on #17. Mark #17 done too, and she's told she can start." }), el("li", { text: "Open Report for a stakeholder status snapshot. Edit the summary, then save it as a PDF or copy it into an email." }), el("li", { text: "Open Budget and log an expense. Watch the line bars and the donut chart update, and see the warning when a line nears its limit." }), el("li", { text: "Open Documents to see the program plan, budget, and schedule. Approve the draft risk register, or upload a new version and watch it go back to Draft." }), el("li", { text: "Attach a report, memo, or voucher to a task. Tasks #4, #5, and #17 already have sample documents." }), el("li", { text: "Reassign a task, or open the Team page to add someone and see who owns what." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
+      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Open the Calendar from the menu. Filter to one person to see their meetings and due dates, or add a meeting." }), el("li", { text: "Open task #19 and mark it done, then open Messages: Grace Lin is told the ethics board submission (#10) is still waiting on #17. Mark #17 done too, and she's told she can start." }), el("li", { text: "Open Report for a stakeholder status snapshot. Edit the summary, then save it as a PDF or copy it into an email." }), el("li", { text: "Open Budget and log an expense. Watch the line bars and the donut chart update, and see the warning when a line nears its limit." }), el("li", { text: "Open Documents to see the program plan, budget, and schedule. Approve the draft risk register, or upload a new version and watch it go back to Draft." }), el("li", { text: "Attach a report, memo, or voucher to a task. Tasks #4, #5, and #17 already have sample documents." }), el("li", { text: "Reassign a task, or open the Team page to add someone and see who owns what." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
       el("p", { class: "hint", text: "Lanternfield Labs, Project Keystone, the study, the team, and the sample documents are fictional. They exist to demo the tracker with realistic data." })
     ])], "About this build");
   }
@@ -2040,6 +2351,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     else if (h === "budget") viewBudget();
     else if (h === "tasks") viewTasks();
     else if (h === "messages") viewMessages();
+    else if (h === "calendar") viewCalendar();
     else if (h === "report") viewReport();
     else if (h === "owner") viewOwner();
     else viewHome();

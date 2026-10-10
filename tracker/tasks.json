@@ -191,7 +191,8 @@
         8,
         17,
         19
-      ]
+      ],
+      "due": "2026-11-02"
     },
     {
       "phase": "P1",
@@ -204,7 +205,8 @@
       "body": "Track each question and the change made in response.",
       "after": [
         10
-      ]
+      ],
+      "due": "2026-11-20"
     },
     {
       "phase": "P1",
@@ -217,7 +219,8 @@
       "body": "Required before the first participant is enrolled.",
       "after": [
         10
-      ]
+      ],
+      "due": "2026-11-13"
     },
     {
       "phase": "P1",
@@ -227,7 +230,8 @@
       ],
       "title": "Complete the patient privacy review",
       "owner": "tadeyemi",
-      "body": "Confirm how participant data is stored, coded, and protected."
+      "body": "Confirm how participant data is stored, coded, and protected.",
+      "due": "2026-10-30"
     },
     {
       "phase": "P1",
@@ -237,7 +241,8 @@
       ],
       "title": "Sign the device loan agreement",
       "owner": "smarchetti",
-      "body": "Covers the 12 study sensors and their return after the study."
+      "body": "Covers the 12 study sensors and their return after the study.",
+      "due": "2026-10-22"
     },
     {
       "phase": "P1",
@@ -248,7 +253,8 @@
       ],
       "title": "Get lab safety sign-off",
       "owner": "mbell",
-      "body": "Blood handling and sample storage procedures reviewed by the safety officer."
+      "body": "Blood handling and sample storage procedures reviewed by the safety officer.",
+      "due": "2026-11-05"
     },
     {
       "phase": "P1",
@@ -259,7 +265,8 @@
       ],
       "title": "Decide whether to add a second study site",
       "owner": "mokafor",
-      "body": "Faster enrollment versus more training and coordination."
+      "body": "Faster enrollment versus more training and coordination.",
+      "due": "2026-10-21"
     },
     {
       "phase": "P2",
@@ -273,7 +280,8 @@
       "body": "Healthy adults 18 to 65; exclude kidney disease and recent illness.",
       "after": [
         3
-      ]
+      ],
+      "due": "2026-10-16"
     },
     {
       "phase": "P2",
@@ -284,7 +292,8 @@
       ],
       "title": "Decide the visit schedule: one visit or two",
       "owner": "mokafor",
-      "body": "A second visit tests repeatability but raises dropout risk."
+      "body": "A second visit tests repeatability but raises dropout risk.",
+      "due": "2026-10-16"
     },
     {
       "phase": "P2",
@@ -299,7 +308,8 @@
       "after": [
         17,
         18
-      ]
+      ],
+      "due": "2026-10-23"
     },
     {
       "phase": "P2",
@@ -313,7 +323,8 @@
       "after": [
         9,
         23
-      ]
+      ],
+      "due": "2026-10-28"
     },
     {
       "phase": "P2",
@@ -327,7 +338,8 @@
       "body": "Step-by-step, with a pass/fail check before each visit.",
       "after": [
         6
-      ]
+      ],
+      "due": "2026-10-24"
     },
     {
       "phase": "P2",
@@ -341,7 +353,8 @@
       "after": [
         4,
         17
-      ]
+      ],
+      "due": "2026-10-29"
     },
     {
       "phase": "P2",
@@ -352,7 +365,8 @@
       ],
       "title": "Decide: paper or electronic data capture",
       "owner": "tadeyemi",
-      "body": "Electronic is cleaner; paper is a backup if systems go down."
+      "body": "Electronic is cleaner; paper is a backup if systems go down.",
+      "due": "2026-10-20"
     },
     {
       "phase": "P3",
@@ -366,7 +380,8 @@
       "body": "Compare cost, audit trail, and ease of use for coordinators.",
       "after": [
         23
-      ]
+      ],
+      "due": "2026-10-23"
     },
     {
       "phase": "P3",
@@ -377,7 +392,8 @@
       ],
       "title": "Choose the statistics software",
       "owner": "hkowalski",
-      "body": "Whatever the statistician can validate and repeat."
+      "body": "Whatever the statistician can validate and repeat.",
+      "due": "2026-10-30"
     },
     {
       "phase": "P3",
@@ -388,7 +404,8 @@
       ],
       "title": "Choose the sample storage vendor",
       "owner": "mbell",
-      "body": "Freezer capacity, temperature logging, and courier pickup."
+      "body": "Freezer capacity, temperature logging, and courier pickup.",
+      "due": "2026-10-30"
     },
     {
       "phase": "P3",
@@ -401,7 +418,8 @@
       "body": "All 12 sensors pass the calibration check.",
       "after": [
         21
-      ]
+      ],
+      "due": "2026-11-03"
     },
     {
       "phase": "P3",
@@ -411,7 +429,8 @@
       ],
       "title": "Validate the lab analyzer",
       "owner": "mbell",
-      "body": "Run control samples and record results."
+      "body": "Run control samples and record results.",
+      "due": "2026-11-04"
     },
     {
       "phase": "P3",
@@ -425,7 +444,8 @@
       "after": [
         19,
         21
-      ]
+      ],
+      "due": "2026-11-05"
     },
     {
       "phase": "P3",
@@ -438,7 +458,8 @@
       "body": "Coded participant IDs only; access limited to the study team.",
       "after": [
         24
-      ]
+      ],
+      "due": "2026-11-02"
     },
     {
       "phase": "P3",
@@ -455,7 +476,8 @@
         28,
         29,
         30
-      ]
+      ],
+      "due": "2026-11-06"
     },
     {
       "phase": "P4",
@@ -469,7 +491,8 @@
       "after": [
         11,
         22
-      ]
+      ],
+      "due": "2026-12-01"
     },
     {
       "phase": "P4",
@@ -494,7 +517,8 @@
       "after": [
         31,
         32
-      ]
+      ],
+      "due": "2026-12-02"
     },
     {
       "phase": "P4",
@@ -585,7 +609,8 @@
       ],
       "title": "Hold the mid-study safety review",
       "owner": "mokafor",
-      "body": "After 30 participants: any safety or data concerns?"
+      "body": "After 30 participants: any safety or data concerns?",
+      "due": "2026-12-09"
     },
     {
       "phase": "P4",
@@ -639,7 +664,8 @@
       "body": "No changes after lock without a documented reason.",
       "after": [
         47
-      ]
+      ],
+      "due": "2027-01-08"
     },
     {
       "phase": "P5",
@@ -681,7 +707,8 @@
       "after": [
         49,
         50
-      ]
+      ],
+      "due": "2027-01-26"
     },
     {
       "phase": "P5",
@@ -721,7 +748,8 @@
       "body": "30-minute briefing with questions.",
       "after": [
         52
-      ]
+      ],
+      "due": "2027-01-29"
     },
     {
       "phase": "P5",

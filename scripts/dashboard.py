@@ -63,7 +63,7 @@ def load_local_preview():
             tasks.append({"number": n, "title": t["title"],
                           "state": "closed" if t["done"] else "open",
                           "phase": p["title"], "labels": t["labels"], "url": "#",
-                          "body": t["body"] + (f"\n<!-- keystone:owner={t['owner']} -->" if t.get("owner") else "")
+                          "body": t["body"] + (f"\n\n<!-- keystone:due={t['due']} -->" if t.get("due") else "") + (f"\n<!-- keystone:owner={t['owner']} -->" if t.get("owner") else "")
                                   + (f"\n<!-- keystone:after={','.join(map(str, t['after']))} -->" if t.get("after") else ""),
                           "closed": "", "created": "", "reason": ""})
             if not t["done"]:
@@ -203,6 +203,7 @@ def main():
         "team": json.loads(team.read_text()) if (team := ROOT / "tracker" / "team.json").exists() else [],
         "attachments": load_attachments(),
         "documents": load_documents(),
+        "calendar": json.loads(c.read_text()) if (c := ROOT / "tracker" / "calendar.json").exists() else None,
         "messages": json.loads(mm.read_text()) if (mm := ROOT / "tracker" / "messages.json").exists() else [],
         "budget": json.loads(b.read_text()) if (b := ROOT / "tracker" / "budget.json").exists() else None,
         "tasks": tasks,

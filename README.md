@@ -51,6 +51,7 @@ _Updated automatically Oct 10, 2026._
   - `writeup`: material for the final report or a paper.
 - **Every task has an owner.** The study team (name, job title, department) lives in `tracker/team.json`. Each issue stores its owner in a hidden line at the bottom of its description, like `<!-- keystone:owner=mokafor -->`. Assign or reassign people from the website, or on the **Team** page add, edit, and remove team members.
 - **Program documents** (charter, program plan, schedule, budget, risk register, communication plan) live on the website's **Documents** page. Each has a version, a version history, and a Draft or Approved status with who approved it and when. A new version always goes back to Draft. The register is `tracker/documents.json`; the files are in `docs/documents/`. The same page lists every task attachment with search and filters.
+- **Calendar:** the website's **Calendar** (in the menu) shows task due dates, phase deadlines, and team meetings at three levels: study-wide, leadership, and department. Meetings can repeat weekly or every two weeks, skip office closures, and be filtered by level or person. Meetings and closures are in `tracker/calendar.json`; task due dates are stored in each issue as `<!-- keystone:due=2026-10-16 -->`.
 - **Task links and messages:** a task can list other tasks that must finish first (stored in its description as `<!-- keystone:after=8,17 -->`). When a task is marked done on the website, whoever owns a task that was waiting on it gets a message on the **Messages** page, unless it's the same person. Messages are kept in `tracker/messages.json`.
 - **The dashboard** shows progress, phases, what's next, decisions, the budget pie chart, messages, and who's on what. Every card opens the **Tasks** page with the matching filter. Other pages are in the **Menu**.
 - **Stakeholder status report:** the website's **Report** page builds a snapshot from live data: overall status (On track, Watch, or At risk) for schedule, budget, and decisions; an editable summary; phase progress; budget by line; recent and upcoming work; decisions needed; and documents awaiting approval. Print it or save it as a two-page PDF, or copy it as plain text for email.
@@ -73,6 +74,7 @@ _Updated automatically Oct 10, 2026._
 | `scripts/dashboard.py` | Draws the progress panel from live Issues |
 | `.github/workflows/` | The two automations that run those scripts |
 | `docs/` | The tracker website (`index.html`) and the data it reads (`data.json`) |
+| `tracker/calendar.json` | Team meetings (study-wide, leadership, department) and office closures |
 | `tracker/messages.json` | Messages sent when a task is done and the next task belongs to someone else |
 | `tracker/budget.json` | Budget lines and the expense log |
 | `tracker/documents.json` | The document register: version, status, owner, and approver for each program document |
