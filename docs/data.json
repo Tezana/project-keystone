@@ -107,6 +107,35 @@
    "team": "Data and Analytics"
   }
  ],
+ "attachments": {
+  "17": [
+   {
+    "file": "attachments/task-17/memo--2026-10-08--Eligibility_criteria_memo.pdf",
+    "kind": "memo",
+    "added": "2026-10-08",
+    "name": "Eligibility_criteria_memo.pdf",
+    "size": 52438
+   }
+  ],
+  "4": [
+   {
+    "file": "attachments/task-4/report--2026-09-18--Sample_size_estimate.pdf",
+    "kind": "report",
+    "added": "2026-09-18",
+    "name": "Sample_size_estimate.pdf",
+    "size": 52303
+   }
+  ],
+  "5": [
+   {
+    "file": "attachments/task-5/voucher--2026-09-24--Purchase_voucher_PK-2026-014.pdf",
+    "kind": "voucher",
+    "added": "2026-09-24",
+    "name": "Purchase_voucher_PK-2026-014.pdf",
+    "size": 54268
+   }
+  ]
+ },
  "tasks": [
   {
    "number": 1,
