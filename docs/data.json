@@ -1,0 +1,853 @@
+{
+ "project": "Project Keystone",
+ "company": "Lanternfield Labs",
+ "summary": "A 60-participant clinical validation study of a wearable hydration sensor, from concept to final report.",
+ "repo": "",
+ "updated": "2026-10-10",
+ "phases": [
+  {
+   "title": "Phase 0: Study concept",
+   "due": "2026-10-10",
+   "done": 9,
+   "total": 9,
+   "status": "Complete"
+  },
+  {
+   "title": "Phase 1: Approvals",
+   "due": "2026-11-30",
+   "done": 0,
+   "total": 7,
+   "status": "Not started"
+  },
+  {
+   "title": "Phase 2: Protocol and materials",
+   "due": "2026-10-31",
+   "done": 0,
+   "total": 7,
+   "status": "Not started"
+  },
+  {
+   "title": "Phase 3: Lab setup",
+   "due": "2026-11-07",
+   "done": 0,
+   "total": 8,
+   "status": "Not started"
+  },
+  {
+   "title": "Phase 4: Participant testing",
+   "due": "2026-12-19",
+   "done": 0,
+   "total": 16,
+   "status": "Not started"
+  },
+  {
+   "title": "Phase 5: Analysis and report",
+   "due": "2027-01-30",
+   "done": 0,
+   "total": 8,
+   "status": "Not started"
+  }
+ ],
+ "labels": {
+  "admin": "#64748B",
+  "protocol": "#0EA5E9",
+  "lab": "#0F766E",
+  "analysis": "#7C3AED",
+  "decision": "#F59E0B",
+  "writeup": "#DB2777",
+  "blocked": "#B91C1C"
+ },
+ "tasks": [
+  {
+   "number": 1,
+   "title": "Define the research question and hypothesis",
+   "state": "closed",
+   "phase": "Phase 0: Study concept",
+   "labels": [
+    "protocol",
+    "writeup"
+   ],
+   "url": "#",
+   "body": "Does the wrist sensor's hydration score agree with lab blood measurements closely enough for everyday use?",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 2,
+   "title": "Complete the literature review",
+   "state": "closed",
+   "phase": "Phase 0: Study concept",
+   "labels": [
+    "protocol",
+    "writeup"
+   ],
+   "url": "#",
+   "body": "Summary of published hydration sensing methods and how earlier devices were validated.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 3,
+   "title": "Choose the study design",
+   "state": "closed",
+   "phase": "Phase 0: Study concept",
+   "labels": [
+    "protocol",
+    "decision"
+   ],
+   "url": "#",
+   "body": "Single-site observational validation study. Each participant wears the sensor during a lab visit.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 4,
+   "title": "Estimate the sample size",
+   "state": "closed",
+   "phase": "Phase 0: Study concept",
+   "labels": [
+    "analysis"
+   ],
+   "url": "#",
+   "body": "60 participants gives enough precision for the agreement analysis, with room for dropouts.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 5,
+   "title": "Draft the study budget",
+   "state": "closed",
+   "phase": "Phase 0: Study concept",
+   "labels": [
+    "admin"
+   ],
+   "url": "#",
+   "body": "Covers sensors, lab assays, participant reimbursement, and staff time.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 6,
+   "title": "Pick the reference method",
+   "state": "closed",
+   "phase": "Phase 0: Study concept",
+   "labels": [
+    "protocol"
+   ],
+   "url": "#",
+   "body": "Serum osmolality measured in the lab is the comparison standard.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 7,
+   "title": "Assign study team roles",
+   "state": "closed",
+   "phase": "Phase 0: Study concept",
+   "labels": [
+    "admin"
+   ],
+   "url": "#",
+   "body": "Study lead, two coordinators, lab technician, and statistician.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 8,
+   "title": "Write the one-page study summary",
+   "state": "closed",
+   "phase": "Phase 0: Study concept",
+   "labels": [
+    "protocol",
+    "writeup"
+   ],
+   "url": "#",
+   "body": "Plain-language summary for the team and the ethics board.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 9,
+   "title": "Set up the shared project folder and tracker",
+   "state": "closed",
+   "phase": "Phase 0: Study concept",
+   "labels": [
+    "admin"
+   ],
+   "url": "#",
+   "body": "Folder structure, naming rules, and this tracker.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 10,
+   "title": "Submit the protocol to the ethics board (IRB)",
+   "state": "open",
+   "phase": "Phase 1: Approvals",
+   "labels": [
+    "admin"
+   ],
+   "url": "#",
+   "body": "Include the protocol, consent form, recruitment flyer, and data security plan.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 11,
+   "title": "Respond to ethics board questions",
+   "state": "open",
+   "phase": "Phase 1: Approvals",
+   "labels": [
+    "admin"
+   ],
+   "url": "#",
+   "body": "Track each question and the change made in response.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 12,
+   "title": "Register the study on a public trial registry",
+   "state": "open",
+   "phase": "Phase 1: Approvals",
+   "labels": [
+    "admin"
+   ],
+   "url": "#",
+   "body": "Required before the first participant is enrolled.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 13,
+   "title": "Complete the patient privacy review",
+   "state": "open",
+   "phase": "Phase 1: Approvals",
+   "labels": [
+    "admin"
+   ],
+   "url": "#",
+   "body": "Confirm how participant data is stored, coded, and protected.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 14,
+   "title": "Sign the device loan agreement",
+   "state": "open",
+   "phase": "Phase 1: Approvals",
+   "labels": [
+    "admin"
+   ],
+   "url": "#",
+   "body": "Covers the 12 study sensors and their return after the study.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 15,
+   "title": "Get lab safety sign-off",
+   "state": "open",
+   "phase": "Phase 1: Approvals",
+   "labels": [
+    "admin",
+    "lab"
+   ],
+   "url": "#",
+   "body": "Blood handling and sample storage procedures reviewed by the safety officer.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 16,
+   "title": "Decide whether to add a second study site",
+   "state": "open",
+   "phase": "Phase 1: Approvals",
+   "labels": [
+    "admin",
+    "decision"
+   ],
+   "url": "#",
+   "body": "Faster enrollment versus more training and coordination.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 17,
+   "title": "Confirm inclusion and exclusion criteria",
+   "state": "open",
+   "phase": "Phase 2: Protocol and materials",
+   "labels": [
+    "protocol",
+    "decision"
+   ],
+   "url": "#",
+   "body": "Healthy adults 18 to 65; exclude kidney disease and recent illness.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 18,
+   "title": "Decide the visit schedule: one visit or two",
+   "state": "open",
+   "phase": "Phase 2: Protocol and materials",
+   "labels": [
+    "protocol",
+    "decision"
+   ],
+   "url": "#",
+   "body": "A second visit tests repeatability but raises dropout risk.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 19,
+   "title": "Write the informed consent form",
+   "state": "open",
+   "phase": "Phase 2: Protocol and materials",
+   "labels": [
+    "protocol",
+    "writeup"
+   ],
+   "url": "#",
+   "body": "Plain language, eighth-grade reading level, with a short summary on page one.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 20,
+   "title": "Build the case report forms",
+   "state": "open",
+   "phase": "Phase 2: Protocol and materials",
+   "labels": [
+    "protocol"
+   ],
+   "url": "#",
+   "body": "One form per visit: vitals, sensor readings, sample times, notes.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 21,
+   "title": "Write the sensor calibration procedure",
+   "state": "open",
+   "phase": "Phase 2: Protocol and materials",
+   "labels": [
+    "protocol",
+    "lab"
+   ],
+   "url": "#",
+   "body": "Step-by-step, with a pass/fail check before each visit.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 22,
+   "title": "Draft the recruitment flyer and screening script",
+   "state": "open",
+   "phase": "Phase 2: Protocol and materials",
+   "labels": [
+    "protocol"
+   ],
+   "url": "#",
+   "body": "Both go to the ethics board with the protocol.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 23,
+   "title": "Decide: paper or electronic data capture",
+   "state": "open",
+   "phase": "Phase 2: Protocol and materials",
+   "labels": [
+    "protocol",
+    "decision"
+   ],
+   "url": "#",
+   "body": "Electronic is cleaner; paper is a backup if systems go down.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 24,
+   "title": "Choose the data capture platform",
+   "state": "open",
+   "phase": "Phase 3: Lab setup",
+   "labels": [
+    "lab",
+    "decision"
+   ],
+   "url": "#",
+   "body": "Compare cost, audit trail, and ease of use for coordinators.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 25,
+   "title": "Choose the statistics software",
+   "state": "open",
+   "phase": "Phase 3: Lab setup",
+   "labels": [
+    "analysis",
+    "decision"
+   ],
+   "url": "#",
+   "body": "Whatever the statistician can validate and repeat.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 26,
+   "title": "Choose the sample storage vendor",
+   "state": "open",
+   "phase": "Phase 3: Lab setup",
+   "labels": [
+    "lab",
+    "decision"
+   ],
+   "url": "#",
+   "body": "Freezer capacity, temperature logging, and courier pickup.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 27,
+   "title": "Calibrate the study sensors",
+   "state": "open",
+   "phase": "Phase 3: Lab setup",
+   "labels": [
+    "lab"
+   ],
+   "url": "#",
+   "body": "All 12 sensors pass the calibration check.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 28,
+   "title": "Validate the lab analyzer",
+   "state": "open",
+   "phase": "Phase 3: Lab setup",
+   "labels": [
+    "lab"
+   ],
+   "url": "#",
+   "body": "Run control samples and record results.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 29,
+   "title": "Train the study coordinators",
+   "state": "open",
+   "phase": "Phase 3: Lab setup",
+   "labels": [
+    "lab"
+   ],
+   "url": "#",
+   "body": "Consent process, visit steps, and data entry.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 30,
+   "title": "Set up the secure study database",
+   "state": "open",
+   "phase": "Phase 3: Lab setup",
+   "labels": [
+    "analysis"
+   ],
+   "url": "#",
+   "body": "Coded participant IDs only; access limited to the study team.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 31,
+   "title": "Run a full dry run with two volunteers",
+   "state": "open",
+   "phase": "Phase 3: Lab setup",
+   "labels": [
+    "lab",
+    "writeup"
+   ],
+   "url": "#",
+   "body": "Time each step and fix anything confusing before real visits.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 32,
+   "title": "Open recruitment",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "lab"
+   ],
+   "url": "#",
+   "body": "Post flyers and start the screening line. Target: 60 enrolled.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 33,
+   "title": "Run screening calls",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "lab"
+   ],
+   "url": "#",
+   "body": "Use the approved script; log every call.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 34,
+   "title": "Enroll the first participant",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "lab",
+    "writeup"
+   ],
+   "url": "#",
+   "body": "Full visit with the study lead present.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 35,
+   "title": "Enroll participants 2 to 20",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "lab"
+   ],
+   "url": "#",
+   "body": "Review data after participant 10.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 36,
+   "title": "Enroll participants 21 to 40",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "lab"
+   ],
+   "url": "#",
+   "body": "Keep the mix of ages and activity levels balanced.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 37,
+   "title": "Enroll participants 41 to 60",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "lab"
+   ],
+   "url": "#",
+   "body": "Close recruitment when 60 are enrolled.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 38,
+   "title": "Collect blood samples at each visit",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "lab"
+   ],
+   "url": "#",
+   "body": "Draw within 5 minutes of each sensor reading.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 39,
+   "title": "Record sensor readings",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "lab"
+   ],
+   "url": "#",
+   "body": "Three readings per visit, averaged.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 40,
+   "title": "Process and store samples",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "lab"
+   ],
+   "url": "#",
+   "body": "Spin, label, and freeze within 30 minutes.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 41,
+   "title": "Weekly data quality check",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "analysis"
+   ],
+   "url": "#",
+   "body": "Missing fields, out-of-range values, and late entries.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 42,
+   "title": "Log and report adverse events",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "admin"
+   ],
+   "url": "#",
+   "body": "Report anything serious to the ethics board within the required time.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 43,
+   "title": "Hold the mid-study safety review",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "admin",
+    "analysis"
+   ],
+   "url": "#",
+   "body": "After 30 participants: any safety or data concerns?",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 44,
+   "title": "Keep the device malfunction log",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "lab"
+   ],
+   "url": "#",
+   "body": "Every sensor error, with date, sensor ID, and fix.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 45,
+   "title": "Pay participant reimbursements",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "admin"
+   ],
+   "url": "#",
+   "body": "Within one week of each completed visit.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 46,
+   "title": "Make retention follow-up calls",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "lab"
+   ],
+   "url": "#",
+   "body": "Remind participants of second visits, if the two-visit schedule is chosen.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 47,
+   "title": "Close out participant visits",
+   "state": "open",
+   "phase": "Phase 4: Participant testing",
+   "labels": [
+    "lab",
+    "admin"
+   ],
+   "url": "#",
+   "body": "All visits done, all samples logged, sensors returned.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 48,
+   "title": "Lock the study database",
+   "state": "open",
+   "phase": "Phase 5: Analysis and report",
+   "labels": [
+    "analysis"
+   ],
+   "url": "#",
+   "body": "No changes after lock without a documented reason.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 49,
+   "title": "Run the statistical analysis plan",
+   "state": "open",
+   "phase": "Phase 5: Analysis and report",
+   "labels": [
+    "analysis"
+   ],
+   "url": "#",
+   "body": "Follow the plan written before the data was unblinded.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 50,
+   "title": "Run the agreement analysis",
+   "state": "open",
+   "phase": "Phase 5: Analysis and report",
+   "labels": [
+    "analysis",
+    "writeup"
+   ],
+   "url": "#",
+   "body": "Bland-Altman plot and limits of agreement between sensor and lab.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 51,
+   "title": "Write the study report",
+   "state": "open",
+   "phase": "Phase 5: Analysis and report",
+   "labels": [
+    "analysis",
+    "writeup"
+   ],
+   "url": "#",
+   "body": "Methods, results, limitations, and plain-language summary.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 52,
+   "title": "Hold an internal review of the findings",
+   "state": "open",
+   "phase": "Phase 5: Analysis and report",
+   "labels": [
+    "analysis"
+   ],
+   "url": "#",
+   "body": "Team reads the report and challenges the conclusions.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 53,
+   "title": "Decide whether to submit to a journal",
+   "state": "open",
+   "phase": "Phase 5: Analysis and report",
+   "labels": [
+    "analysis",
+    "decision"
+   ],
+   "url": "#",
+   "body": "Depends on results strength and the sponsor agreement.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 54,
+   "title": "Present results to the team",
+   "state": "open",
+   "phase": "Phase 5: Analysis and report",
+   "labels": [
+    "writeup"
+   ],
+   "url": "#",
+   "body": "30-minute briefing with questions.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  },
+  {
+   "number": 55,
+   "title": "Archive the data and close the study",
+   "state": "open",
+   "phase": "Phase 5: Analysis and report",
+   "labels": [
+    "admin"
+   ],
+   "url": "#",
+   "body": "Notify the ethics board and archive records per the retention policy.",
+   "closed": "",
+   "created": "",
+   "reason": ""
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+name: Load tasks
+
+# Run once by hand: Actions tab > Load tasks > Run workflow.
+# Safe to run again; it skips anything that already exists.
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Create labels, phases, and tasks
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/seed.py

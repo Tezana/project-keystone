@@ -1,0 +1,48 @@
+name: Update dashboard
+
+# Redraws the progress panel whenever a task changes, plus once a day
+# (so "past due" flags stay current).
+on:
+  issues:
+    types: [opened, closed, reopened, edited, deleted, milestoned, demilestoned, labeled, unlabeled]
+  milestone:
+    types: [created, edited, closed, opened, deleted]
+  schedule:
+    - cron: "0 11 * * *"
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Load tasks"]
+    types: [completed]
+
+permissions:
+  contents: write
+  issues: read
+
+concurrency:
+  group: dashboard
+  cancel-in-progress: false
+
+jobs:
+  draw:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Redraw dashboard
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/dashboard.py
+      - name: Save changes
+        run: |
+          git config user.name "dashboard-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md dashboard/progress.svg docs/data.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Update dashboard"
+            git pull --rebase
+            git push
+          fi
