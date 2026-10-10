@@ -577,7 +577,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       el("div", { class: "eyebrow", text: "About this build" }),
       el("h2", { class: "t", text: "A project tracker that runs on GitHub", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 10px" }),
       el("p", { text: "This is a working project tracker built on GitHub. To show it with realistic data, it's running a fictional research study: a 60-participant clinical validation of a wearable hydration sensor, tracked as 55 tasks across six phases with deadlines and decisions." }), el("p", { text: "GitHub is the system of record: every task is an Issue and every phase is a Milestone. This site sits on top, so anyone can see progress at a glance and try the workflow." }),
-      el("p", { text: "I built it with an AI pair-programmer: the first live version took about 40 minutes, and the interactive version followed the same afternoon. I set the requirements, made the design and scope decisions, and tested and accepted the work." }),
+      el("p", { text: "I built it with an AI pair-programmer. I set the requirements, made the design and scope decisions, and tested and accepted the work." }),
       links,
       el("h3", { text: "How it works" }),
       el("div", { class: "flow" }, [box("Plan file", "phases, tasks, labels"), arr(), box("Load tasks", "GitHub Action"), arr(), box("GitHub Issues", "source of truth", true), arr(), box("Update dashboard", "GitHub Action"), arr(), box("This website", "reads the latest data")]),
