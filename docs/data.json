@@ -254,6 +254,130 @@
    "size": 59662
   }
  ],
+ "budget": {
+  "approvedDoc": "budget",
+  "lines": [
+   {
+    "id": "personnel",
+    "name": "Personnel",
+    "budget": 112000
+   },
+   {
+    "id": "lab",
+    "name": "Lab supplies and assays",
+    "budget": 21600
+   },
+   {
+    "id": "equipment",
+    "name": "Equipment",
+    "budget": 9800
+   },
+   {
+    "id": "reimburse",
+    "name": "Participant reimbursement",
+    "budget": 9000
+   },
+   {
+    "id": "software",
+    "name": "Data platform and software",
+    "budget": 7400
+   },
+   {
+    "id": "fees",
+    "name": "Ethics board and registry fees",
+    "budget": 4200
+   },
+   {
+    "id": "storage",
+    "name": "Sample storage",
+    "budget": 3500
+   },
+   {
+    "id": "contingency",
+    "name": "Contingency",
+    "budget": 16750
+   }
+  ],
+  "expenses": [
+   {
+    "id": "e1",
+    "date": "2026-09-10",
+    "line": "software",
+    "amount": 350,
+    "description": "Journal article access for the literature review",
+    "vendor": "University library services",
+    "task": 2,
+    "by": "pnatarajan",
+    "voucher": ""
+   },
+   {
+    "id": "e2",
+    "date": "2026-09-15",
+    "line": "lab",
+    "amount": 1440,
+    "description": "Pilot assays to compare reference methods",
+    "vendor": "Lanternfield core lab",
+    "task": 6,
+    "by": "mbell",
+    "voucher": ""
+   },
+   {
+    "id": "e3",
+    "date": "2026-09-24",
+    "line": "equipment",
+    "amount": 6422,
+    "description": "70 hydration sensors, patches, and charging docks",
+    "vendor": "Northwind Biosensors",
+    "task": 5,
+    "by": "smarchetti",
+    "voucher": "attachments/task-5/voucher--2026-09-24--Purchase_voucher_PK-2026-014.pdf"
+   },
+   {
+    "id": "e4",
+    "date": "2026-09-30",
+    "line": "personnel",
+    "amount": 14000,
+    "description": "September study team time",
+    "vendor": "Payroll",
+    "task": "",
+    "by": "smarchetti",
+    "voucher": ""
+   },
+   {
+    "id": "e5",
+    "date": "2026-10-06",
+    "line": "equipment",
+    "amount": 1480,
+    "description": "Sensor calibration kit",
+    "vendor": "Northwind Biosensors",
+    "task": 27,
+    "by": "mbell",
+    "voucher": ""
+   },
+   {
+    "id": "e6",
+    "date": "2026-10-08",
+    "line": "fees",
+    "amount": 1500,
+    "description": "Ethics board submission fee, paid ahead of submission",
+    "vendor": "Ethics review board",
+    "task": 10,
+    "by": "glin",
+    "voucher": ""
+   },
+   {
+    "id": "e7",
+    "date": "2026-10-09",
+    "line": "equipment",
+    "amount": 1000,
+    "description": "Spare sensor batteries and replacement straps",
+    "vendor": "Northwind Biosensors",
+    "task": 27,
+    "by": "mbell",
+    "voucher": ""
+   }
+  ]
+ },
  "tasks": [
   {
    "number": 1,
