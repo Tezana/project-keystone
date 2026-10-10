@@ -92,6 +92,18 @@ def load_attachments():
     return out
 
 
+def load_documents():
+    """Program documents (tracker/documents.json), with file sizes added for the site."""
+    path = ROOT / "tracker" / "documents.json"
+    docs = json.loads(path.read_text()) if path.exists() else []
+    for d in docs:
+        for v in [d] + d.get("history", []):
+            f = ROOT / "docs" / v.get("file", "")
+            if v.get("file") and f.is_file():
+                v["size"] = f.stat().st_size
+    return docs
+
+
 def nice_date(iso):
     if not iso:
         return "no date"
@@ -189,6 +201,7 @@ def main():
         "labels": {l["name"]: "#" + l["color"] for l in plan["labels"]},
         "team": json.loads(team.read_text()) if (team := ROOT / "tracker" / "team.json").exists() else [],
         "attachments": load_attachments(),
+        "documents": load_documents(),
         "tasks": tasks,
     }
     (ROOT / "docs").mkdir(exist_ok=True)

@@ -155,6 +155,36 @@ textarea{min-height:120px;resize:vertical;line-height:1.5}
 .attach .actions{align-items:center;margin-bottom:0}
 .attach .hint{font-size:13px;color:var(--faint)}
 
+/* Documents page */
+.dsec{margin-bottom:34px}
+.shead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+.shead h2{margin:0}
+.shint{font-size:14px;color:var(--faint);margin:0 0 12px}
+.doclist{display:flex;flex-direction:column;gap:12px}
+.doc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start}
+.kind.dk{background:var(--bg);color:var(--muted);border:1px solid var(--line);width:146px;padding:5px 8px;margin-top:2px}
+.dmain{flex:1;min-width:0}
+.drow{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.dtitle{font-size:17px;font-weight:600;overflow-wrap:anywhere}
+.ver{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted);background:var(--bg);border-radius:5px;padding:1px 6px}
+.dsum{font-size:15px;color:var(--muted);margin-top:2px}
+.dmeta{font-size:13px;color:var(--faint);margin-top:4px}
+.dstat{font-size:14px;color:var(--muted);margin-top:8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.chip.approved{background:var(--accent-soft);color:var(--accent)}
+.dhist{margin-top:8px;font-size:14px}
+.dhist summary{cursor:pointer;color:var(--accent);font-weight:600;min-height:32px;display:inline-flex;align-items:center}
+.hist{margin:4px 0 0;padding-left:20px;color:var(--muted)}
+.hist li{margin:3px 0}
+.dacts{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.dacts .btn{min-height:38px;padding:0 12px;font-size:13px}
+.dacts select{width:auto;max-width:100%;min-height:38px;font-size:14px}
+.dacts .attach input[type=file]{min-height:38px;padding:6px 8px;font-size:13px;max-width:260px}
+.dacts .hint{font-size:13px;color:var(--faint);flex-basis:100%}
+.files .tlink{color:var(--muted);font-weight:500;text-decoration:none;border-bottom:1px solid var(--line)}
+.files .tlink:hover{color:var(--accent)}
+.tasks .files{border:0;border-radius:0;margin:0}
+@media (max-width:600px){.doc{flex-direction:column;gap:8px}}
+
 /* Team page */
 .dept{margin-bottom:26px}
 .people{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
@@ -229,6 +259,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     <nav aria-label="Main">
       <a class="btn" href="#/" data-nav="home">Dashboard</a>
       <a class="btn" href="#/team" data-nav="team">Team</a>
+      <a class="btn" href="#/documents" data-nav="documents">Documents</a>
       <a class="btn" href="#/about" data-nav="about">About this build</a>
       <a class="btn primary" href="#/new" data-nav="new">+ New task</a>
     </nav>
@@ -287,7 +318,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   function toast(msg){ var t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(function(){ t.hidden = true; }, 2600); }
 
   // ---------- State ----------
-  var S = { base: null, tasks: [], phases: [], labels: {}, milestones: {}, team: [], teamSha: "", attach: {}, owner: !!store(TOKEN_KEY), ui: { show: "open", phase: "", label: "", person: "", q: "", card: "" } };
+  var S = { base: null, tasks: [], phases: [], labels: {}, milestones: {}, team: [], teamSha: "", attach: {}, docs: [], docsSha: "", owner: !!store(TOKEN_KEY), ui: { show: "open", phase: "", label: "", person: "", q: "", card: "" } };
 
   // ---------- GitHub API (owner mode) ----------
   function gh(method, path, body){
@@ -326,12 +357,15 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       S.base = base; S.labels = base.labels;
       S.team = (demo().team || base.team || []).slice();
       S.attach = base.attachments || {};
+      S.docs = JSON.parse(JSON.stringify(demo().docs || base.documents || []));
       var dueByPhase = {}; base.phases.forEach(function(p){ dueByPhase[p.title] = p.due; });
       S.phases = base.phases.map(function(p){ return { title: p.title, due: p.due }; });
       if (S.owner){
         S.team = (base.team || []).slice();
         var team = gh("GET", "/contents/tracker/team.json?ref=main").then(function(f){ S.teamSha = f.sha; S.team = JSON.parse(fromB64(f.content)); }).catch(function(){ S.teamSha = ""; });
-        return Promise.all([ghAll("/issues?state=all"), ghAll("/milestones?state=all"), team]).then(function(res){
+        S.docs = JSON.parse(JSON.stringify(base.documents || []));
+        var docs = gh("GET", "/contents/tracker/documents.json?ref=main").then(function(f){ S.docsSha = f.sha; S.docs = JSON.parse(fromB64(f.content)); }).catch(function(){ S.docsSha = ""; });
+        return Promise.all([ghAll("/issues?state=all"), ghAll("/milestones?state=all"), team, docs]).then(function(res){
           var issues = res[0].filter(function(i){ return !i.pull_request; });
           S.milestones = {}; res[1].forEach(function(m){ S.milestones[m.title] = m.number; dueByPhase[m.title] = (m.due_on || "").slice(0,10); });
           S.phases = Object.keys(dueByPhase).map(function(t){ return { title: t, due: dueByPhase[t] }; });
@@ -473,6 +507,51 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     if (a.id){ d.files[n] = d.files[n].filter(function(x){ return x.id !== a.id; }); idbDo("readwrite", function(st){ return st.delete(a.id); }).catch(function(){}); }
     else (d.hidden = d.hidden || []).push(a.file);
     saveDemo(d); return addNote(n, note);
+  }
+
+  // ---------- Program documents (owner → tracker/documents.json + docs/documents/, demo → this browser) ----------
+  var DOC_KINDS = [["charter","Charter"],["plan","Program plan"],["schedule","Schedule"],["budget","Budget"],["risk","Risk register"],["comms","Communication plan"],["other","Other"]];
+  function docKindName(k){ return (DOC_KINDS.filter(function(x){ return x[0] === k; })[0] || [k, "Document"])[1]; }
+  function rawUrl(file){ return "https://raw.githubusercontent.com/" + REPO + "/main/docs/" + file.split("/").map(encodeURIComponent).join("/"); }
+  function resolveBlobs(ids){
+    var map = {};
+    return Promise.all(ids.map(function(id){ return idbDo("readonly", function(st){ return st.get(id); }).then(function(b){ if (b) map[id] = URL.createObjectURL(b); }).catch(function(){}); })).then(function(){ return map; });
+  }
+  function hrefFor(v, blobs){ return v.local ? (blobs[v.local] || "") : S.owner ? rawUrl(v.file) : v.file; }
+  function nextVersion(v){ var p = String(v || "0.0").split("."); return (+p[0] || 0) + "." + ((+p[1] || 0) + 1); }
+  function saveDocs(docs, msg){
+    var clean = docs.map(function(d){ var c = JSON.parse(JSON.stringify(d)); delete c.size; (c.history || []).forEach(function(h){ delete h.size; }); return c; });
+    if (S.owner){
+      return gh("PUT", "/contents/tracker/documents.json", { message: msg, content: toB64(JSON.stringify(clean, null, 2) + "\n"), sha: S.docsSha || undefined, branch: "main" })
+        .then(function(r){ S.docsSha = r.content.sha; S.docs = docs; })
+        .catch(function(ex){ throw new Error(/not accessible|Resource/.test(ex.message) ? "Your key can't save documents. Add Contents: Read and write to it." : ex.message); });
+    }
+    var d = demo(); d.docs = docs; saveDemo(d); S.docs = docs; return Promise.resolve();
+  }
+  function uploadDocFile(file, title, version){
+    if (file.size > MAX_MB * 1048576) return Promise.reject(new Error("That file is over " + MAX_MB + " MB. Try a smaller one."));
+    var ext = (/\.[A-Za-z0-9]{1,5}$/.exec(file.name) || [""])[0].toLowerCase();
+    var base = safeName(title).replace(/\.+$/, "") + "_v" + version;
+    if (S.owner){
+      return readB64(file).then(function(b64){
+        function put(name){ return gh("PUT", "/contents/docs/documents/" + encodeURIComponent(name), { message: "Upload " + title + " v" + version, content: b64, branch: "main" }).then(function(){ return { file: "documents/" + name, size: file.size }; }); }
+        return put(base + ext).catch(function(ex){ if (/sha/.test(ex.message)) return put(base + "_" + Date.now() + ext); throw ex; });
+      }).catch(function(ex){ throw new Error(/not accessible|Resource/.test(ex.message) ? "Your key can't upload files. Add Contents: Read and write to it." : ex.message); });
+    }
+    var id = "d" + Date.now() + Math.random().toString(36).slice(2, 7);
+    return idbDo("readwrite", function(st){ return st.put(file, id); }).then(function(){ return { local: id, file: base + ext, size: file.size }; })
+      .catch(function(){ throw new Error("This browser can't store files for the demo (private browsing blocks it)."); });
+  }
+  function copyDocs(){ return JSON.parse(JSON.stringify(S.docs)); }
+  function removeDocFiles(doc){
+    var vs = [doc].concat(doc.history || []);
+    if (!S.owner){ vs.forEach(function(v){ if (v.local) idbDo("readwrite", function(st){ return st.delete(v.local); }).catch(function(){}); }); return Promise.resolve(); }
+    return vs.reduce(function(chain, v){
+      return chain.then(function(){
+        var path = "/contents/docs/" + v.file.split("/").map(encodeURIComponent).join("/");
+        return gh("GET", path + "?ref=main").then(function(f){ return gh("DELETE", path, { message: "Remove " + doc.title + " v" + v.version, sha: f.sha, branch: "main" }); }).catch(function(){});
+      });
+    }, Promise.resolve());
   }
 
   // ---------- Shared bits ----------
@@ -862,6 +941,218 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     ].concat(groups.length ? groups : [el("p", { class: "empty", text: "No team members yet. Add the first one." })]), "Team");
   }
 
+  // ---------- View: documents ----------
+  function viewDocs(){
+    setNav("documents");
+    var ui = S.dui = S.dui || { status: "all", q: "", kind: "", phase: "", person: "" };
+    var hidden = demo().hidden || [], mine = demo().files || {};
+    // Every task attachment in one list
+    var all = [];
+    Object.keys(S.attach).forEach(function(n){ (S.attach[n] || []).forEach(function(a){ if (S.owner || hidden.indexOf(a.file) < 0) all.push(Object.assign({ task: n }, a)); }); });
+    if (!S.owner) Object.keys(mine).forEach(function(n){ (mine[n] || []).forEach(function(a){ all.push(Object.assign({ task: n }, a)); }); });
+    all.forEach(function(a){ var t = find(a.task) || {}; a.title = t.title || "Task #" + a.task; a.phase = t.phase || ""; a.owner = t.owner || ""; });
+    all.sort(function(a, b){ return (b.added || "").localeCompare(a.added || "") || a.task - b.task; });
+    var localIds = all.filter(function(a){ return a.id; }).map(function(a){ return a.id; });
+    S.docs.forEach(function(d){ [d].concat(d.history || []).forEach(function(v){ if (v.local) localIds.push(v.local); }); });
+
+    var approved = S.docs.filter(function(d){ return d.status === "approved"; }).length;
+    var formBox = el("div");
+    var docList = el("div", { class: "doclist" });
+    var attList = el("ul", { class: "files" });
+    var blobs = {};
+
+    function who(id){ var p = person(id); return p ? p.name : "Unassigned"; }
+    function done(msg){ toast(msg); viewDocs(); }
+    function fail(err, btn, text){ return function(ex){ err.textContent = ex.message; err.hidden = false; if (btn){ btn.disabled = false; btn.textContent = text; } }; }
+
+    function addForm(){
+      formBox.textContent = "";
+      var err = el("p", { class: "error", role: "alert", hidden: true });
+      var title = el("input", { type: "text", id: "d-title", maxlength: 100, autocomplete: "off" });
+      var kind = el("select", { id: "d-kind" }); DOC_KINDS.forEach(function(k){ kind.appendChild(el("option", { value: k[0], text: k[1] })); });
+      var owner = ownerSelect("d-owner", "", "Unassigned");
+      var status = el("select", { id: "d-status" }, [el("option", { value: "draft", text: "Draft (needs approval)" }), el("option", { value: "approved", text: "Approved" })]);
+      var approver = ownerSelect("d-approver", person("mokafor") ? "mokafor" : "", "Choose who approved it");
+      var apField = el("div", { class: "field", hidden: true }, [el("label", { for: "d-approver", text: "Approved by" }), approver]);
+      status.addEventListener("change", function(){ apField.hidden = status.value !== "approved"; });
+      var file = el("input", { type: "file", id: "d-file", accept: ".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.csv,.txt,.png,.jpg,.jpeg" });
+      var summary = el("input", { type: "text", id: "d-summary", maxlength: 160, placeholder: "One line on what it covers (optional)" });
+      var go = el("button", { type: "submit", class: "btn primary", text: "Add document" });
+      formBox.appendChild(el("div", { class: "sheet" }, [
+        el("div", { class: "eyebrow", text: "New program document" }),
+        el("form", { novalidate: true, onsubmit: function(e){
+          e.preventDefault(); err.hidden = true;
+          var f = file.files && file.files[0];
+          if (!title.value.trim()){ err.textContent = "Give the document a title."; err.hidden = false; title.focus(); return; }
+          if (!f){ err.textContent = "Choose the file to upload."; err.hidden = false; file.focus(); return; }
+          if (status.value === "approved" && !approver.value){ err.textContent = "Pick who approved it."; err.hidden = false; approver.focus(); return; }
+          var isApproved = status.value === "approved", version = isApproved ? "1.0" : "0.1", t = title.value.trim();
+          go.disabled = true; go.textContent = "Uploading…";
+          uploadDocFile(f, t, version).then(function(up){
+            var docs = copyDocs(), id = safeName(t).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "doc", n = 2;
+            while (docs.some(function(d){ return d.id === id; })) id = id.replace(/-\d+$/, "") + "-" + n++;
+            docs.push(Object.assign({ id: id, title: t, kind: kind.value, version: version, status: status.value, owner: owner.value, approvedBy: isApproved ? approver.value : "", approved: isApproved ? today() : "", updated: today(), summary: summary.value.trim(), history: [] }, up));
+            return saveDocs(docs, "Add " + t + " v" + version);
+          }).then(function(){ done(t + " added."); }).catch(fail(err, go, "Add document"));
+        } }, [
+          el("div", { class: "grid3" }, [
+            el("div", { class: "field" }, [el("label", { for: "d-title", text: "Title" }), title]),
+            el("div", { class: "field" }, [el("label", { for: "d-kind", text: "Type" }), kind]),
+            el("div", { class: "field" }, [el("label", { for: "d-owner", text: "Document owner" }), owner])
+          ]),
+          el("div", { class: "field" }, [el("label", { for: "d-summary", text: "Summary" }), summary]),
+          el("div", { class: "grid3" }, [
+            el("div", { class: "field" }, [el("label", { for: "d-status", text: "Status" }), status]),
+            apField,
+            el("div", { class: "field attach" }, [el("label", { for: "d-file", text: "File" }), file])
+          ]),
+          el("div", { class: "actions" }, [go, el("button", { type: "button", class: "btn", text: "Cancel", onclick: function(){ formBox.textContent = ""; } })]),
+          err
+        ])
+      ]));
+      formBox.style.marginBottom = "24px"; title.focus();
+    }
+
+    function docCard(d){
+      var area = el("div", { class: "dacts" });
+      var err = el("p", { class: "error", role: "alert", hidden: true });
+      function buttons(){
+        area.textContent = "";
+        if (d.status !== "approved") area.appendChild(el("button", { type: "button", class: "btn primary", text: "Approve", "aria-label": "Approve " + d.title, onclick: approveForm }));
+        area.appendChild(el("button", { type: "button", class: "btn", text: "New version", "aria-label": "Upload a new version of " + d.title, onclick: versionForm }));
+        area.appendChild(el("button", { type: "button", class: "btn danger", text: "Remove", "aria-label": "Remove " + d.title, onclick: function(e){
+          if (!window.confirm("Remove " + d.title + " and all its versions?")) return;
+          e.target.disabled = true;
+          removeDocFiles(d).then(function(){ return saveDocs(copyDocs().filter(function(x){ return x.id !== d.id; }), "Remove " + d.title); }).then(function(){ done(d.title + " removed."); }).catch(function(ex){ toast(ex.message); e.target.disabled = false; });
+        } }));
+      }
+      function approveForm(){
+        area.textContent = ""; err.hidden = true;
+        var sel = ownerSelect("ap-" + d.id, person("mokafor") ? "mokafor" : "", "Choose approver");
+        var go = el("button", { type: "button", class: "btn primary", text: "Confirm approval", onclick: function(){
+          if (!sel.value){ err.textContent = "Pick who is approving it."; err.hidden = false; sel.focus(); return; }
+          go.disabled = true;
+          var docs = copyDocs(), x = docs.filter(function(y){ return y.id === d.id; })[0];
+          x.status = "approved"; x.approvedBy = sel.value; x.approved = today();
+          saveDocs(docs, "Approve " + d.title + " v" + d.version).then(function(){ done(d.title + " approved."); }).catch(fail(err, go, "Confirm approval"));
+        } });
+        area.appendChild(el("label", { class: "sr", for: "ap-" + d.id, text: "Approved by" }));
+        area.appendChild(sel); area.appendChild(go);
+        area.appendChild(el("button", { type: "button", class: "btn", text: "Cancel", onclick: buttons }));
+        sel.focus();
+      }
+      function versionForm(){
+        area.textContent = ""; err.hidden = true;
+        var nv = nextVersion(d.version);
+        var file = el("input", { type: "file", id: "nv-" + d.id, accept: ".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.csv,.txt,.png,.jpg,.jpeg" });
+        var go = el("button", { type: "button", class: "btn primary", text: "Upload v" + nv, onclick: function(){
+          var f = file.files && file.files[0];
+          if (!f){ err.textContent = "Choose the new file first."; err.hidden = false; file.focus(); return; }
+          go.disabled = true; go.textContent = "Uploading…";
+          uploadDocFile(f, d.title, nv).then(function(up){
+            var docs = copyDocs(), x = docs.filter(function(y){ return y.id === d.id; })[0];
+            var old = { version: x.version, file: x.file, updated: x.updated, approved: x.approved, approvedBy: x.approvedBy, size: x.size };
+            if (x.local) old.local = x.local;
+            x.history = [old].concat(x.history || []);
+            delete x.local; delete x.size;
+            Object.assign(x, up, { version: nv, status: "draft", approved: "", approvedBy: "", updated: today() });
+            return saveDocs(docs, "Upload " + d.title + " v" + nv);
+          }).then(function(){ done(d.title + " v" + nv + " uploaded as a draft."); }).catch(fail(err, go, "Upload v" + nv));
+        } });
+        area.appendChild(el("span", { class: "attach" }, [el("label", { class: "sr", for: "nv-" + d.id, text: "New version file" }), file]));
+        area.appendChild(go);
+        area.appendChild(el("button", { type: "button", class: "btn", text: "Cancel", onclick: buttons }));
+        area.appendChild(el("span", { class: "hint", text: "New versions start as Draft and need approval again." }));
+      }
+      buttons();
+      var link = el("a", { class: "dtitle", target: "_blank", rel: "noopener", href: hrefFor(d, blobs), text: d.title });
+      var statusLine = d.status === "approved"
+        ? el("div", { class: "dstat" }, [el("span", { class: "chip st-Complete approved", text: "Approved" }), " by " + who(d.approvedBy) + " · " + niceDate(d.approved)])
+        : el("div", { class: "dstat" }, [el("span", { class: "chip st-Past", text: "Draft" }), " Waiting for approval"]);
+      var hist = null;
+      if ((d.history || []).length){
+        var hl = el("ul", { class: "hist" });
+        d.history.forEach(function(h){ hl.appendChild(el("li", {}, [el("a", { href: hrefFor(h, blobs), target: "_blank", rel: "noopener", text: "v" + h.version }), " · updated " + niceDate(h.updated) + (h.approved ? " · approved by " + who(h.approvedBy) + " " + niceDate(h.approved) : " · never approved")])); });
+        hist = el("details", { class: "dhist" }, [el("summary", { text: "Previous versions (" + d.history.length + ")" }), hl]);
+      }
+      return el("article", { class: "doc", "aria-label": d.title }, [
+        el("span", { class: "kind dk", text: docKindName(d.kind) }),
+        el("div", { class: "dmain" }, [
+          el("div", { class: "drow" }, [link, el("span", { class: "ver", text: "v" + d.version })]),
+          d.summary ? el("div", { class: "dsum", text: d.summary }) : null,
+          el("div", { class: "dmeta", text: "Owner: " + who(d.owner) + " · Updated " + niceDate(d.updated) + (d.size ? " · " + fileSize(d.size) : "") }),
+          statusLine, hist, area, err
+        ])
+      ]);
+    }
+    function drawDocs(){
+      docList.textContent = "";
+      var shown = S.docs.filter(function(d){ return ui.status === "all" || d.status === ui.status; });
+      if (!shown.length) docList.appendChild(el("p", { class: "empty", text: S.docs.length ? "No documents with that status." : "No program documents yet. Add the first one." }));
+      shown.forEach(function(d){ docList.appendChild(docCard(d)); });
+    }
+    function drawAtt(){
+      var q = ui.q.toLowerCase(); attList.textContent = "";
+      var shown = all.filter(function(a){
+        if (ui.kind && a.kind !== ui.kind) return false;
+        if (ui.phase && a.phase !== ui.phase) return false;
+        if (ui.person === "none" ? person(a.owner) : ui.person && a.owner !== ui.person) return false;
+        if (q && (a.name + " " + a.title + " " + who(a.owner)).toLowerCase().indexOf(q) < 0) return false;
+        return true;
+      });
+      $("attCount").textContent = shown.length === all.length ? all.length + " files" : shown.length + " of " + all.length + " files";
+      if (!shown.length) attList.appendChild(el("li", { class: "fnone", text: all.length ? "No files match. Try another filter." : "No task files yet. Attach one from any task page." }));
+      shown.forEach(function(a){
+        var href = a.id ? (blobs[a.id] || "") : S.owner ? rawUrl(a.file) : a.file;
+        attList.appendChild(el("li", {}, [
+          el("span", { class: "kind k-" + a.kind, text: kindName(a.kind) }),
+          el("span", { class: "fmain" }, [
+            el("a", { href: href, target: "_blank", rel: "noopener", text: a.name.replace(/_/g, " ") }),
+            el("small", {}, [el("a", { class: "tlink", href: "#/task/" + a.task, text: "#" + a.task + " " + a.title }), " · " + who(a.owner) + " · " + shortPhase(a.phase) + " · added " + niceDate(a.added) + (a.size ? " · " + fileSize(a.size) : "")])
+          ])
+        ]));
+      });
+    }
+
+    var seg = el("div", { class: "seg", role: "group", "aria-label": "Show documents" });
+    [["all","All"],["approved","Approved"],["draft","Draft"]].forEach(function(o){
+      seg.appendChild(el("button", { type: "button", "aria-pressed": String(ui.status === o[0]), text: o[1], onclick: function(){ ui.status = o[0]; Array.prototype.forEach.call(seg.children, function(b, i){ b.setAttribute("aria-pressed", String([["all"],["approved"],["draft"]][i][0] === ui.status)); }); drawDocs(); } }));
+    });
+    var kindF = el("select", { id: "attKind", onchange: function(e){ ui.kind = e.target.value; drawAtt(); } }, [el("option", { value: "", text: "All types" })]);
+    KINDS.forEach(function(k){ kindF.appendChild(el("option", { value: k[0], text: k[1], selected: ui.kind === k[0] })); });
+    var phaseF = el("select", { id: "attPhase", onchange: function(e){ ui.phase = e.target.value; drawAtt(); } }, [el("option", { value: "", text: "All phases" })]);
+    phaseStats().forEach(function(p){ phaseF.appendChild(el("option", { value: p.title, text: shortPhase(p.title), selected: ui.phase === p.title })); });
+    var personF = ownerSelect("attPerson", ui.person, "Everyone", true);
+    personF.addEventListener("change", function(e){ ui.person = e.target.value; drawAtt(); });
+    var search = el("input", { type: "search", id: "attSearch", placeholder: "Search files", value: ui.q, oninput: function(e){ ui.q = e.target.value; drawAtt(); } });
+
+    mount([
+      el("a", { class: "back", href: "#/", text: "← Back to dashboard" }),
+      el("div", { class: "row", style: "align-items:flex-end;flex-wrap:wrap;margin-bottom:20px" }, [
+        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? "Document register · saves to GitHub" : "Document register · demo" }),
+          el("h2", { class: "t", text: "Documents", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 4px" }),
+          el("p", { style: "margin:0;color:var(--muted)", text: S.docs.length + " program documents (" + approved + " approved, " + (S.docs.length - approved) + " draft) · " + all.length + " task files" })]),
+        (function(){ var b = el("button", { type: "button", class: "btn primary", text: "+ Add document", onclick: addForm }); b.style.marginLeft = "auto"; return b; })()
+      ]),
+      formBox,
+      el("section", { class: "dsec", "aria-label": "Program documents" }, [
+        el("div", { class: "shead" }, [el("h2", { text: "Program documents" }), seg]),
+        el("p", { class: "shint", text: "Documents for the whole study. Each has a version and a status, and new versions need approval again." }),
+        docList
+      ]),
+      el("section", { class: "dsec", "aria-label": "Task files" }, [
+        el("div", { class: "shead" }, [el("h2", { text: "Task files" }), el("span", { id: "attCount", class: "shint" })]),
+        el("p", { class: "shint", text: "Every report, memo, and voucher attached to a task, newest first." }),
+        el("div", { class: "tasks" }, [
+          el("div", { class: "toolbar" }, [el("label", { class: "sr", for: "attSearch", text: "Search files" }), search, el("label", { class: "sr", for: "attKind", text: "Filter by type" }), kindF, el("label", { class: "sr", for: "attPhase", text: "Filter by phase" }), phaseF, el("label", { class: "sr", for: "attPerson", text: "Filter by person" }), personF]),
+          attList
+        ])
+      ])
+    ], "Documents");
+    drawDocs(); drawAtt();
+    if (localIds.length) resolveBlobs(localIds).then(function(m){ blobs = m; drawDocs(); drawAtt(); });
+  }
+
   // ---------- View: about ----------
   function viewAbout(){
     setNav("about");
@@ -873,7 +1164,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       LINKEDIN ? el("a", { class: "btn", href: LINKEDIN, text: "LinkedIn" }) : null,
       el("a", { class: "btn", href: "https://github.com/" + REPO, text: "Source code" })
     ]);
-    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Team", "Each person's name, title, and department live in a team file in the repo; each task carries its assignee in a hidden note, so assignments survive in GitHub"], ["Attachments", "Reports, memos, and vouchers per task. Owner uploads are stored in the repo through the GitHub contents API; demo files stay in the visitor's browser (IndexedDB)"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
+    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Team", "Each person's name, title, and department live in a team file in the repo; each task carries its assignee in a hidden note, so assignments survive in GitHub"], ["Documents", "A document register: program documents with versions, version history, and Draft/Approved status with who approved and when; plus every task file in one searchable list"], ["Attachments", "Reports, memos, and vouchers per task. Owner uploads are stored in the repo through the GitHub contents API; demo files stay in the visitor's browser (IndexedDB)"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
     var table = el("table", { class: "simple" }, [el("tr", {}, [el("th", { text: "Layer" }), el("th", { text: "What it uses" })])]);
     rows.forEach(function(r){ table.appendChild(el("tr", {}, [el("td", {}, [el("b", { text: r[0] })]), el("td", { text: r[1] })])); });
     var ch = [["Couldn't create the planned GitHub organization (sign-in lockout)", "Built on the personal account instead, without waiting"], ["Push refused (HTTP 403)", "Granted the app access to the new repo and refreshed the connection"], ["Loading 55 tasks without setup work", "Moved loading into a GitHub Action that uses the repo's own token: one click, safe to repeat"], ["\"Up next\" showed tasks backwards", "GitHub returns newest first; sorted by task number"], ["Visitors shouldn't change real data", "Two modes: demo saves locally; owner mode needs a private key"], ["First demo data was too close to a real project", "Rebuilt with a fictional research study and a clean repository history, since edits leave the old text visible"]];
@@ -891,7 +1182,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       el("h3", { text: "Technology" }), table,
       el("h3", { text: "Challenges and fixes" }), ctable,
       el("h3", { text: "Try it" }),
-      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Attach a report, memo, or voucher to a task. Tasks #4, #5, and #17 already have sample documents." }), el("li", { text: "Reassign a task, or open the Team page to add someone and see who owns what." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
+      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Open Documents to see the program plan, budget, and schedule. Approve the draft risk register, or upload a new version and watch it go back to Draft." }), el("li", { text: "Attach a report, memo, or voucher to a task. Tasks #4, #5, and #17 already have sample documents." }), el("li", { text: "Reassign a task, or open the Team page to add someone and see who owns what." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
       el("p", { class: "hint", text: "Lanternfield Labs, Project Keystone, the study, the team, and the sample documents are fictional. They exist to demo the tracker with realistic data." })
     ])], "About this build");
   }
@@ -940,6 +1231,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     else if (h === "new") viewNew();
     else if (h === "about") viewAbout();
     else if (h === "team") viewTeam();
+    else if (h === "documents") viewDocs();
     else if (h === "owner") viewOwner();
     else viewHome();
     window.scrollTo(0, 0);

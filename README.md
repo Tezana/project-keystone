@@ -50,6 +50,7 @@ _Updated automatically Oct 10, 2026._
   - `decision`: needs a choice from the study lead. These show up in "Decisions waiting on you."
   - `writeup`: material for the final report or a paper.
 - **Every task has an owner.** The study team (name, job title, department) lives in `tracker/team.json`. Each issue stores its owner in a hidden line at the bottom of its description, like `<!-- keystone:owner=mokafor -->`. Assign or reassign people from the website, or on the **Team** page add, edit, and remove team members.
+- **Program documents** (charter, program plan, schedule, budget, risk register, communication plan) live on the website's **Documents** page. Each has a version, a version history, and a Draft or Approved status with who approved it and when. A new version always goes back to Draft. The register is `tracker/documents.json`; the files are in `docs/documents/`. The same page lists every task attachment with search and filters.
 - **Tasks can have attachments:** a report, memo, voucher, or other file. Attach them from a task's page on the website. Files are saved in `docs/attachments/task-N/`, and each upload or removal is logged as a comment on the issue.
 
 ## First-time setup (one time only)
@@ -68,4 +69,6 @@ _Updated automatically Oct 10, 2026._
 | `scripts/dashboard.py` | Draws the progress panel from live Issues |
 | `.github/workflows/` | The two automations that run those scripts |
 | `docs/` | The tracker website (`index.html`) and the data it reads (`data.json`) |
+| `tracker/documents.json` | The document register: version, status, owner, and approver for each program document |
+| `docs/documents/` | Program document files, including previous versions. The included ones are fictional samples. |
 | `docs/attachments/` | Files attached to tasks, one folder per task. The three included are fictional samples. |

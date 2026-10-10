@@ -1,0 +1,91 @@
+[
+  {
+    "id": "charter",
+    "title": "Study charter",
+    "kind": "charter",
+    "version": "1.0",
+    "status": "approved",
+    "owner": "mokafor",
+    "approvedBy": "mokafor",
+    "approved": "2026-09-05",
+    "updated": "2026-09-05",
+    "file": "documents/Study_charter_v1.0.pdf",
+    "summary": "Purpose, objectives, scope, roles, and success criteria for the study.",
+    "history": []
+  },
+  {
+    "id": "plan",
+    "title": "Program plan",
+    "kind": "plan",
+    "version": "1.2",
+    "status": "approved",
+    "owner": "smarchetti",
+    "approvedBy": "mokafor",
+    "approved": "2026-10-02",
+    "updated": "2026-10-01",
+    "file": "documents/Program_plan_v1.2.pdf",
+    "summary": "Phases, governance, decision rights, change control, and document control.",
+    "history": [
+      {"version": "1.1", "file": "documents/Program_plan_v1.1.pdf", "updated": "2026-09-27", "approved": "2026-09-28", "approvedBy": "mokafor"},
+      {"version": "1.0", "file": "documents/Program_plan_v1.0.pdf", "updated": "2026-09-07", "approved": "2026-09-08", "approvedBy": "mokafor"}
+    ]
+  },
+  {
+    "id": "schedule",
+    "title": "Master schedule",
+    "kind": "schedule",
+    "version": "2.0",
+    "status": "approved",
+    "owner": "smarchetti",
+    "approvedBy": "mokafor",
+    "approved": "2026-10-06",
+    "updated": "2026-10-05",
+    "file": "documents/Master_schedule_v2.0.pdf",
+    "summary": "Start and finish dates for each phase, key milestones, and the critical path.",
+    "history": [
+      {"version": "1.0", "file": "documents/Master_schedule_v1.0.pdf", "updated": "2026-09-07", "approved": "2026-09-08", "approvedBy": "mokafor"}
+    ]
+  },
+  {
+    "id": "budget",
+    "title": "Study budget",
+    "kind": "budget",
+    "version": "1.1",
+    "status": "approved",
+    "owner": "smarchetti",
+    "approvedBy": "mokafor",
+    "approved": "2026-09-22",
+    "updated": "2026-09-21",
+    "file": "documents/Study_budget_v1.1.pdf",
+    "summary": "$184,250 total across eight budget lines, including 10 percent contingency.",
+    "history": []
+  },
+  {
+    "id": "risks",
+    "title": "Risk register",
+    "kind": "risk",
+    "version": "0.3",
+    "status": "draft",
+    "owner": "smarchetti",
+    "approvedBy": "",
+    "approved": "",
+    "updated": "2026-10-07",
+    "file": "documents/Risk_register_v0.3.pdf",
+    "summary": "Five study risks with likelihood, impact, owner, and response.",
+    "history": []
+  },
+  {
+    "id": "comms",
+    "title": "Communication plan",
+    "kind": "comms",
+    "version": "0.2",
+    "status": "draft",
+    "owner": "smarchetti",
+    "approvedBy": "",
+    "approved": "",
+    "updated": "2026-10-08",
+    "file": "documents/Communication_plan_v0.2.pdf",
+    "summary": "Meetings, reports, and who hears what, when.",
+    "history": []
+  }
+]
