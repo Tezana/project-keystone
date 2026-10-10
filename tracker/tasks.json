@@ -129,7 +129,10 @@
       ],
       "title": "Draft the study budget",
       "owner": "smarchetti",
-      "body": "Covers sensors, lab assays, participant reimbursement, and staff time."
+      "body": "Covers sensors, lab assays, participant reimbursement, and staff time.",
+      "after": [
+        4
+      ]
     },
     {
       "phase": "P0",
@@ -160,7 +163,10 @@
       ],
       "title": "Write the one-page study summary",
       "owner": "mokafor",
-      "body": "Plain-language summary for the team and the ethics board."
+      "body": "Plain-language summary for the team and the ethics board.",
+      "after": [
+        3
+      ]
     },
     {
       "phase": "P0",
@@ -180,7 +186,12 @@
       ],
       "title": "Submit the protocol to the ethics board (IRB)",
       "owner": "glin",
-      "body": "Include the protocol, consent form, recruitment flyer, and data security plan."
+      "body": "Include the protocol, consent form, recruitment flyer, and data security plan.",
+      "after": [
+        8,
+        17,
+        19
+      ]
     },
     {
       "phase": "P1",
@@ -190,7 +201,10 @@
       ],
       "title": "Respond to ethics board questions",
       "owner": "glin",
-      "body": "Track each question and the change made in response."
+      "body": "Track each question and the change made in response.",
+      "after": [
+        10
+      ]
     },
     {
       "phase": "P1",
@@ -200,7 +214,10 @@
       ],
       "title": "Register the study on a public trial registry",
       "owner": "glin",
-      "body": "Required before the first participant is enrolled."
+      "body": "Required before the first participant is enrolled.",
+      "after": [
+        10
+      ]
     },
     {
       "phase": "P1",
@@ -253,7 +270,10 @@
       ],
       "title": "Confirm inclusion and exclusion criteria",
       "owner": "mokafor",
-      "body": "Healthy adults 18 to 65; exclude kidney disease and recent illness."
+      "body": "Healthy adults 18 to 65; exclude kidney disease and recent illness.",
+      "after": [
+        3
+      ]
     },
     {
       "phase": "P2",
@@ -275,7 +295,11 @@
       ],
       "title": "Write the informed consent form",
       "owner": "dreyes",
-      "body": "Plain language, eighth-grade reading level, with a short summary on page one."
+      "body": "Plain language, eighth-grade reading level, with a short summary on page one.",
+      "after": [
+        17,
+        18
+      ]
     },
     {
       "phase": "P2",
@@ -285,7 +309,11 @@
       ],
       "title": "Build the case report forms",
       "owner": "tadeyemi",
-      "body": "One form per visit: vitals, sensor readings, sample times, notes."
+      "body": "One form per visit: vitals, sensor readings, sample times, notes.",
+      "after": [
+        9,
+        23
+      ]
     },
     {
       "phase": "P2",
@@ -296,7 +324,10 @@
       ],
       "title": "Write the sensor calibration procedure",
       "owner": "mbell",
-      "body": "Step-by-step, with a pass/fail check before each visit."
+      "body": "Step-by-step, with a pass/fail check before each visit.",
+      "after": [
+        6
+      ]
     },
     {
       "phase": "P2",
@@ -306,7 +337,11 @@
       ],
       "title": "Draft the recruitment flyer and screening script",
       "owner": "pnatarajan",
-      "body": "Both go to the ethics board with the protocol."
+      "body": "Both go to the ethics board with the protocol.",
+      "after": [
+        4,
+        17
+      ]
     },
     {
       "phase": "P2",
@@ -328,7 +363,10 @@
       ],
       "title": "Choose the data capture platform",
       "owner": "tadeyemi",
-      "body": "Compare cost, audit trail, and ease of use for coordinators."
+      "body": "Compare cost, audit trail, and ease of use for coordinators.",
+      "after": [
+        23
+      ]
     },
     {
       "phase": "P3",
@@ -360,7 +398,10 @@
       ],
       "title": "Calibrate the study sensors",
       "owner": "mbell",
-      "body": "All 12 sensors pass the calibration check."
+      "body": "All 12 sensors pass the calibration check.",
+      "after": [
+        21
+      ]
     },
     {
       "phase": "P3",
@@ -380,7 +421,11 @@
       ],
       "title": "Train the study coordinators",
       "owner": "smarchetti",
-      "body": "Consent process, visit steps, and data entry."
+      "body": "Consent process, visit steps, and data entry.",
+      "after": [
+        19,
+        21
+      ]
     },
     {
       "phase": "P3",
@@ -390,7 +435,10 @@
       ],
       "title": "Set up the secure study database",
       "owner": "tadeyemi",
-      "body": "Coded participant IDs only; access limited to the study team."
+      "body": "Coded participant IDs only; access limited to the study team.",
+      "after": [
+        24
+      ]
     },
     {
       "phase": "P3",
@@ -401,7 +449,13 @@
       ],
       "title": "Run a full dry run with two volunteers",
       "owner": "dreyes",
-      "body": "Time each step and fix anything confusing before real visits."
+      "body": "Time each step and fix anything confusing before real visits.",
+      "after": [
+        27,
+        28,
+        29,
+        30
+      ]
     },
     {
       "phase": "P4",
@@ -411,7 +465,11 @@
       ],
       "title": "Open recruitment",
       "owner": "pnatarajan",
-      "body": "Post flyers and start the screening line. Target: 60 enrolled."
+      "body": "Post flyers and start the screening line. Target: 60 enrolled.",
+      "after": [
+        11,
+        22
+      ]
     },
     {
       "phase": "P4",
@@ -432,7 +490,11 @@
       ],
       "title": "Enroll the first participant",
       "owner": "dreyes",
-      "body": "Full visit with the study lead present."
+      "body": "Full visit with the study lead present.",
+      "after": [
+        31,
+        32
+      ]
     },
     {
       "phase": "P4",
@@ -574,7 +636,10 @@
       ],
       "title": "Lock the study database",
       "owner": "tadeyemi",
-      "body": "No changes after lock without a documented reason."
+      "body": "No changes after lock without a documented reason.",
+      "after": [
+        47
+      ]
     },
     {
       "phase": "P5",
@@ -584,7 +649,10 @@
       ],
       "title": "Run the statistical analysis plan",
       "owner": "hkowalski",
-      "body": "Follow the plan written before the data was unblinded."
+      "body": "Follow the plan written before the data was unblinded.",
+      "after": [
+        48
+      ]
     },
     {
       "phase": "P5",
@@ -595,7 +663,10 @@
       ],
       "title": "Run the agreement analysis",
       "owner": "hkowalski",
-      "body": "Bland-Altman plot and limits of agreement between sensor and lab."
+      "body": "Bland-Altman plot and limits of agreement between sensor and lab.",
+      "after": [
+        48
+      ]
     },
     {
       "phase": "P5",
@@ -606,7 +677,11 @@
       ],
       "title": "Write the study report",
       "owner": "hkowalski",
-      "body": "Methods, results, limitations, and plain-language summary."
+      "body": "Methods, results, limitations, and plain-language summary.",
+      "after": [
+        49,
+        50
+      ]
     },
     {
       "phase": "P5",
@@ -616,7 +691,10 @@
       ],
       "title": "Hold an internal review of the findings",
       "owner": "mokafor",
-      "body": "Team reads the report and challenges the conclusions."
+      "body": "Team reads the report and challenges the conclusions.",
+      "after": [
+        51
+      ]
     },
     {
       "phase": "P5",
@@ -627,7 +705,10 @@
       ],
       "title": "Decide whether to submit to a journal",
       "owner": "mokafor",
-      "body": "Depends on results strength and the sponsor agreement."
+      "body": "Depends on results strength and the sponsor agreement.",
+      "after": [
+        52
+      ]
     },
     {
       "phase": "P5",
@@ -637,7 +718,10 @@
       ],
       "title": "Present results to the team",
       "owner": "smarchetti",
-      "body": "30-minute briefing with questions."
+      "body": "30-minute briefing with questions.",
+      "after": [
+        52
+      ]
     },
     {
       "phase": "P5",
@@ -647,7 +731,10 @@
       ],
       "title": "Archive the data and close the study",
       "owner": "glin",
-      "body": "Notify the ethics board and archive records per the retention policy."
+      "body": "Notify the ethics board and archive records per the retention policy.",
+      "after": [
+        54
+      ]
     }
   ]
 }

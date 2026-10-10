@@ -316,6 +316,67 @@ table.simple.rtable{font-size:14px}
   .rbar{height:6px}
 }
 
+/* Menu */
+nav{position:relative;align-items:center}
+.menu{position:relative}
+.burger{display:inline-flex;flex-direction:column;gap:3px;width:16px}
+.burger i{display:block;height:2px;border-radius:1px;background:currentColor}
+#menuBtn.is-current{border-color:var(--ink)}
+.menu-panel{position:absolute;right:0;top:calc(100% + 8px);z-index:30;width:300px;max-width:calc(100vw - 32px);background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.16);padding:6px}
+.menu-panel a{display:flex;flex-direction:column;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--ink)}
+.menu-panel a:hover,.menu-panel a:focus-visible{background:var(--bg)}
+.menu-panel a[aria-current="page"]{background:var(--accent-soft)}
+.menu-panel b{font-size:15px;font-weight:600}
+.menu-panel span{font-size:13px;color:var(--faint)}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--danger);color:#fff;font-size:12px;font-weight:700}
+@media (max-width:600px){nav{width:100%}.menu{position:static}.menu-panel{left:0;right:0;width:auto;max-width:none}}
+
+/* Dashboard panels */
+.dash{columns:3 300px;column-gap:20px}
+.dash>section{break-inside:avoid;margin-bottom:20px;display:block}
+.bmini{display:flex;flex-direction:column;align-items:center;gap:10px}
+.bmini .legend li{font-size:13px;padding:3px 0}
+.bwarn{margin:10px 0 0;font-size:13px}
+.panel .rflag{margin:0}
+.mini-msgs{list-style:none!important;padding:0!important;margin:0 0 6px!important}
+.mini-msgs li{margin:0!important;padding:8px 0 8px 12px;border-left:3px solid transparent;font-size:14px}
+.mini-msgs li.unread{border-left-color:var(--accent)}
+.mini-msgs b{display:block;font-size:12px;color:var(--faint);font-weight:600}
+
+
+/* Task links */
+.chip.wait{background:var(--late-soft);color:var(--late);font-weight:600}
+.dchips{display:flex;flex-wrap:wrap;gap:6px}
+.dchip{display:inline-flex;align-items:center;gap:4px;font-size:13px;border:1px solid var(--line);border-radius:999px;padding:3px 4px 3px 10px;background:var(--bg)}
+.dchip.ok{color:var(--muted)}
+.dchip button{all:unset;cursor:pointer;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;font-size:16px;color:var(--muted)}
+.dchip button:hover{background:var(--line);color:var(--ink)}
+.dep-err:not(:empty){color:var(--danger)}
+.deps{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:14px 0 4px;display:grid;gap:10px}
+.deps h3{font-size:12px;font-family:"IBM Plex Mono",monospace;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+.deps ul{list-style:none;margin:0;padding:0}
+.deps li{margin:4px 0;font-size:14px}
+.deps a{font-weight:500}
+.dstate{display:inline-block;min-width:58px;font-size:12px;font-weight:600;margin-right:6px}
+.dstate.ok{color:var(--muted)}
+.dstate.open{color:var(--late)}
+.blocked{margin:0;padding:8px 12px;border-radius:8px;background:var(--late-soft);font-size:14px}
+.blocked .ri{color:var(--warn)}
+
+/* Messages */
+.msgs{list-style:none;margin:0;padding:0}
+.msgs>li{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-bottom:1px solid var(--line)}
+.msgs>li:last-child{border-bottom:0}
+.msgs .dot{flex:none;width:8px;height:8px;border-radius:50%;margin-top:14px;background:transparent}
+.msgs li.unread .dot{background:var(--accent)}
+.msgs li.unread .mhead b{font-weight:700}
+.mbody{flex:1;min-width:0}
+.mhead{font-size:14px}
+.mhead span{color:var(--faint)}
+.mbody p{margin:4px 0 8px;font-size:15px}
+.macts{display:flex;flex-wrap:wrap;gap:8px}
+.macts .btn{min-height:36px;padding:0 12px;font-size:13px}
+
 /* Team page */
 .dept{margin-bottom:26px}
 .people{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
@@ -389,11 +450,18 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     </div>
     <nav aria-label="Main">
       <a class="btn" href="#/" data-nav="home">Dashboard</a>
-      <a class="btn" href="#/team" data-nav="team">Team</a>
-      <a class="btn" href="#/documents" data-nav="documents">Documents</a>
-      <a class="btn" href="#/budget" data-nav="budget">Budget</a>
-      <a class="btn" href="#/report" data-nav="report">Report</a>
-      <a class="btn" href="#/about" data-nav="about">About this build</a>
+      <a class="btn" href="#/messages" data-nav="messages" id="msgLink">Messages <span class="badge" id="msgBadge" hidden></span></a>
+      <div class="menu">
+        <button type="button" class="btn" id="menuBtn" aria-expanded="false" aria-controls="menuPanel"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>Menu</button>
+        <div class="menu-panel" id="menuPanel" hidden>
+          <a href="#/tasks" data-nav="tasks"><b>Tasks</b><span>Every task, with filters</span></a>
+          <a href="#/team" data-nav="team"><b>Team</b><span>People, titles, and departments</span></a>
+          <a href="#/documents" data-nav="documents"><b>Documents</b><span>Program documents and task files</span></a>
+          <a href="#/budget" data-nav="budget"><b>Budget</b><span>Spending against the approved budget</span></a>
+          <a href="#/report" data-nav="report"><b>Progress report</b><span>Status snapshot for stakeholders</span></a>
+          <a href="#/about" data-nav="about"><b>About this build</b><span>How it works, and the build history</span></a>
+        </div>
+      </div>
       <a class="btn primary" href="#/new" data-nav="new">+ New task</a>
     </nav>
   </header>
@@ -415,7 +483,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   var API = "https://api.github.com";
   var DEMO_KEY = "keystone-demo-v1", TOKEN_KEY = "keystone-owner-token";
   // Hidden markers in each issue body hold the due date and the person assigned
-  var MARK_RE = /\n?<!-- keystone:(due|owner)=([\w-]+) -->/g;
+  var MARK_RE = /\n?<!-- keystone:(due|owner|after)=([\w,-]+) -->/g;
 
   // ---------- Small helpers ----------
   function $(id){ return document.getElementById(id); }
@@ -443,15 +511,16 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   function shortPhase(t){ return ((t || "").split(":")[1] || t || "No phase").trim(); }
   function splitBody(body){
     var out = { due: "", owner: "" };
-    out.text = (body || "").replace(MARK_RE, function(_, k, v){ out[k] = v; return ""; }).trim();
+    out.text = (body || "").replace(MARK_RE, function(_, k, v){ out[k] = k === "after" ? v.split(",").map(Number).filter(Boolean) : v; return ""; }).trim();
+    out.after = out.after || [];
     return out;
   }
-  function joinBody(text, due, owner){ return (text || "").trim() + (due ? "\n\n<!-- keystone:due=" + due + " -->" : "") + (owner ? "\n<!-- keystone:owner=" + owner + " -->" : ""); }
+  function joinBody(text, m){ m = m || {}; return (text || "").trim() + (m.due ? "\n\n<!-- keystone:due=" + m.due + " -->" : "") + (m.owner ? "\n<!-- keystone:owner=" + m.owner + " -->" : "") + (m.after && m.after.length ? "\n<!-- keystone:after=" + m.after.join(",") + " -->" : ""); }
   function initials(name){ return (name || "?").replace(/^Dr\.?\s+/i, "").split(/\s+/).map(function(w){ return w[0]; }).slice(0,2).join("").toUpperCase(); }
   function toast(msg){ var t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(function(){ t.hidden = true; }, 2600); }
 
   // ---------- State ----------
-  var S = { base: null, tasks: [], phases: [], labels: {}, milestones: {}, team: [], teamSha: "", attach: {}, docs: [], docsSha: "", budget: null, budgetSha: "", owner: !!store(TOKEN_KEY), ui: { show: "open", phase: "", label: "", person: "", q: "", card: "" } };
+  var S = { base: null, tasks: [], phases: [], labels: {}, milestones: {}, team: [], teamSha: "", attach: {}, docs: [], docsSha: "", budget: null, budgetSha: "", msgs: [], msgsSha: "", owner: !!store(TOKEN_KEY), ui: { show: "open", phase: "", label: "", person: "", q: "", card: "" } };
 
   // ---------- GitHub API (owner mode) ----------
   function gh(method, path, body){
@@ -472,7 +541,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   }
   function fromIssue(i){
     var b = splitBody(i.body);
-    return { number: i.number, title: i.title, state: i.state, reason: i.state_reason || "", phase: i.milestone ? i.milestone.title : "", labels: i.labels.map(function(l){ return l.name; }), body: b.text, due: b.due, owner: b.owner, closed: (i.closed_at || "").slice(0,10), created: (i.created_at || "").slice(0,10), comments: i.comments || 0 };
+    return { number: i.number, title: i.title, state: i.state, reason: i.state_reason || "", phase: i.milestone ? i.milestone.title : "", labels: i.labels.map(function(l){ return l.name; }), body: b.text, due: b.due, owner: b.owner, after: b.after, closed: (i.closed_at || "").slice(0,10), created: (i.created_at || "").slice(0,10), comments: i.comments || 0 };
   }
 
   // ---------- Demo overlay (visitor's browser only) ----------
@@ -492,6 +561,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       S.attach = base.attachments || {};
       S.docs = JSON.parse(JSON.stringify(demo().docs || base.documents || []));
       S.budget = JSON.parse(JSON.stringify(demo().budget || base.budget || null));
+      S.msgs = JSON.parse(JSON.stringify(demo().msgs || base.messages || []));
       var dueByPhase = {}; base.phases.forEach(function(p){ dueByPhase[p.title] = p.due; });
       S.phases = base.phases.map(function(p){ return { title: p.title, due: p.due }; });
       if (S.owner){
@@ -501,7 +571,9 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
         var docs = gh("GET", "/contents/tracker/documents.json?ref=main").then(function(f){ S.docsSha = f.sha; S.docs = JSON.parse(fromB64(f.content)); }).catch(function(){ S.docsSha = ""; });
         S.budget = JSON.parse(JSON.stringify(base.budget || null));
         var budget = gh("GET", "/contents/tracker/budget.json?ref=main").then(function(f){ S.budgetSha = f.sha; S.budget = JSON.parse(fromB64(f.content)); }).catch(function(){ S.budgetSha = ""; });
-        return Promise.all([ghAll("/issues?state=all"), ghAll("/milestones?state=all"), team, docs, budget]).then(function(res){
+        S.msgs = JSON.parse(JSON.stringify(base.messages || []));
+        var msgs = gh("GET", "/contents/tracker/messages.json?ref=main").then(function(f){ S.msgsSha = f.sha; S.msgs = JSON.parse(fromB64(f.content)); }).catch(function(){ S.msgsSha = ""; });
+        return Promise.all([ghAll("/issues?state=all"), ghAll("/milestones?state=all"), team, docs, budget, msgs]).then(function(res){
           var issues = res[0].filter(function(i){ return !i.pull_request; });
           S.milestones = {}; res[1].forEach(function(m){ S.milestones[m.title] = m.number; dueByPhase[m.title] = (m.due_on || "").slice(0,10); });
           S.phases = Object.keys(dueByPhase).map(function(t){ return { title: t, due: dueByPhase[t] }; });
@@ -511,7 +583,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       S.tasks = applyDemo(base.tasks.map(baseTask));
     });
   }
-  function baseTask(t){ var b = splitBody(t.body); return { number: t.number, title: t.title, state: t.state, reason: t.reason || "", phase: t.phase, labels: t.labels, body: b.text, due: b.due, owner: b.owner, closed: t.closed, created: t.created || "" }; }
+  function baseTask(t){ var b = splitBody(t.body); return { number: t.number, title: t.title, state: t.state, reason: t.reason || "", phase: t.phase, labels: t.labels, body: b.text, due: b.due, owner: b.owner, after: b.after, closed: t.closed, created: t.created || "" }; }
 
   function phaseStats(){
     var live = S.tasks.filter(function(t){ return t.reason !== "not_planned"; });
@@ -530,7 +602,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     if (S.owner){
       var payload = {};
       if ("title" in changes) payload.title = changes.title;
-      if ("body" in changes || "due" in changes || "owner" in changes) payload.body = joinBody("body" in changes ? changes.body : t.body, "due" in changes ? changes.due : t.due, "owner" in changes ? changes.owner : t.owner);
+      if ("body" in changes || "due" in changes || "owner" in changes || "after" in changes) payload.body = joinBody("body" in changes ? changes.body : t.body, { due: "due" in changes ? changes.due : t.due, owner: "owner" in changes ? changes.owner : t.owner, after: "after" in changes ? changes.after : t.after });
       if ("labels" in changes) payload.labels = changes.labels;
       if ("phase" in changes) payload.milestone = S.milestones[changes.phase] || null;
       if ("state" in changes){ payload.state = changes.state; if (changes.state === "closed") payload.state_reason = changes.reason || "completed"; }
@@ -543,12 +615,12 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   }
   function createTask(f){
     if (S.owner){
-      return gh("POST", "/issues", { title: f.title, body: joinBody(f.body, f.due, f.owner), labels: f.labels, milestone: S.milestones[f.phase] || undefined })
+      return gh("POST", "/issues", { title: f.title, body: joinBody(f.body, { due: f.due, owner: f.owner, after: f.after }), labels: f.labels, milestone: S.milestones[f.phase] || undefined })
         .then(function(i){ var t = fromIssue(i); S.tasks.push(t); return t.number; });
     }
     var d = demo(); var maxN = S.tasks.reduce(function(m,t){ return Math.max(m, +t.number || 0); }, 0);
     var n = Math.max(maxN, d.next || 0) + 1; d.next = n;
-    var t = { number: n, title: f.title, state: "open", reason: "", phase: f.phase, labels: f.labels, body: f.body, due: f.due, owner: f.owner, closed: "", created: today(), demo: true };
+    var t = { number: n, title: f.title, state: "open", reason: "", phase: f.phase, labels: f.labels, body: f.body, due: f.due, owner: f.owner, after: f.after || [], closed: "", created: today(), demo: true };
     d.created.push(t); saveDemo(d); S.tasks.push(Object.assign({}, t));
     return Promise.resolve(n);
   }
@@ -753,65 +825,129 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       b.appendChild(el("button", { type: "button", class: "linkbtn", text: "Reset demo", onclick: function(){ saveDemo(null); store(DEMO_KEY, null); idbDo("readwrite", function(st){ return st.clear(); }).catch(function(){}); boot("Demo reset."); } }));
     }
   }
-  function setNav(which){ document.querySelectorAll("[data-nav]").forEach(function(a){ if (a.getAttribute("data-nav") === which) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); }); }
+  function setNav(which){
+    document.querySelectorAll("[data-nav]").forEach(function(a){ if (a.getAttribute("data-nav") === which) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+    var inMenu = !!document.querySelector('#menuPanel [data-nav="' + which + '"]'), mb = $("menuBtn");
+    if (mb){ mb.classList.toggle("is-current", inMenu); var cur = document.querySelector('#menuPanel [aria-current="page"] b'); mb.lastChild.textContent = inMenu && cur ? cur.textContent : "Menu"; }
+  }
   function mount(nodes, title){ var v = $("view"); v.textContent = ""; nodes.forEach(function(n){ if (n) v.appendChild(n); }); document.title = (title ? title + " · " : "") + "Project Keystone Tracker"; }
 
-  // ---------- View: dashboard ----------
-  function viewHome(){
-    setNav("home");
-    var ph = phaseStats(), ui = S.ui;
-    var live = S.tasks.filter(function(t){ return t.reason !== "not_planned"; });
-    var done = live.filter(function(t){ return t.state === "closed"; }).length;
-    var pct = live.length ? Math.round(100 * done / live.length) : 0;
-    var next = ph.filter(function(p){ return p.done < p.total; }).sort(function(a,b){ return (a.due||"9999").localeCompare(b.due||"9999"); })[0];
-    var decisions = live.filter(function(t){ return t.state === "open" && t.labels.indexOf("decision") > -1; });
-    var nd = next ? daysUntil(next.due) : null;
-
-    // Each summary box is a shortcut: it filters the task list and scrolls to it.
-    function statCard(key, label, filter, kids){
-      var active = ui.card === key;
-      return el("button", { type: "button", class: "stat", "aria-pressed": String(active), "aria-label": label + ": show these tasks", onclick: function(){
-        if (ui.card === key){ ui.card = ""; ui.show = "open"; ui.phase = ""; ui.label = ""; ui.person = ""; ui.q = ""; }
-        else { ui.card = key; ui.q = ""; Object.assign(ui, filter); }
-        viewHome();
-        var t = $("taskSection"); if (t){ t.scrollIntoView({ behavior: "smooth", block: "start" }); t.focus({ preventScroll: true }); }
-      } }, kids.concat([el("div", { class: "go", "aria-hidden": "true", text: active ? "Showing ✓" : "View list →" })]));
-    }
-    var stats = el("section", { class: "stats", "aria-label": "Summary" }, [
-      statCard("all", "Overall progress", { show: "all", phase: "", label: "", person: "" }, [el("div", { class: "k", text: "Overall progress" }), el("div", { class: "v", text: pct + "%" }), (function(){ var b = el("div", { class: "bar" }, [el("span")]); b.style.marginTop = "10px"; b.firstChild.style.width = pct + "%"; return b; })()]),
-      statCard("done", "Tasks done", { show: "done", phase: "", label: "", person: "" }, [el("div", { class: "k", text: "Tasks done" }), el("div", { class: "v", text: done + " / " + live.length }), el("div", { class: "s", text: (live.length - done) + " still open" })]),
-      statCard("deadline", "Next deadline", { show: "open", phase: next ? next.title : "", label: "", person: "" }, [el("div", { class: "k", text: "Next deadline" }), el("div", { class: "v", text: next ? (nd < 0 ? Math.abs(nd) + " days late" : nd === 0 ? "Today" : nd + " days") : "All clear" }), el("div", { class: "s", text: next ? next.title + " · " + niceDate(next.due) : "" })]),
-      statCard("decisions", "Decisions waiting", { show: "open", phase: "", label: "decision", person: "" }, [el("div", { class: "k", text: "Decisions waiting" }), el("div", { class: "v", text: String(decisions.length) }), el("div", { class: "s", text: "Need a choice from the study lead" })])
-    ]);
-
-    var cards = el("div", { class: "phases" });
-    ph.forEach(function(p){
-      var frac = p.total ? p.done / p.total : 0;
-      var bar = el("div", { class: "bar" }, [el("span")]); bar.firstChild.style.width = (frac * 100) + "%";
-      cards.appendChild(el("button", { type: "button", class: "phase" + (p.status === "Past due" ? " is-late" : "") + (p.status === "Complete" ? " is-done" : ""), "aria-pressed": String(ui.phase === p.title), onclick: function(){ ui.card = ""; ui.phase = ui.phase === p.title ? "" : p.title; viewHome(); } }, [
-        el("div", { class: "top" }, [el("div", {}, [el("div", { class: "name", text: p.title }), el("div", { class: "due", text: "Due " + niceDate(p.due) })]), el("span", { class: "chip " + stClass(p.status), text: p.status })]),
-        bar,
-        el("div", { class: "count" }, [el("span", { text: p.done + " of " + p.total + " done" }), el("span", { text: Math.round(frac * 100) + "%" })])
-      ]));
+  // ---------- Shared chart bits ----------
+  function makeTip(){
+    var tip = el("div", { class: "vtip", role: "tooltip", hidden: true });
+    tip.show = function(e, rows){ tip.textContent = ""; rows.forEach(function(r, i){ tip.appendChild(el(i ? "div" : "b", { text: r })); }); tip.hidden = false; var x = e.clientX + 14, y = e.clientY + 14, w = tip.offsetWidth, h = tip.offsetHeight; if (x + w > innerWidth - 8) x = e.clientX - w - 14; if (y + h > innerHeight - 8) y = e.clientY - h - 14; tip.style.left = x + "px"; tip.style.top = y + "px"; };
+    tip.hide = function(){ tip.hidden = true; };
+    return tip;
+  }
+  // Donut of spending by budget line (<= 6 segments). Colors go out in the palette's validated order,
+  // so neighbouring slices and the wrap-around pair always pass the colorblind check.
+  function donutChart(st, tip, size){
+    var parts = st.lines.filter(function(l){ return l.spent > 0; });
+    if (parts.length > 6){ var keep = parts.slice().sort(function(a, b){ return b.spent - a.spent; }).slice(0, 5); var rest = parts.filter(function(p){ return keep.indexOf(p) < 0; }); parts = keep.sort(function(a, b){ return a.slot - b.slot; }).concat([{ name: "Other (" + rest.length + " lines)", spent: rest.reduce(function(a, p){ return a + p.spent; }, 0), slot: -1 }]); }
+    parts.forEach(function(p, i){ p.cls = p.slot < 0 ? "cx" : "c" + (i + 1); });
+    var NS = "http://www.w3.org/2000/svg", R = 78, W = 30, C = 100;
+    var svg = document.createElementNS(NS, "svg"); svg.setAttribute("viewBox", "0 0 200 200"); svg.setAttribute("class", "donut"); svg.setAttribute("role", "img");
+    if (size){ svg.style.width = size + "px"; svg.style.height = size + "px"; }
+    svg.setAttribute("aria-label", "Spending by budget line: " + parts.map(function(p){ return p.name + " " + money(p.spent); }).join(", "));
+    var a0 = -Math.PI / 2;
+    function pt(a, r){ return (C + r * Math.cos(a)).toFixed(2) + " " + (C + r * Math.sin(a)).toFixed(2); }
+    parts.forEach(function(p){
+      var frac = st.spent ? p.spent / st.spent : 0, a1 = a0 + frac * Math.PI * 2, big = a1 - a0 > Math.PI ? 1 : 0, ro = R + W / 2, ri = R - W / 2;
+      var path = document.createElementNS(NS, "path");
+      if (frac >= 0.9999) path.setAttribute("d", "M " + pt(-Math.PI/2, ro) + " A " + ro + " " + ro + " 0 1 1 " + pt(-Math.PI/2 - 0.0001, ro) + " L " + pt(-Math.PI/2 - 0.0001, ri) + " A " + ri + " " + ri + " 0 1 0 " + pt(-Math.PI/2, ri) + " Z");
+      else path.setAttribute("d", "M " + pt(a0, ro) + " A " + ro + " " + ro + " 0 " + big + " 1 " + pt(a1, ro) + " L " + pt(a1, ri) + " A " + ri + " " + ri + " 0 " + big + " 0 " + pt(a0, ri) + " Z");
+      path.setAttribute("class", "slice " + p.cls);
+      var rows = [p.name, money(p.spent) + " · " + Math.round(frac * 100) + "% of spending"];
+      path.addEventListener("mousemove", function(e){ tip.show(e, rows); }); path.addEventListener("mouseleave", tip.hide);
+      svg.appendChild(path); a0 = a1;
     });
+    var t1 = document.createElementNS(NS, "text"); t1.setAttribute("x", C); t1.setAttribute("y", C - 2); t1.setAttribute("class", "dval"); t1.textContent = money(st.spent);
+    var t2 = document.createElementNS(NS, "text"); t2.setAttribute("x", C); t2.setAttribute("y", C + 18); t2.setAttribute("class", "dlab"); t2.textContent = "spent";
+    svg.appendChild(t1); svg.appendChild(t2);
+    var legend = el("ul", { class: "legend" });
+    parts.forEach(function(p){ legend.appendChild(el("li", {}, [el("i", { class: "sw " + p.cls, "aria-hidden": "true" }), el("span", { class: "lname", text: p.name }), el("span", { class: "lval", text: money(p.spent) }), el("span", { class: "lpct", text: Math.round((st.spent ? p.spent / st.spent : 0) * 100) + "%" })])); });
+    if (!parts.length) legend.appendChild(el("li", { class: "fnone", text: "No spending logged yet." }));
+    return { svg: svg, legend: legend };
+  }
 
+  // ---------- Task links (must finish first) ----------
+  function blockers(t){ return (t.after || []).map(find).filter(function(x){ return x && x.state === "open"; }); }
+  function nextTasks(t){ return S.tasks.filter(function(x){ return (x.after || []).indexOf(t.number) > -1; }); }
+  function dependsOn(a, b, seen){ // does task a (directly or indirectly) wait on task b?
+    seen = seen || {}; if (seen[a]) return false; seen[a] = 1;
+    var t = find(a); if (!t) return false;
+    return (t.after || []).some(function(n){ return n === b || dependsOn(n, b, seen); });
+  }
+  function taskRef(n){ var t = find(n); return "#" + n + (t ? " " + t.title : ""); }
+  function andList(xs){ return xs.length < 2 ? xs.join("") : xs.slice(0, -1).join(", ") + " and " + xs[xs.length - 1]; }
+
+  // ---------- Messages (owner → tracker/messages.json, demo → this browser) ----------
+  function saveMsgs(msgs, msg){
+    if (S.owner){
+      return gh("PUT", "/contents/tracker/messages.json", { message: msg, content: toB64("[\n" + msgs.map(function(m){ return "  " + JSON.stringify(m); }).join(",\n") + "\n]\n"), sha: S.msgsSha || undefined, branch: "main" })
+        .then(function(r){ S.msgsSha = r.content.sha; S.msgs = msgs; badge(); })
+        .catch(function(ex){ throw new Error(/not accessible|Resource/.test(ex.message) ? "Your key can't send messages. Add Contents: Read and write to it." : ex.message); });
+    }
+    var d = demo(); d.msgs = msgs; saveDemo(d); S.msgs = msgs; badge(); return Promise.resolve();
+  }
+  // When a task is done, tell the owner of each task that was waiting on it, unless it's the same person.
+  function notifyOnDone(t){
+    var sent = [], same = [], out = S.msgs.slice();
+    var n = out.reduce(function(m, x){ return Math.max(m, +String(x.id).replace(/\D/g, "") || 0); }, 0);
+    nextTasks(t).filter(function(x){ return x.state === "open"; }).forEach(function(x){
+      if (!x.owner || !person(x.owner)) return;
+      if (x.owner === t.owner){ same.push(x); return; }
+      var waiting = blockers(x).filter(function(b){ return b.number !== t.number; });
+      var text = "#" + t.number + " " + t.title + " is done. " + (waiting.length ? "#" + x.number + " " + x.title + " is still waiting on " + andList(waiting.map(function(b){ return "#" + b.number; })) + "." : "You can start #" + x.number + " " + x.title + " now.");
+      out.unshift({ id: "m" + (++n), at: today(), to: x.owner, from: t.owner || "", done: t.number, next: x.number, read: false, text: text });
+      sent.push(x);
+    });
+    var names = sent.map(function(x){ return person(x.owner).name; }).filter(function(v, i, a){ return a.indexOf(v) === i; });
+    var note = names.length ? "Message sent to " + andList(names) + "." : same.length ? "No message needed: " + (person(t.owner) || { name: "the same person" }).name + " owns the next task too." : "";
+    if (!sent.length) return Promise.resolve(note);
+    return saveMsgs(out, "Notify " + andList(names) + ": #" + t.number + " is done").then(function(){ return note; }, function(ex){ return "Couldn't send messages: " + ex.message; });
+  }
+  function unread(){ return S.msgs.filter(function(m){ return !m.read; }).length; }
+  function badge(){ var n = unread(), b = $("msgBadge"); if (!b) return; b.textContent = n ? String(n) : ""; b.hidden = !n; $("msgLink").setAttribute("aria-label", "Messages" + (n ? ", " + n + " unread" : "")); }
+
+  // ---------- Menu ----------
+  function setupMenu(){
+    var btn = $("menuBtn"), panel = $("menuPanel");
+    function close(){ panel.hidden = true; btn.setAttribute("aria-expanded", "false"); }
+    btn.addEventListener("click", function(e){ e.stopPropagation(); var open = panel.hidden; panel.hidden = !open; btn.setAttribute("aria-expanded", String(open)); if (open) panel.querySelector("a").focus(); });
+    document.addEventListener("click", function(e){ if (!panel.hidden && !panel.contains(e.target)) close(); });
+    document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !panel.hidden){ close(); btn.focus(); } });
+    panel.addEventListener("click", function(e){ if (e.target.closest("a")) close(); });
+    window.addEventListener("hashchange", close);
+  }
+
+  // ---------- Tasks list (its own page; dashboard links set the filter) ----------
+  function goTasks(filter){
+    Object.assign(S.ui, { card: "", show: "open", phase: "", label: "", person: "", q: "", blocked: false }, filter || {});
+    if (location.hash === "#/tasks") viewTasks(); else location.hash = "#/tasks";
+  }
+  function viewTasks(){
+    setNav("tasks");
+    var ui = S.ui;
     var seg = el("div", { class: "seg", role: "group", "aria-label": "Show" });
     [["open","Open"],["done","Done"],["all","All"]].forEach(function(o){
-      seg.appendChild(el("button", { type: "button", "aria-pressed": String(ui.show === o[0]), text: o[1], onclick: function(){ ui.card = ""; ui.show = o[0]; viewHome(); } }));
+      seg.appendChild(el("button", { type: "button", "aria-pressed": String(ui.show === o[0]), text: o[1], onclick: function(){ ui.card = ""; ui.show = o[0]; viewTasks(); } }));
     });
-    var sel = el("select", { id: "labelFilter", onchange: function(e){ ui.card = ""; ui.label = e.target.value; viewHome(); } }, [el("option", { value: "", text: "All labels" })]);
+    var sel = el("select", { id: "labelFilter", onchange: function(e){ ui.card = ""; ui.label = e.target.value; viewTasks(); } }, [el("option", { value: "", text: "All labels" })]);
     Object.keys(S.labels).forEach(function(l){ sel.appendChild(el("option", { value: l, text: l, selected: ui.label === l })); });
+    var phaseSel = el("select", { id: "phaseFilter", onchange: function(e){ ui.card = ""; ui.phase = e.target.value; viewTasks(); } }, [el("option", { value: "", text: "All phases" })]);
+    phaseStats().forEach(function(p){ phaseSel.appendChild(el("option", { value: p.title, text: shortPhase(p.title), selected: ui.phase === p.title })); });
     var who = ownerSelect("personFilter", ui.person, "Everyone", true);
     who.insertBefore(el("option", { value: "none", text: "Unassigned", selected: ui.person === "none" }), who.children[1] || null);
-    who.addEventListener("change", function(e){ ui.card = ""; ui.person = e.target.value; viewHome(); });
+    who.addEventListener("change", function(e){ ui.card = ""; ui.person = e.target.value; viewTasks(); });
     var search = el("input", { type: "search", id: "search", placeholder: "Search tasks", value: ui.q, oninput: function(e){ ui.q = e.target.value; drawList(); } });
-    var toolbar = el("div", { class: "toolbar" }, [seg, el("label", { class: "sr", for: "labelFilter", text: "Filter by label" }), sel, el("label", { class: "sr", for: "personFilter", text: "Filter by person" }), who, el("label", { class: "sr", for: "search", text: "Search tasks" }), search]);
-    var cardNames = { all: "All tasks", done: "Done tasks", deadline: "Next deadline: " + (ui.phase || ""), decisions: "Decisions waiting" };
+    var toolbar = el("div", { class: "toolbar" }, [seg, el("label", { class: "sr", for: "phaseFilter", text: "Filter by phase" }), phaseSel, el("label", { class: "sr", for: "labelFilter", text: "Filter by label" }), sel, el("label", { class: "sr", for: "personFilter", text: "Filter by person" }), who, el("label", { class: "sr", for: "search", text: "Search tasks" }), search]);
+    var cardNames = { all: "All tasks", done: "Done tasks", deadline: "Next deadline: " + (ui.phase || ""), decisions: "Decisions waiting", blocked: "Waiting on other tasks" };
     var parts = [];
     if (ui.card) parts.push(cardNames[ui.card]);
     else { if (ui.phase) parts.push(ui.phase); if (ui.label) parts.push("label: " + ui.label); if (ui.person) parts.push("assigned to: " + (ui.person === "none" ? "nobody" : (person(ui.person) || { name: "former member" }).name)); }
-    var note = parts.length ? el("div", { class: "toolbar filterbar" }, [el("span", {}, ["Showing ", el("b", { text: parts.join(" · ") })]), (function(){ var c = el("button", { type: "button", class: "btn", text: "Clear filter", onclick: function(){ ui.card = ""; ui.show = "open"; ui.phase = ""; ui.label = ""; ui.person = ""; ui.q = ""; viewHome(); } }); c.style.marginLeft = "auto"; return c; })()]) : null;
-    var list = el("ul", { class: "list", id: "list" });
+    var note = parts.length ? el("div", { class: "toolbar filterbar" }, [el("span", {}, ["Showing ", el("b", { text: parts.join(" · ") })]), (function(){ var c = el("button", { type: "button", class: "btn", text: "Clear filter", onclick: function(){ goTasks(); } }); c.style.marginLeft = "auto"; return c; })()]) : null;
+    var list = el("ul", { class: "list", id: "list" }), count = el("span", { class: "shint", id: "taskCount" });
     function drawList(){
       var q = ui.q.toLowerCase(); list.textContent = "";
       var shown = S.tasks.filter(function(t){
@@ -821,9 +957,11 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
         if (ui.phase && t.phase !== ui.phase) return false;
         if (ui.label && t.labels.indexOf(ui.label) < 0) return false;
         if (ui.person === "none" ? person(t.owner) : ui.person && t.owner !== ui.person) return false;
+        if (ui.blocked && !blockers(t).length) return false;
         if (q && (t.title + " " + t.body + " " + ownerName(t)).toLowerCase().indexOf(q) < 0) return false;
         return true;
       }).sort(function(a,b){ return phaseNum(a.phase) - phaseNum(b.phase) || a.number - b.number; });
+      count.textContent = shown.length + " task" + (shown.length === 1 ? "" : "s");
       if (!shown.length) list.appendChild(el("li", { class: "empty", text: "Nothing here. Try another filter." }));
       shown.forEach(function(t){
         var isDone = t.state === "closed";
@@ -832,6 +970,8 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
         var meta = el("div", { class: "meta" }, [el("span", { text: "#" + t.number + " · " + shortPhase(t.phase) + (t.due ? " · due " + niceDate(t.due) : "") })]);
         var op = person(t.owner);
         meta.appendChild(el("span", { class: "who" + (op ? "" : " none") }, [avatar(op, true), op ? op.name : "Unassigned"]));
+        var bl = isDone ? [] : blockers(t);
+        if (bl.length) meta.appendChild(el("span", { class: "chip wait", text: "Waiting on " + bl.map(function(b){ return "#" + b.number; }).join(", ") }));
         t.labels.forEach(function(l){ meta.appendChild(labelChip(l)); });
         var ac = attachCount(t.number);
         if (ac) meta.appendChild(el("span", { class: "clip", title: ac + " attachment" + (ac === 1 ? "" : "s") }, [clipIcon(), String(ac), el("span", { class: "sr", text: " attachment" + (ac === 1 ? "" : "s") })]));
@@ -841,7 +981,49 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
         ])]));
       });
     }
+    mount([
+      el("a", { class: "back", href: "#/", text: "← Back to dashboard" }),
+      el("div", { class: "shead" }, [el("h2", { class: "t", text: "Tasks", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:0" }), count]),
+      el("div", { style: "height:12px" }),
+      el("section", { class: "tasks", id: "taskSection", "aria-label": "Tasks" }, [note, toolbar, list])
+    ], "Tasks");
     drawList();
+  }
+
+  // ---------- View: dashboard ----------
+  function viewHome(){
+    setNav("home");
+    var ph = phaseStats();
+    var live = S.tasks.filter(function(t){ return t.reason !== "not_planned"; });
+    var done = live.filter(function(t){ return t.state === "closed"; }).length;
+    var pct = live.length ? Math.round(100 * done / live.length) : 0;
+    var next = ph.filter(function(p){ return p.done < p.total; }).sort(function(a,b){ return (a.due||"9999").localeCompare(b.due||"9999"); })[0];
+    var decisions = live.filter(function(t){ return t.state === "open" && t.labels.indexOf("decision") > -1; });
+    var nd = next ? daysUntil(next.due) : null;
+    var tip = makeTip();
+
+    // Each summary box opens the task list with the matching filter
+    function statCard(key, label, filter, kids){
+      return el("button", { type: "button", class: "stat", "aria-label": label + ": show these tasks", onclick: function(){ goTasks(Object.assign({ card: key }, filter)); } },
+        kids.concat([el("div", { class: "go", "aria-hidden": "true", text: "View list →" })]));
+    }
+    var stats = el("section", { class: "stats", "aria-label": "Summary" }, [
+      statCard("all", "Overall progress", { show: "all" }, [el("div", { class: "k", text: "Overall progress" }), el("div", { class: "v", text: pct + "%" }), (function(){ var b = el("div", { class: "bar" }, [el("span")]); b.style.marginTop = "10px"; b.firstChild.style.width = pct + "%"; return b; })()]),
+      statCard("done", "Tasks done", { show: "done" }, [el("div", { class: "k", text: "Tasks done" }), el("div", { class: "v", text: done + " / " + live.length }), el("div", { class: "s", text: (live.length - done) + " still open" })]),
+      statCard("deadline", "Next deadline", { show: "open", phase: next ? next.title : "" }, [el("div", { class: "k", text: "Next deadline" }), el("div", { class: "v", text: next ? (nd < 0 ? Math.abs(nd) + " days late" : nd === 0 ? "Today" : nd + " days") : "All clear" }), el("div", { class: "s", text: next ? next.title + " · " + niceDate(next.due) : "" })]),
+      statCard("decisions", "Decisions waiting", { show: "open", label: "decision" }, [el("div", { class: "k", text: "Decisions waiting" }), el("div", { class: "v", text: String(decisions.length) }), el("div", { class: "s", text: "Need a choice from the study lead" })])
+    ]);
+
+    var cards = el("div", { class: "phases" });
+    ph.forEach(function(p){
+      var frac = p.total ? p.done / p.total : 0;
+      var bar = el("div", { class: "bar" }, [el("span")]); bar.firstChild.style.width = (frac * 100) + "%";
+      cards.appendChild(el("button", { type: "button", class: "phase" + (p.status === "Past due" ? " is-late" : "") + (p.status === "Complete" ? " is-done" : ""), "aria-label": p.title + ", " + p.done + " of " + p.total + " done: show these tasks", onclick: function(){ goTasks({ show: "all", phase: p.title }); } }, [
+        el("div", { class: "top" }, [el("div", {}, [el("div", { class: "name", text: p.title }), el("div", { class: "due", text: "Due " + niceDate(p.due) })]), el("span", { class: "chip " + stClass(p.status), text: p.status })]),
+        bar,
+        el("div", { class: "count" }, [el("span", { text: p.done + " of " + p.total + " done" }), el("span", { text: Math.round(frac * 100) + "%" })])
+      ]));
+    });
 
     var up = el("ol"), upSub = el("div", { class: "sub" });
     if (next){
@@ -852,32 +1034,104 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     var dl = el("ul");
     if (!decisions.length) dl.appendChild(el("li", { text: "None right now." }));
     decisions.forEach(function(t){ dl.appendChild(el("li", {}, [el("a", { href: "#/task/" + t.number, text: t.title })])); });
+    var blockedN = live.filter(function(t){ return t.state === "open" && blockers(t).length; }).length;
+
+    // Budget panel with the donut
+    var budgetPanel = null;
+    if (S.budget){
+      var bst = budgetStats(), d = donutChart(bst, tip, 150);
+      var watch = bst.lines.filter(function(l){ return l.status !== "ok"; });
+      budgetPanel = el("section", { class: "panel bpanel", "aria-label": "Budget" }, [
+        el("h2", { text: "Budget" }),
+        el("div", { class: "sub", text: money(bst.spent) + " spent of " + money(bst.total) + " (" + Math.round(bst.pct * 100) + "%)" }),
+        el("div", { class: "bmini" }, [d.svg, d.legend]),
+        watch.length ? el("p", { class: "bwarn" }, watch.map(function(l){ return el("span", { class: "rflag f-" + l.status, text: (l.status === "over" ? "▲ " : "● ") + l.name + (l.status === "over" ? " is over budget" : " is near its limit") }); })) : null,
+        el("a", { class: "more", href: "#/budget", text: "Open the budget →" })
+      ]);
+    }
 
     // Open tasks per person: click a name to see their list
-    var load = el("ul", { class: "load" });
+    var loadL = el("ul", { class: "load" });
     var openLive = live.filter(function(t){ return t.state === "open"; });
     var maxOpen = 1;
     var rowsW = S.team.map(function(p){ var n = openLive.filter(function(t){ return t.owner === p.id; }).length; maxOpen = Math.max(maxOpen, n); return { p: p, n: n }; })
       .sort(function(a,b){ return b.n - a.n || a.p.name.localeCompare(b.p.name); });
     rowsW.forEach(function(r){
       var b = el("span", { class: "bar" }, [el("span")]); b.firstChild.style.width = (100 * r.n / maxOpen) + "%";
-      load.appendChild(el("li", {}, [el("button", { type: "button", class: "lrow", "aria-pressed": String(ui.person === r.p.id), "aria-label": r.p.name + ", " + r.n + " open tasks", onclick: function(){
-        ui.card = ""; ui.show = "open"; ui.person = ui.person === r.p.id ? "" : r.p.id; viewHome();
-        var t = $("taskSection"); if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
-      } }, [avatar(r.p, true), el("span", { class: "nm" }, [el("b", { text: r.p.name }), el("small", { text: r.p.title })]), b, el("span", { class: "n", text: String(r.n) })])]));
+      loadL.appendChild(el("li", {}, [el("button", { type: "button", class: "lrow", "aria-label": r.p.name + ", " + r.n + " open tasks", onclick: function(){ goTasks({ person: r.p.id }); } },
+        [avatar(r.p, true), el("span", { class: "nm" }, [el("b", { text: r.p.name }), el("small", { text: r.p.title })]), b, el("span", { class: "n", text: String(r.n) })])]));
     });
-    if (!rowsW.length) load.appendChild(el("li", { text: "No team members yet." }));
+    if (!rowsW.length) loadL.appendChild(el("li", { text: "No team members yet." }));
+
+    // Latest messages
+    var ml = el("ul", { class: "mini-msgs" });
+    S.msgs.slice(0, 3).forEach(function(m){ ml.appendChild(el("li", { class: m.read ? "" : "unread" }, [el("b", { text: "To " + ((person(m.to) || {}).name || "someone") + " · " + niceDate(m.at) }), el("span", { text: m.text })])); });
+    if (!S.msgs.length) ml.appendChild(el("li", { class: "fnone", text: "No messages yet." }));
+    var nUnread = unread();
 
     mount([stats, el("h2", { text: "Phases" }), cards,
-      el("div", { class: "main" }, [
-        el("section", { class: "tasks", id: "taskSection", tabindex: "-1", "aria-label": "Tasks" }, [note, toolbar, list]),
-        el("aside", { class: "side" }, [
-          el("div", { class: "panel" }, [el("h2", { text: "Up next" }), upSub, up]),
-          el("div", { class: "panel" }, [el("h2", { text: "Decisions waiting" }), dl]),
-          el("div", { class: "panel" }, [el("h2", { text: "Who's on what" }), el("div", { class: "sub", text: "Open tasks per person" }), load, el("a", { class: "more", href: "#/team", text: "See the full team →" })])
-        ])
-      ])
+      el("div", { class: "dash" }, [
+        el("section", { class: "panel", "aria-label": "Up next" }, [el("h2", { text: "Up next" }), upSub, up, el("a", { class: "more", href: "#/tasks", onclick: function(e){ e.preventDefault(); goTasks({ show: "open", phase: next ? next.title : "" }); }, text: "See all " + (next ? shortPhase(next.title) : "") + " tasks →" })]),
+        el("section", { class: "panel", "aria-label": "Decisions waiting" }, [el("h2", { text: "Decisions waiting" }), dl, blockedN ? el("a", { class: "more", href: "#/tasks", onclick: function(e){ e.preventDefault(); goTasks({ card: "blocked", blocked: true }); }, text: blockedN + " tasks are waiting on other tasks →" }) : null]),
+        budgetPanel,
+        el("section", { class: "panel", "aria-label": "Messages" }, [el("h2", { text: "Messages" }), el("div", { class: "sub", text: nUnread ? nUnread + " unread" : "All caught up" }), ml, el("a", { class: "more", href: "#/messages", text: "Open messages →" })]),
+        el("section", { class: "panel", "aria-label": "Who's on what" }, [el("h2", { text: "Who's on what" }), el("div", { class: "sub", text: "Open tasks per person" }), loadL, el("a", { class: "more", href: "#/team", text: "See the full team →" })])
+      ]),
+      tip
     ]);
+  }
+
+  // ---------- View: messages ----------
+  function linkify(text){
+    var out = [], re = /#(\d+)/g, last = 0, m;
+    while ((m = re.exec(text))){ if (m.index > last) out.push(text.slice(last, m.index)); out.push(el("a", { href: "#/task/" + m[1], text: m[0] })); last = re.lastIndex; }
+    if (last < text.length) out.push(text.slice(last));
+    return out;
+  }
+  function viewMessages(){
+    setNav("messages");
+    var ui = S.mui = S.mui || { to: "", show: "all" };
+    var list = el("ul", { class: "msgs" });
+    function setRead(ids, val){
+      var msgs = S.msgs.map(function(m){ return ids.indexOf(m.id) > -1 ? Object.assign({}, m, { read: val }) : m; });
+      return saveMsgs(msgs, (val ? "Mark read: " : "Mark unread: ") + ids.join(", "));
+    }
+    function draw(){
+      list.textContent = "";
+      var shown = S.msgs.filter(function(m){ return (!ui.to || m.to === ui.to) && (ui.show === "all" || !m.read); });
+      $("msgCount").textContent = shown.length + " message" + (shown.length === 1 ? "" : "s") + " · " + shown.filter(function(m){ return !m.read; }).length + " unread";
+      if (!shown.length) list.appendChild(el("li", { class: "fnone", text: S.msgs.length ? "Nothing here. Try another filter." : "No messages yet. When a task is marked done, the owner of the next task gets a message here." }));
+      shown.forEach(function(m){
+        var to = person(m.to), from = person(m.from);
+        list.appendChild(el("li", { class: m.read ? "" : "unread", "aria-label": (m.read ? "" : "Unread. ") + "To " + (to ? to.name : "someone") }, [
+          el("span", { class: "dot", "aria-hidden": "true" }),
+          avatar(to),
+          el("div", { class: "mbody" }, [
+            el("div", { class: "mhead" }, [el("b", { text: "To " + (to ? to.name : "former member") }), el("span", { text: (from ? " · from " + from.name : "") + " · " + niceDate(m.at) })]),
+            el("p", {}, linkify(m.text)),
+            el("div", { class: "macts" }, [
+              m.next ? el("a", { class: "btn primary", href: "#/task/" + m.next, text: "Open #" + m.next, onclick: function(){ if (!m.read) setRead([m.id], true).catch(function(){}); } }) : null,
+              el("button", { type: "button", class: "btn", text: m.read ? "Mark unread" : "Mark read", "aria-label": (m.read ? "Mark unread: " : "Mark read: ") + m.text, onclick: function(e){ e.target.disabled = true; setRead([m.id], !m.read).then(draw).catch(function(ex){ toast(ex.message); e.target.disabled = false; }); } })
+            ])
+          ])
+        ]));
+      });
+    }
+    var to = ownerSelect("m-to", ui.to, "Everyone", true);
+    to.addEventListener("change", function(e){ ui.to = e.target.value; draw(); });
+    var seg = el("div", { class: "seg", role: "group", "aria-label": "Show" });
+    [["all", "All"], ["unread", "Unread"]].forEach(function(o){ seg.appendChild(el("button", { type: "button", "aria-pressed": String(ui.show === o[0]), text: o[1], onclick: function(){ ui.show = o[0]; Array.prototype.forEach.call(seg.children, function(b){ b.setAttribute("aria-pressed", String(b.textContent.toLowerCase() === ui.show)); }); draw(); } })); });
+    mount([
+      el("a", { class: "back", href: "#/", text: "← Back to dashboard" }),
+      el("div", { class: "shead" }, [el("h2", { class: "t", text: "Messages", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:0" }), el("span", { class: "shint", id: "msgCount" })]),
+      el("p", { class: "shint", style: "margin-top:6px", text: "When a task is marked done, whoever owns a task that was waiting on it gets a message. If it's the same person, no message is sent." }),
+      el("div", { class: "tasks" }, [
+        el("div", { class: "toolbar" }, [seg, el("label", { class: "sr", for: "m-to", text: "Messages for" }), to,
+          (function(){ var b = el("button", { type: "button", class: "btn", text: "Mark all as read", onclick: function(){ var ids = S.msgs.filter(function(m){ return !m.read && (!ui.to || m.to === ui.to); }).map(function(m){ return m.id; }); if (!ids.length){ toast("Nothing unread."); return; } setRead(ids, true).then(function(){ toast("All marked as read."); draw(); }).catch(function(ex){ toast(ex.message); }); } }); b.style.marginLeft = "auto"; return b; })()]),
+        list
+      ])
+    ], "Messages");
+    draw();
   }
 
   // ---------- Task form (used by New task and Edit) ----------
@@ -889,6 +1143,32 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     phaseStats().forEach(function(p){ phase.appendChild(el("option", { value: p.title, text: p.title, selected: p.title === t.phase })); });
     var due = el("input", { type: "date", id: "f-due", value: t.due || "" });
     var owner = ownerSelect("f-owner", t.owner || "", "Unassigned");
+    // "Must finish first": tasks this one waits on
+    var after = (t.after || []).slice(), afterChips = el("div", { class: "dchips" }), depErr = el("span", { class: "hint dep-err", role: "alert" });
+    var depSel = el("select", { id: "f-after" });
+    function drawDeps(){
+      afterChips.textContent = ""; depSel.textContent = "";
+      depSel.appendChild(el("option", { value: "", text: after.length ? "Add another task…" : "Pick a task…" }));
+      S.tasks.slice().sort(function(a, b){ return a.number - b.number; }).forEach(function(x){
+        if (x.number === t.number || after.indexOf(x.number) > -1 || x.reason === "not_planned") return;
+        depSel.appendChild(el("option", { value: String(x.number), text: "#" + x.number + " " + (x.title.length > 52 ? x.title.slice(0, 51) + "…" : x.title) + (x.state === "closed" ? " (done)" : "") }));
+      });
+      if (!after.length) afterChips.appendChild(el("span", { class: "hint", text: "None. This task can start any time." }));
+      after.forEach(function(n){
+        var x = find(n);
+        afterChips.appendChild(el("span", { class: "dchip" + (x && x.state === "closed" ? " ok" : "") }, [
+          (x && x.state === "closed" ? "✓ " : "") + taskRef(n),
+          el("button", { type: "button", "aria-label": "Remove " + taskRef(n), text: "×", onclick: function(){ after = after.filter(function(y){ return y !== n; }); drawDeps(); } })
+        ]));
+      });
+    }
+    depSel.addEventListener("change", function(){
+      var n = +depSel.value; depErr.textContent = "";
+      if (!n) return;
+      if (t.number && dependsOn(n, t.number)){ depErr.textContent = taskRef(n) + " already waits on this task, so that would make a loop."; depSel.value = ""; return; }
+      after.push(n); after.sort(function(a, b){ return a - b; }); drawDeps();
+    });
+    drawDeps();
     var checks = el("div", { class: "checks" });
     Object.keys(S.labels).forEach(function(l){
       var id = "f-l-" + l;
@@ -898,7 +1178,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     var form = el("form", { novalidate: true, onsubmit: function(e){
       e.preventDefault();
       if (!title.value.trim()){ err.textContent = "Give the task a title."; err.hidden = false; title.focus(); return; }
-      var f = { title: title.value.trim(), body: body.value, phase: phase.value, due: due.value, owner: owner.value, labels: Array.prototype.filter.call(checks.querySelectorAll("input"), function(i){ return i.checked; }).map(function(i){ return i.value; }) };
+      var f = { title: title.value.trim(), body: body.value, phase: phase.value, due: due.value, owner: owner.value, after: after.slice(), labels: Array.prototype.filter.call(checks.querySelectorAll("input"), function(i){ return i.checked; }).map(function(i){ return i.value; }) };
       submit.disabled = true; submit.textContent = "Saving…";
       onSubmit(f).catch(function(ex){ err.textContent = ex.message; err.hidden = false; submit.disabled = false; submit.textContent = submitText; });
     } }, [
@@ -909,6 +1189,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
         el("div", { class: "field" }, [el("label", { for: "f-phase", text: "Phase" }), phase]),
         el("div", { class: "field" }, [el("label", { for: "f-due", text: "Due date (optional)" }), due])
       ]),
+      el("div", { class: "field" }, [el("label", { for: "f-after", text: "Must finish first (optional)" }), afterChips, depSel, depErr, el("span", { class: "hint", text: "When these are done, whoever owns this task gets a message." })]),
       el("fieldset", {}, [el("legend", { class: "field", text: "Labels" }), checks]),
       el("div", { class: "actions" }, [submit, el("button", { type: "button", class: "btn", text: "Cancel", onclick: onCancel })]),
       err
@@ -940,7 +1221,11 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     if (!t){ mount([el("a", { class: "back", href: "#/", text: "← Back to dashboard" }), el("div", { class: "sheet" }, [el("h2", { class: "t", text: "Task not found" }), el("p", { text: "It may have been created on another device." })])], "Not found"); return; }
     var status = taskStatus(t);
     function act(label, cls, changes, msg){
-      return el("button", { type: "button", class: "btn " + (cls || ""), text: label, onclick: function(e){ e.target.disabled = true; saveTask(t.number, changes).then(function(){ toast(msg); viewTask(n); }).catch(function(ex){ toast(ex.message); e.target.disabled = false; }); } });
+      return el("button", { type: "button", class: "btn " + (cls || ""), text: label, onclick: function(e){
+        e.target.disabled = true;
+        saveTask(t.number, changes).then(function(){ return changes.state === "closed" && changes.reason === "completed" ? notifyOnDone(t) : ""; })
+          .then(function(note){ toast(msg + (note ? " " + note : "")); viewTask(n); }).catch(function(ex){ toast(ex.message); e.target.disabled = false; });
+      } });
     }
     var actions = el("div", { class: "actions" }, t.state === "open" ? [
       act("Mark done", "primary", { state: "closed", reason: "completed" }, "Marked done."),
@@ -959,6 +1244,14 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       t.created ? el("span", {}, ["Created: ", el("b", { text: niceDate(t.created) })]) : null,
       t.state === "closed" && t.closed ? el("span", {}, ["Closed: ", el("b", { text: niceDate(t.closed) })]) : null
     ]);
+
+    // Task links: what this waits on, and what waits on it
+    var waitOn = (t.after || []).map(find).filter(Boolean), nexts = nextTasks(t), openBl = t.state === "open" ? blockers(t) : [];
+    var deps = (waitOn.length || nexts.length) ? el("div", { class: "deps" }, [
+      openBl.length ? el("p", { class: "blocked" }, [el("span", { class: "ri", "aria-hidden": "true", text: "● " }), "Waiting on " + andList(openBl.map(function(b){ return "#" + b.number; })) + ". You'll get a message when " + (openBl.length === 1 ? "it's" : "they're") + " done."]) : null,
+      waitOn.length ? el("div", {}, [el("h3", { text: "Must finish first" }), el("ul", {}, waitOn.map(function(x){ return el("li", {}, [el("span", { class: "dstate " + (x.state === "closed" ? "ok" : "open"), text: x.state === "closed" ? "✓ Done" : "Open" }), el("a", { href: "#/task/" + x.number, text: "#" + x.number + " " + x.title }), el("span", { class: "rmeta", text: " · " + ownerName(x) })]); }))]) : null,
+      nexts.length ? el("div", {}, [el("h3", { text: "Next tasks waiting on this" }), el("ul", {}, nexts.map(function(x){ var same = x.owner && x.owner === t.owner; return el("li", {}, [el("span", { class: "dstate " + (x.state === "closed" ? "ok" : "open"), text: x.state === "closed" ? "✓ Done" : "Open" }), el("a", { href: "#/task/" + x.number, text: "#" + x.number + " " + x.title }), el("span", { class: "rmeta", text: " · " + ownerName(x) + (same ? " (same person, no message)" : x.owner ? " (gets a message)" : "") })]); }))]) : null
+    ]) : null;
 
     var notesList = el("ul", { class: "notes", "aria-live": "polite" }, [el("li", { text: "Loading notes…" })]);
     var noteBox = el("textarea", { id: "note", placeholder: "What happened? What did you decide or learn?" }); noteBox.style.minHeight = "90px";
@@ -1019,7 +1312,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     var sheet = el("div", { class: "sheet" }, [
       el("div", { class: "row" }, [el("span", { class: "eyebrow", text: "Task #" + t.number }), (function(){ var c = el("span", { class: "chip " + stClass(status), text: status }); c.style.marginLeft = "auto"; return c; })()]),
       el("h2", { class: "t", text: t.title }),
-      assigned, facts, labels.childNodes.length ? labels : null,
+      assigned, facts, labels.childNodes.length ? labels : null, deps,
       el("div", { style: "height:14px" }),
       actions,
       el("div", { class: "grid2" }, [
@@ -1033,7 +1326,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       sheet.appendChild(el("div", { class: "eyebrow", text: "Editing task #" + t.number }));
       sheet.appendChild(el("h2", { class: "t", text: "Edit task" }));
       sheet.appendChild(taskForm(t, function(f){
-        return saveTask(t.number, { title: f.title, body: f.body, phase: f.phase, labels: f.labels, due: f.due, owner: f.owner }).then(function(){ toast("Saved."); viewTask(n); });
+        return saveTask(t.number, { title: f.title, body: f.body, phase: f.phase, labels: f.labels, due: f.due, owner: f.owner, after: f.after }).then(function(){ toast("Saved."); viewTask(n); });
       }, function(){ viewTask(n); }, "Save changes"));
       $("f-title").focus();
     }
@@ -1095,7 +1388,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
           el("div", { class: "hd" }, [avatar(p), el("div", { style: "min-width:0" }, [el("b", { text: p.name }), el("span", { class: "ttl", text: p.title })])]),
           el("div", { class: "ct", text: open + " open · " + (mine.length - open) + " done" }),
           el("div", { class: "acts" }, [
-            el("button", { type: "button", class: "btn primary", text: "View tasks", onclick: function(){ Object.assign(S.ui, { card: "", show: "open", phase: "", label: "", q: "", person: p.id }); location.hash = "#/"; } }),
+            el("button", { type: "button", class: "btn primary", text: "View tasks", onclick: function(){ goTasks({ person: p.id }); } }),
             el("button", { type: "button", class: "btn", text: "Edit", "aria-label": "Edit " + p.name, onclick: function(){ memberForm(p); } }),
             el("button", { type: "button", class: "btn danger", text: "Remove", "aria-label": "Remove " + p.name, onclick: function(){ remove(p, open); } })
           ])
@@ -1676,7 +1969,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       LINKEDIN ? el("a", { class: "btn", href: LINKEDIN, text: "LinkedIn" }) : null,
       el("a", { class: "btn", href: "https://github.com/" + REPO, text: "Source code" })
     ]);
-    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Team", "Each person's name, title, and department live in a team file in the repo; each task carries its assignee in a hidden note, so assignments survive in GitHub"], ["Status report", "A stakeholder snapshot built from live data: overall status with schedule, budget, and decision indicators, an editable summary, phase progress, recent and upcoming work, decisions, budget, and documents awaiting approval. Prints to PDF or copies as plain text for email"], ["Budget", "Spending against the approved budget: summary tiles, a bar per budget line that turns amber near the limit and red when over, a donut of where the money went, and an expense log with vouchers"], ["Documents", "A document register: program documents with versions, version history, and Draft/Approved status with who approved and when; plus every task file in one searchable list"], ["Attachments", "Reports, memos, and vouchers per task. Owner uploads are stored in the repo through the GitHub contents API; demo files stay in the visitor's browser (IndexedDB)"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
+    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Team", "Each person's name, title, and department live in a team file in the repo; each task carries its assignee in a hidden note, so assignments survive in GitHub"], ["Task links and messages", "A task can wait on other tasks. When one is marked done, the owner of each waiting task gets a message, unless it's the same person. Links are stored in each GitHub issue; messages in a file in the repo"], ["Status report", "A stakeholder snapshot built from live data: overall status with schedule, budget, and decision indicators, an editable summary, phase progress, recent and upcoming work, decisions, budget, and documents awaiting approval. Prints to PDF or copies as plain text for email"], ["Budget", "Spending against the approved budget: summary tiles, a bar per budget line that turns amber near the limit and red when over, a donut of where the money went, and an expense log with vouchers"], ["Documents", "A document register: program documents with versions, version history, and Draft/Approved status with who approved and when; plus every task file in one searchable list"], ["Attachments", "Reports, memos, and vouchers per task. Owner uploads are stored in the repo through the GitHub contents API; demo files stay in the visitor's browser (IndexedDB)"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
     var table = el("table", { class: "simple" }, [el("tr", {}, [el("th", { text: "Layer" }), el("th", { text: "What it uses" })])]);
     rows.forEach(function(r){ table.appendChild(el("tr", {}, [el("td", {}, [el("b", { text: r[0] })]), el("td", { text: r[1] })])); });
     var ch = [["Couldn't create the planned GitHub organization (sign-in lockout)", "Built on the personal account instead, without waiting"], ["Push refused (HTTP 403)", "Granted the app access to the new repo and refreshed the connection"], ["Loading 55 tasks without setup work", "Moved loading into a GitHub Action that uses the repo's own token: one click, safe to repeat"], ["\"Up next\" showed tasks backwards", "GitHub returns newest first; sorted by task number"], ["Visitors shouldn't change real data", "Two modes: demo saves locally; owner mode needs a private key"], ["First demo data was too close to a real project", "Rebuilt with a fictional research study and a clean repository history, since edits leave the old text visible"]];
@@ -1694,7 +1987,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       el("h3", { text: "Technology" }), table,
       el("h3", { text: "Challenges and fixes" }), ctable,
       el("h3", { text: "Try it" }),
-      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Open Report for a stakeholder status snapshot. Edit the summary, then save it as a PDF or copy it into an email." }), el("li", { text: "Open Budget and log an expense. Watch the line bars and the donut chart update, and see the warning when a line nears its limit." }), el("li", { text: "Open Documents to see the program plan, budget, and schedule. Approve the draft risk register, or upload a new version and watch it go back to Draft." }), el("li", { text: "Attach a report, memo, or voucher to a task. Tasks #4, #5, and #17 already have sample documents." }), el("li", { text: "Reassign a task, or open the Team page to add someone and see who owns what." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
+      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Open task #19 and mark it done, then open Messages: Grace Lin is told the ethics board submission (#10) is still waiting on #17. Mark #17 done too, and she's told she can start." }), el("li", { text: "Open Report for a stakeholder status snapshot. Edit the summary, then save it as a PDF or copy it into an email." }), el("li", { text: "Open Budget and log an expense. Watch the line bars and the donut chart update, and see the warning when a line nears its limit." }), el("li", { text: "Open Documents to see the program plan, budget, and schedule. Approve the draft risk register, or upload a new version and watch it go back to Draft." }), el("li", { text: "Attach a report, memo, or voucher to a task. Tasks #4, #5, and #17 already have sample documents." }), el("li", { text: "Reassign a task, or open the Team page to add someone and see who owns what." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
       el("p", { class: "hint", text: "Lanternfield Labs, Project Keystone, the study, the team, and the sample documents are fictional. They exist to demo the tracker with realistic data." })
     ])], "About this build");
   }
@@ -1745,6 +2038,8 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     else if (h === "team") viewTeam();
     else if (h === "documents") viewDocs();
     else if (h === "budget") viewBudget();
+    else if (h === "tasks") viewTasks();
+    else if (h === "messages") viewMessages();
     else if (h === "report") viewReport();
     else if (h === "owner") viewOwner();
     else viewHome();
@@ -1757,10 +2052,11 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       $("project").textContent = b.project; $("company").textContent = b.company; $("summary").textContent = b.summary || "";
       $("footName").textContent = b.project + " · " + b.company;
       $("updated").textContent = S.owner ? "Live from GitHub" : "Data updated " + niceDate(b.updated);
-      banner(); route(); if (msg) toast(msg);
+      banner(); badge(); route(); if (msg) toast(msg);
     }).catch(function(){ $("updated").textContent = "Couldn't load tasks. Refresh in a minute."; });
   }
   window.addEventListener("hashchange", route);
+  setupMenu();
   boot();
 })();
 </script>

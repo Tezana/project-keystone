@@ -51,6 +51,8 @@ _Updated automatically Oct 10, 2026._
   - `writeup`: material for the final report or a paper.
 - **Every task has an owner.** The study team (name, job title, department) lives in `tracker/team.json`. Each issue stores its owner in a hidden line at the bottom of its description, like `<!-- keystone:owner=mokafor -->`. Assign or reassign people from the website, or on the **Team** page add, edit, and remove team members.
 - **Program documents** (charter, program plan, schedule, budget, risk register, communication plan) live on the website's **Documents** page. Each has a version, a version history, and a Draft or Approved status with who approved it and when. A new version always goes back to Draft. The register is `tracker/documents.json`; the files are in `docs/documents/`. The same page lists every task attachment with search and filters.
+- **Task links and messages:** a task can list other tasks that must finish first (stored in its description as `<!-- keystone:after=8,17 -->`). When a task is marked done on the website, whoever owns a task that was waiting on it gets a message on the **Messages** page, unless it's the same person. Messages are kept in `tracker/messages.json`.
+- **The dashboard** shows progress, phases, what's next, decisions, the budget pie chart, messages, and who's on what. Every card opens the **Tasks** page with the matching filter. Other pages are in the **Menu**.
 - **Stakeholder status report:** the website's **Report** page builds a snapshot from live data: overall status (On track, Watch, or At risk) for schedule, budget, and decisions; an editable summary; phase progress; budget by line; recent and upcoming work; decisions needed; and documents awaiting approval. Print it or save it as a two-page PDF, or copy it as plain text for email.
 - **Spending is tracked against the approved budget** on the website's **Budget** page: totals, a bar per budget line (amber near the limit, red when over), a donut chart of where the money went, and an expense log with optional vouchers. The data is `tracker/budget.json`; uploaded vouchers go in `docs/budget/vouchers/`.
 - **Tasks can have attachments:** a report, memo, voucher, or other file. Attach them from a task's page on the website. Files are saved in `docs/attachments/task-N/`, and each upload or removal is logged as a comment on the issue.
@@ -71,6 +73,7 @@ _Updated automatically Oct 10, 2026._
 | `scripts/dashboard.py` | Draws the progress panel from live Issues |
 | `.github/workflows/` | The two automations that run those scripts |
 | `docs/` | The tracker website (`index.html`) and the data it reads (`data.json`) |
+| `tracker/messages.json` | Messages sent when a task is done and the next task belongs to someone else |
 | `tracker/budget.json` | Budget lines and the expense log |
 | `tracker/documents.json` | The document register: version, status, owner, and approver for each program document |
 | `docs/documents/` | Program document files, including previous versions. The included ones are fictional samples. |

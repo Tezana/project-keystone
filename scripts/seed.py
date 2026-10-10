@@ -34,29 +34,47 @@ for phase in plan["phases"]:
         print(f"milestone created: {phase['title']}")
     phase_number[phase["key"]] = m["number"]
 
-# Issues, one per task. The person responsible is stored as a hidden marker
-# in the issue body (<!-- keystone:owner=ID -->) so the website can show it.
-def with_owner(body, owner):
-    body = re.sub(r"\n?<!-- keystone:owner=[\w-]+ -->", "", body or "")
-    return body + (f"\n<!-- keystone:owner={owner} -->" if owner else "")
+# Issues, one per task. Hidden markers at the bottom of each issue body hold
+# who owns the task (<!-- keystone:owner=ID -->) and which tasks must finish
+# first (<!-- keystone:after=8,17 -->), so the website can show them.
+MARK = re.compile(r"\n?<!-- keystone:(owner|after)=[\w,-]+ -->")
+
+
+def markers(task):
+    out = ""
+    if task.get("owner"):
+        out += f"\n<!-- keystone:owner={task['owner']} -->"
+    if task.get("after"):
+        out += f"\n<!-- keystone:after={','.join(str(n) for n in task['after'])} -->"
+    return out
+
+
+def with_markers(body, task):
+    return MARK.sub("", body or "").rstrip() + markers(task)
 
 
 existing = {i["title"]: i for i in get_all("/issues?state=all") if "pull_request" not in i}
 created = updated = 0
 for task in plan["tasks"]:
-    owner = task.get("owner", "")
     if task["title"] in existing:
         issue = existing[task["title"]]
-        # Assign an owner to older issues that don't have one yet
-        if owner and "keystone:owner=" not in (issue.get("body") or ""):
-            call("PATCH", f"/issues/{issue['number']}", {"body": with_owner(issue.get("body"), owner)})
+        body = issue.get("body") or ""
+        # Add any marker the issue is missing; never overwrite one changed on the website
+        add = dict(task)
+        if "keystone:owner=" in body:
+            add.pop("owner", None)
+        if "keystone:after=" in body:
+            add.pop("after", None)
+        extra = markers(add)
+        if extra:
+            call("PATCH", f"/issues/{issue['number']}", {"body": body.rstrip() + extra})
             updated += 1
-            print(f"issue #{issue['number']}: assigned to {owner}")
+            print(f"issue #{issue['number']}: added{extra.replace(chr(10), ' ')}")
             time.sleep(1)
         continue
     issue = call("POST", "/issues", {
         "title": task["title"],
-        "body": with_owner(task["body"], owner),
+        "body": with_markers(task["body"], task),
         "labels": task["labels"],
         "milestone": phase_number[task["phase"]],
     })
@@ -72,4 +90,4 @@ for phase in plan["phases"]:
     if tasks and all(t["done"] for t in tasks):
         call("PATCH", f"/milestones/{phase_number[phase['key']]}", {"state": "closed"})
 
-print(f"done: {created} new issues, {updated} owners assigned")
+print(f"done: {created} new issues, {updated} issues updated")
