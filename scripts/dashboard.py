@@ -202,6 +202,7 @@ def main():
         "team": json.loads(team.read_text()) if (team := ROOT / "tracker" / "team.json").exists() else [],
         "attachments": load_attachments(),
         "documents": load_documents(),
+        "budget": json.loads(b.read_text()) if (b := ROOT / "tracker" / "budget.json").exists() else None,
         "tasks": tasks,
     }
     (ROOT / "docs").mkdir(exist_ok=True)

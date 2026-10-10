@@ -13,12 +13,16 @@
   --bg:#F4F6F8; --card:#FFFFFF; --ink:#0F172A; --muted:#475569; --faint:#64748B;
   --line:#E2E8F0; --track:#E2E8F0; --accent:#0F766E; --accent-soft:#E6F2F1;
   --done:#334155; --late:#B45309; --late-soft:#FEF3E2; --focus:#0EA5E9; --danger:#B91C1C;
+  /* chart colors: validated categorical slots + fixed status colors */
+  --c1:#2a78d6; --c2:#eb6834; --c3:#1baf7a; --c4:#eda100; --c5:#e87ba4; --c6:#008300;
+  --warn:#fab219; --crit:#d03b3b;
 }
 @media (prefers-color-scheme: dark){
   :root{
     --bg:#0B1220; --card:#111A2B; --ink:#E5EAF2; --muted:#A3B0C2; --faint:#8593A8;
     --line:#22304A; --track:#22304A; --accent:#2DB3A3; --accent-soft:#12302E;
     --done:#94A3B8; --late:#F0A04B; --late-soft:#33240F; --danger:#F87171;
+    --c1:#3987e5; --c2:#d95926; --c3:#199e70; --c4:#c98500; --c5:#d55181; --c6:#008300;
   }
 }
 *{box-sizing:border-box}
@@ -185,6 +189,49 @@ textarea{min-height:120px;resize:vertical;line-height:1.5}
 .tasks .files{border:0;border-radius:0;margin:0}
 @media (max-width:600px){.doc{flex-direction:column;gap:8px}}
 
+/* Budget page */
+.stat.static{cursor:default}
+.stat.static:hover{border-color:var(--line);transform:none}
+.bgrid{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:20px;margin-bottom:32px;align-items:start}
+.meters{list-style:none!important;padding:0!important;margin:0!important}
+.meters li{margin:0!important;padding:9px 6px;border-radius:8px;outline-offset:1px}
+.meters li:hover{background:var(--bg)}
+.mtop{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.mname{font-size:14px;font-weight:600}
+.mflag{display:inline-block;font-size:12px;font-weight:600;color:var(--ink)}
+.mflag.f-near::first-letter{color:var(--warn)}
+.mflag.f-over::first-letter{color:var(--crit)}
+.mnum{margin-left:auto;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.mnum b{color:var(--ink);font-weight:600}
+.mtrack{height:8px;border-radius:4px;background:var(--accent-soft);overflow:hidden}
+.mfill{display:block;height:100%;border-radius:4px;background:var(--accent)}
+.mfill.m-near{background:var(--warn)}
+.mfill.m-over{background:var(--crit)}
+.dwrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+.donut{width:200px;height:200px;max-width:100%}
+.donut .slice{stroke:var(--card);stroke-width:2;stroke-linejoin:round;cursor:default}
+.donut .slice:hover{opacity:.85}
+.donut text{pointer-events:none}
+.donut .dval{font-size:20px;font-weight:700;fill:var(--ink);text-anchor:middle;font-family:inherit}
+.donut .dlab{font-size:12px;fill:var(--muted);text-anchor:middle;font-family:inherit}
+.c1{fill:var(--c1);background:var(--c1)}.c2{fill:var(--c2);background:var(--c2)}.c3{fill:var(--c3);background:var(--c3)}
+.c4{fill:var(--c4);background:var(--c4)}.c5{fill:var(--c5);background:var(--c5)}.c6{fill:var(--c6);background:var(--c6)}.cx{fill:var(--faint);background:var(--faint)}
+.legend{list-style:none!important;padding:0!important;margin:0!important;width:100%}
+.legend li{display:grid;grid-template-columns:12px minmax(0,1fr) auto 38px;gap:10px;align-items:center;margin:0!important;padding:5px 0;font-size:14px;border-bottom:1px solid var(--line)}
+.legend li:last-child{border-bottom:0}
+.legend .sw{width:12px;height:12px;border-radius:3px;display:block}
+.legend .lval{font-weight:600;font-variant-numeric:tabular-nums}
+.legend .lpct{color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.vtip{position:fixed;z-index:20;pointer-events:none;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.15);max-width:260px}
+.vtip b{display:block;font-size:14px;margin-bottom:2px}
+.exp li{align-items:flex-start}
+.xdate{flex:none;width:52px;font-size:13px;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+.xdesc{font-weight:600}
+.xamt{flex:none;font-weight:700;font-variant-numeric:tabular-nums;padding-top:1px}
+.xacts{flex:none;display:flex;gap:2px}
+@media (max-width:820px){.bgrid{grid-template-columns:1fr}}
+@media (max-width:600px){.exp li{flex-wrap:wrap}.exp .fmain{flex-basis:calc(100% - 64px)}.exp .xamt{margin-left:64px}.exp .xacts{margin-left:auto}}
+
 /* Team page */
 .dept{margin-bottom:26px}
 .people{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
@@ -260,6 +307,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       <a class="btn" href="#/" data-nav="home">Dashboard</a>
       <a class="btn" href="#/team" data-nav="team">Team</a>
       <a class="btn" href="#/documents" data-nav="documents">Documents</a>
+      <a class="btn" href="#/budget" data-nav="budget">Budget</a>
       <a class="btn" href="#/about" data-nav="about">About this build</a>
       <a class="btn primary" href="#/new" data-nav="new">+ New task</a>
     </nav>
@@ -318,7 +366,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   function toast(msg){ var t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(function(){ t.hidden = true; }, 2600); }
 
   // ---------- State ----------
-  var S = { base: null, tasks: [], phases: [], labels: {}, milestones: {}, team: [], teamSha: "", attach: {}, docs: [], docsSha: "", owner: !!store(TOKEN_KEY), ui: { show: "open", phase: "", label: "", person: "", q: "", card: "" } };
+  var S = { base: null, tasks: [], phases: [], labels: {}, milestones: {}, team: [], teamSha: "", attach: {}, docs: [], docsSha: "", budget: null, budgetSha: "", owner: !!store(TOKEN_KEY), ui: { show: "open", phase: "", label: "", person: "", q: "", card: "" } };
 
   // ---------- GitHub API (owner mode) ----------
   function gh(method, path, body){
@@ -358,6 +406,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       S.team = (demo().team || base.team || []).slice();
       S.attach = base.attachments || {};
       S.docs = JSON.parse(JSON.stringify(demo().docs || base.documents || []));
+      S.budget = JSON.parse(JSON.stringify(demo().budget || base.budget || null));
       var dueByPhase = {}; base.phases.forEach(function(p){ dueByPhase[p.title] = p.due; });
       S.phases = base.phases.map(function(p){ return { title: p.title, due: p.due }; });
       if (S.owner){
@@ -365,7 +414,9 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
         var team = gh("GET", "/contents/tracker/team.json?ref=main").then(function(f){ S.teamSha = f.sha; S.team = JSON.parse(fromB64(f.content)); }).catch(function(){ S.teamSha = ""; });
         S.docs = JSON.parse(JSON.stringify(base.documents || []));
         var docs = gh("GET", "/contents/tracker/documents.json?ref=main").then(function(f){ S.docsSha = f.sha; S.docs = JSON.parse(fromB64(f.content)); }).catch(function(){ S.docsSha = ""; });
-        return Promise.all([ghAll("/issues?state=all"), ghAll("/milestones?state=all"), team, docs]).then(function(res){
+        S.budget = JSON.parse(JSON.stringify(base.budget || null));
+        var budget = gh("GET", "/contents/tracker/budget.json?ref=main").then(function(f){ S.budgetSha = f.sha; S.budget = JSON.parse(fromB64(f.content)); }).catch(function(){ S.budgetSha = ""; });
+        return Promise.all([ghAll("/issues?state=all"), ghAll("/milestones?state=all"), team, docs, budget]).then(function(res){
           var issues = res[0].filter(function(i){ return !i.pull_request; });
           S.milestones = {}; res[1].forEach(function(m){ S.milestones[m.title] = m.number; dueByPhase[m.title] = (m.due_on || "").slice(0,10); });
           S.phases = Object.keys(dueByPhase).map(function(t){ return { title: t, due: dueByPhase[t] }; });
@@ -552,6 +603,43 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
         return gh("GET", path + "?ref=main").then(function(f){ return gh("DELETE", path, { message: "Remove " + doc.title + " v" + v.version, sha: f.sha, branch: "main" }); }).catch(function(){});
       });
     }, Promise.resolve());
+  }
+
+  // ---------- Budget (owner → tracker/budget.json + docs/budget/vouchers/, demo → this browser) ----------
+  var USD = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+  var USD2 = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  function money(n){ return Math.round(n) === n ? USD.format(n) : USD2.format(n); }
+  function saveBudget(budget, msg){
+    if (S.owner){
+      return gh("PUT", "/contents/tracker/budget.json", { message: msg, content: toB64(JSON.stringify(budget, null, 2) + "\n"), sha: S.budgetSha || undefined, branch: "main" })
+        .then(function(r){ S.budgetSha = r.content.sha; S.budget = budget; })
+        .catch(function(ex){ throw new Error(/not accessible|Resource/.test(ex.message) ? "Your key can't save the budget. Add Contents: Read and write to it." : ex.message); });
+    }
+    var d = demo(); d.budget = budget; saveDemo(d); S.budget = budget; return Promise.resolve();
+  }
+  function uploadVoucher(file, date){
+    if (file.size > MAX_MB * 1048576) return Promise.reject(new Error("That file is over " + MAX_MB + " MB. Try a smaller one."));
+    var name = date + "--" + safeName(file.name);
+    if (S.owner){
+      return readB64(file).then(function(b64){
+        function put(n){ return gh("PUT", "/contents/docs/budget/vouchers/" + encodeURIComponent(n), { message: "Upload expense voucher " + n, content: b64, branch: "main" }).then(function(){ return "budget/vouchers/" + n; }); }
+        return put(name).catch(function(ex){ if (/sha/.test(ex.message)) return put(Date.now() + "-" + name); throw ex; });
+      }).catch(function(ex){ throw new Error(/not accessible|Resource/.test(ex.message) ? "Your key can't upload files. Add Contents: Read and write to it." : ex.message); });
+    }
+    var id = "v" + Date.now() + Math.random().toString(36).slice(2, 7);
+    return idbDo("readwrite", function(st){ return st.put(file, id); }).then(function(){ return "local:" + id; })
+      .catch(function(){ throw new Error("This browser can't store files for the demo (private browsing blocks it)."); });
+  }
+  function budgetStats(){
+    var b = S.budget || { lines: [], expenses: [] };
+    var spent = {}; b.lines.forEach(function(l){ spent[l.id] = 0; });
+    b.expenses.forEach(function(e){ spent[e.line] = (spent[e.line] || 0) + (+e.amount || 0); });
+    var lines = b.lines.map(function(l, i){
+      var s = spent[l.id] || 0, pct = l.budget ? s / l.budget : 0;
+      return { id: l.id, name: l.name, budget: l.budget, spent: s, left: l.budget - s, pct: pct, slot: i, status: pct > 1 ? "over" : pct >= 0.9 ? "near" : "ok" };
+    });
+    var total = lines.reduce(function(a, l){ return a + l.budget; }, 0), used = lines.reduce(function(a, l){ return a + l.spent; }, 0);
+    return { lines: lines, total: total, spent: used, left: total - used, pct: total ? used / total : 0 };
   }
 
   // ---------- Shared bits ----------
@@ -1153,6 +1241,195 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     if (localIds.length) resolveBlobs(localIds).then(function(m){ blobs = m; drawDocs(); drawAtt(); });
   }
 
+  // ---------- View: budget ----------
+  function viewBudget(){
+    setNav("budget");
+    if (!S.budget){ mount([el("a", { class: "back", href: "#/", text: "← Back to dashboard" }), el("p", { class: "empty", text: "No budget yet." })], "Budget"); return; }
+    var ui = S.bui = S.bui || { q: "", line: "", person: "" };
+    var st = budgetStats();
+    var lineName = {}; st.lines.forEach(function(l){ lineName[l.id] = l.name; });
+    var tip = el("div", { class: "vtip", role: "tooltip", hidden: true });
+    function showTip(e, html){ tip.textContent = ""; html.forEach(function(r, i){ tip.appendChild(el(i ? "div" : "b", { text: r })); }); tip.hidden = false; var x = e.clientX + 14, y = e.clientY + 14; var w = tip.offsetWidth, h = tip.offsetHeight; if (x + w > innerWidth - 8) x = e.clientX - w - 14; if (y + h > innerHeight - 8) y = e.clientY - h - 14; tip.style.left = x + "px"; tip.style.top = y + "px"; }
+    function hideTip(){ tip.hidden = true; }
+    function who(id){ var p = person(id); return p ? p.name : "—"; }
+    var watch = st.lines.filter(function(l){ return l.status !== "ok"; });
+    var doc = S.docs.filter(function(d){ return d.id === (S.budget.approvedDoc || "budget"); })[0];
+
+    // KPI row
+    function tile(k, v, s, kids){ return el("div", { class: "stat static" }, [el("div", { class: "k", text: k }), el("div", { class: "v", text: v }), s ? el("div", { class: "s", text: s }) : null].concat(kids || [])); }
+    var meter = el("div", { class: "bar" }, [el("span")]); meter.style.marginTop = "10px"; meter.firstChild.style.width = Math.min(100, st.pct * 100) + "%";
+    var kpis = el("section", { class: "stats", "aria-label": "Budget summary" }, [
+      tile("Approved budget", money(st.total), doc ? doc.title + " v" + doc.version + (doc.status === "approved" ? " · approved" : " · draft") : ""),
+      tile("Spent so far", money(st.spent), Math.round(st.pct * 100) + "% of budget", [meter]),
+      tile("Remaining", money(st.left), Math.round((1 - st.pct) * 100) + "% left"),
+      tile("Lines to watch", String(watch.length), watch.length ? watch.map(function(l){ return l.name + (l.status === "over" ? " (over)" : " (near limit)"); }).join(", ") : "Every line is under 90%")
+    ]);
+
+    // Budget vs spent: one meter per line (track = budget, fill = spent)
+    var meters = el("ul", { class: "meters" });
+    st.lines.forEach(function(l){
+      var fill = el("span", { class: "mfill m-" + l.status }); fill.style.width = Math.min(100, l.pct * 100) + "%";
+      var label = l.status === "over" ? "▲ Over budget" : l.status === "near" ? "● Near limit" : "";
+      var tipRows = [l.name, "Spent " + money(l.spent) + " of " + money(l.budget) + " (" + Math.round(l.pct * 100) + "%)", l.left >= 0 ? money(l.left) + " left" : money(-l.left) + " over"];
+      meters.appendChild(el("li", { tabindex: "0", "aria-label": tipRows.join(". "), onmousemove: function(e){ showTip(e, tipRows); }, onmouseleave: hideTip, onfocus: function(e){ var r = e.target.getBoundingClientRect(); showTip({ clientX: r.left + 40, clientY: r.bottom - 6 }, tipRows); }, onblur: hideTip }, [
+        el("div", { class: "mtop" }, [el("span", { class: "mname", text: l.name }), label ? el("span", { class: "mflag f-" + l.status, text: label }) : null, el("span", { class: "mnum" }, [el("b", { text: money(l.spent) }), " of " + money(l.budget)])]),
+        el("div", { class: "mtrack" }, [fill])
+      ]));
+    });
+
+    // Where the money went: donut, <= 6 segments (5 + "Other" when more lines have spending)
+    var parts = st.lines.filter(function(l){ return l.spent > 0; });
+    if (parts.length > 6){ var keep = parts.slice().sort(function(a, b){ return b.spent - a.spent; }).slice(0, 5); var rest = parts.filter(function(p){ return keep.indexOf(p) < 0; }); parts = keep.sort(function(a, b){ return a.slot - b.slot; }).concat([{ name: "Other (" + rest.length + " lines)", spent: rest.reduce(function(a, p){ return a + p.spent; }, 0), slot: -1 }]); }
+    // Colors go out in the palette's validated order, so neighbouring slices (and the wrap-around pair) always pass the colorblind check
+    parts.forEach(function(p, i){ p.cls = p.slot < 0 ? "cx" : "c" + (i + 1); });
+    var NS = "http://www.w3.org/2000/svg", R = 78, W = 30, C = 100;
+    var svg = document.createElementNS(NS, "svg"); svg.setAttribute("viewBox", "0 0 200 200"); svg.setAttribute("class", "donut"); svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", "Spending by budget line: " + parts.map(function(p){ return p.name + " " + money(p.spent); }).join(", "));
+    var a0 = -Math.PI / 2;
+    function pt(a, r){ return (C + r * Math.cos(a)).toFixed(2) + " " + (C + r * Math.sin(a)).toFixed(2); }
+    parts.forEach(function(p){
+      var frac = st.spent ? p.spent / st.spent : 0, a1 = a0 + frac * Math.PI * 2, big = a1 - a0 > Math.PI ? 1 : 0;
+      var path = document.createElementNS(NS, "path");
+      var ro = R + W / 2, ri = R - W / 2;
+      if (frac >= 0.9999){ path.setAttribute("d", "M " + pt(-Math.PI/2, ro) + " A " + ro + " " + ro + " 0 1 1 " + pt(-Math.PI/2 - 0.0001, ro) + " L " + pt(-Math.PI/2 - 0.0001, ri) + " A " + ri + " " + ri + " 0 1 0 " + pt(-Math.PI/2, ri) + " Z"); }
+      else path.setAttribute("d", "M " + pt(a0, ro) + " A " + ro + " " + ro + " 0 " + big + " 1 " + pt(a1, ro) + " L " + pt(a1, ri) + " A " + ri + " " + ri + " 0 " + big + " 0 " + pt(a0, ri) + " Z");
+      path.setAttribute("class", "slice " + p.cls);
+      var rows = [p.name, money(p.spent) + " · " + Math.round(frac * 100) + "% of spending"];
+      path.addEventListener("mousemove", function(e){ showTip(e, rows); }); path.addEventListener("mouseleave", hideTip);
+      svg.appendChild(path); a0 = a1;
+    });
+    var t1 = document.createElementNS(NS, "text"); t1.setAttribute("x", C); t1.setAttribute("y", C - 2); t1.setAttribute("class", "dval"); t1.textContent = money(st.spent);
+    var t2 = document.createElementNS(NS, "text"); t2.setAttribute("x", C); t2.setAttribute("y", C + 18); t2.setAttribute("class", "dlab"); t2.textContent = "spent";
+    svg.appendChild(t1); svg.appendChild(t2);
+    var legend = el("ul", { class: "legend" });
+    parts.forEach(function(p){
+      legend.appendChild(el("li", {}, [el("i", { class: "sw " + p.cls, "aria-hidden": "true" }), el("span", { class: "lname", text: p.name }), el("span", { class: "lval", text: money(p.spent) }), el("span", { class: "lpct", text: Math.round((st.spent ? p.spent / st.spent : 0) * 100) + "%" })]));
+    });
+    if (!parts.length) legend.appendChild(el("li", { class: "fnone", text: "No spending logged yet." }));
+
+    // Expense log
+    var formBox = el("div");
+    var list = el("ul", { class: "files exp" });
+    var blobs = {};
+    function expenseForm(x){
+      formBox.textContent = "";
+      var err = el("p", { class: "error", role: "alert", hidden: true });
+      var date = el("input", { type: "date", id: "x-date", value: x ? x.date : today() });
+      var amount = el("input", { type: "text", id: "x-amount", inputmode: "decimal", placeholder: "0.00", value: x ? String(x.amount) : "", autocomplete: "off" });
+      var line = el("select", { id: "x-line" }); st.lines.forEach(function(l){ line.appendChild(el("option", { value: l.id, text: l.name, selected: x && x.line === l.id })); });
+      var desc = el("input", { type: "text", id: "x-desc", maxlength: 140, value: x ? x.description : "", autocomplete: "off" });
+      var vendor = el("input", { type: "text", id: "x-vendor", maxlength: 80, value: x ? x.vendor : "", autocomplete: "off" });
+      var task = el("select", { id: "x-task" }, [el("option", { value: "", text: "None" })]);
+      S.tasks.slice().sort(function(a, b){ return a.number - b.number; }).forEach(function(t){ task.appendChild(el("option", { value: String(t.number), text: "#" + t.number + " " + (t.title.length > 48 ? t.title.slice(0, 47) + "…" : t.title), selected: x && String(x.task) === String(t.number) })); });
+      var by = ownerSelect("x-by", x ? x.by : "", "Choose a person");
+      var file = el("input", { type: "file", id: "x-file", accept: ".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx" });
+      var go = el("button", { type: "submit", class: "btn primary", text: x ? "Save changes" : "Log expense" });
+      formBox.appendChild(el("div", { class: "sheet" }, [
+        el("div", { class: "eyebrow", text: x ? "Edit expense" : "Log an expense" }),
+        el("form", { novalidate: true, onsubmit: function(e){
+          e.preventDefault(); err.hidden = true;
+          var amt = Math.round(parseFloat(amount.value.replace(/[$,\s]/g, "")) * 100) / 100;
+          var bad = !date.value ? [date, "Pick the date."] : !(amt > 0) ? [amount, "Enter an amount greater than zero."] : !desc.value.trim() ? [desc, "Say what the money was for."] : !by.value ? [by, "Pick who spent it."] : null;
+          if (bad){ err.textContent = bad[1]; err.hidden = false; bad[0].focus(); return; }
+          var lineObj = st.lines.filter(function(l){ return l.id === line.value; })[0];
+          var newSpent = lineObj.spent - (x && x.line === line.value ? +x.amount : 0) + amt;
+          if (newSpent > lineObj.budget && !window.confirm("This puts " + lineObj.name + " over budget (" + money(newSpent) + " of " + money(lineObj.budget) + "). The program plan asks for a memo to the PI. Log it anyway?")) return;
+          go.disabled = true; go.textContent = "Saving…";
+          var f = file.files && file.files[0];
+          (f ? uploadVoucher(f, date.value) : Promise.resolve(x ? x.voucher : "")).then(function(v){
+            var b = JSON.parse(JSON.stringify(S.budget));
+            var rec = { date: date.value, line: line.value, amount: amt, description: desc.value.trim(), vendor: vendor.value.trim(), task: task.value ? +task.value : "", by: by.value, voucher: v || "" };
+            if (x) Object.assign(b.expenses.filter(function(y){ return y.id === x.id; })[0], rec);
+            else { var n = b.expenses.reduce(function(m, y){ return Math.max(m, +String(y.id).replace(/\D/g, "") || 0); }, 0) + 1; b.expenses.push(Object.assign({ id: "e" + n }, rec)); }
+            return saveBudget(b, (x ? "Update" : "Log") + " expense: " + rec.description + " (" + money(amt) + ")");
+          }).then(function(){ toast(x ? "Expense updated." : "Expense logged."); viewBudget(); })
+            .catch(function(ex){ err.textContent = ex.message; err.hidden = false; go.disabled = false; go.textContent = x ? "Save changes" : "Log expense"; });
+        } }, [
+          el("div", { class: "grid3" }, [
+            el("div", { class: "field" }, [el("label", { for: "x-date", text: "Date" }), date]),
+            el("div", { class: "field" }, [el("label", { for: "x-amount", text: "Amount (USD)" }), amount]),
+            el("div", { class: "field" }, [el("label", { for: "x-line", text: "Budget line" }), line])
+          ]),
+          el("div", { class: "field" }, [el("label", { for: "x-desc", text: "What it was for" }), desc]),
+          el("div", { class: "grid3" }, [
+            el("div", { class: "field" }, [el("label", { for: "x-vendor", text: "Vendor (optional)" }), vendor]),
+            el("div", { class: "field" }, [el("label", { for: "x-task", text: "Related task (optional)" }), task]),
+            el("div", { class: "field" }, [el("label", { for: "x-by", text: "Spent by" }), by])
+          ]),
+          el("div", { class: "field attach" }, [el("label", { for: "x-file", text: x && x.voucher ? "Replace voucher or receipt (optional)" : "Voucher or receipt (optional)" }), file]),
+          el("div", { class: "actions" }, [go, el("button", { type: "button", class: "btn", text: "Cancel", onclick: function(){ formBox.textContent = ""; } })]),
+          err
+        ])
+      ]));
+      formBox.style.marginBottom = "20px";
+      (x ? amount : desc).focus();
+    }
+    function drawList(){
+      var q = ui.q.toLowerCase(); list.textContent = "";
+      var rows = S.budget.expenses.filter(function(e){
+        if (ui.line && e.line !== ui.line) return false;
+        if (ui.person && e.by !== ui.person) return false;
+        if (q && (e.description + " " + e.vendor + " " + lineName[e.line] + " " + who(e.by)).toLowerCase().indexOf(q) < 0) return false;
+        return true;
+      }).sort(function(a, b){ return b.date.localeCompare(a.date) || String(b.id).localeCompare(String(a.id)); });
+      var sum = rows.reduce(function(a, e){ return a + (+e.amount || 0); }, 0);
+      $("expCount").textContent = rows.length + " expense" + (rows.length === 1 ? "" : "s") + " · " + money(sum);
+      if (!rows.length) list.appendChild(el("li", { class: "fnone", text: S.budget.expenses.length ? "No expenses match. Try another filter." : "No expenses logged yet." }));
+      rows.forEach(function(e){
+        var t = e.task ? find(e.task) : null;
+        var vhref = !e.voucher ? "" : e.voucher.indexOf("local:") === 0 ? (blobs[e.voucher.slice(6)] || "") : S.owner ? rawUrl(e.voucher) : e.voucher;
+        list.appendChild(el("li", {}, [
+          el("span", { class: "xdate", text: niceDate(e.date).replace(/, \d{4}$/, "") }),
+          el("span", { class: "fmain" }, [
+            el("span", { class: "xdesc", text: e.description }),
+            el("small", {}, [lineName[e.line] || e.line, e.vendor ? " · " + e.vendor : "", " · " + who(e.by)].concat(t ? [" · ", el("a", { class: "tlink", href: "#/task/" + t.number, text: "#" + t.number })] : []).concat(e.voucher ? [" · ", el("a", { class: "tlink", href: vhref, target: "_blank", rel: "noopener", text: "Voucher" })] : []))
+          ]),
+          el("span", { class: "xamt", text: money(+e.amount) }),
+          el("span", { class: "xacts" }, [
+            el("button", { type: "button", class: "linkbtn", text: "Edit", "aria-label": "Edit expense: " + e.description, onclick: function(){ expenseForm(e); } }),
+            el("button", { type: "button", class: "linkbtn danger", text: "Delete", "aria-label": "Delete expense: " + e.description, onclick: function(ev){
+              if (!window.confirm("Delete this expense? " + e.description + " (" + money(+e.amount) + ")")) return;
+              ev.target.disabled = true;
+              var b = JSON.parse(JSON.stringify(S.budget)); b.expenses = b.expenses.filter(function(y){ return y.id !== e.id; });
+              saveBudget(b, "Delete expense: " + e.description).then(function(){ toast("Expense deleted."); viewBudget(); }).catch(function(ex){ toast(ex.message); ev.target.disabled = false; });
+            } })
+          ])
+        ]));
+      });
+    }
+    var lineF = el("select", { id: "expLine", onchange: function(e){ ui.line = e.target.value; drawList(); } }, [el("option", { value: "", text: "All budget lines" })]);
+    st.lines.forEach(function(l){ lineF.appendChild(el("option", { value: l.id, text: l.name, selected: ui.line === l.id })); });
+    var personF = ownerSelect("expPerson", ui.person, "Everyone", true); personF.addEventListener("change", function(e){ ui.person = e.target.value; drawList(); });
+    var search = el("input", { type: "search", id: "expSearch", placeholder: "Search expenses", value: ui.q, oninput: function(e){ ui.q = e.target.value; drawList(); } });
+
+    mount([
+      el("a", { class: "back", href: "#/", text: "← Back to dashboard" }),
+      el("div", { class: "row", style: "align-items:flex-end;flex-wrap:wrap;margin-bottom:20px" }, [
+        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? "Budget tracking · saves to GitHub" : "Budget tracking · demo" }),
+          el("h2", { class: "t", text: "Budget", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 4px" }),
+          el("p", { style: "margin:0;color:var(--muted)" }, ["Spending against the approved study budget", doc ? [" (", el("a", { href: "#/documents", text: doc.title + " v" + doc.version }), ")"] : null].reduce(function(a, x){ return a.concat(x || []); }, []))]),
+        (function(){ var b = el("button", { type: "button", class: "btn primary", text: "+ Log expense", onclick: function(){ expenseForm(null); } }); b.style.marginLeft = "auto"; return b; })()
+      ]),
+      formBox,
+      kpis,
+      el("div", { class: "bgrid" }, [
+        el("section", { class: "panel", "aria-label": "Budget versus spent by line" }, [el("h2", { text: "Budget vs. spent by line" }), el("div", { class: "sub", text: "Bar = share of each line's budget used. Hover for details." }), meters]),
+        el("section", { class: "panel", "aria-label": "Where the money went" }, [el("h2", { text: "Where the money went" }), el("div", { class: "sub", text: "Share of spending so far, by budget line." }), el("div", { class: "dwrap" }, [svg, legend])])
+      ]),
+      el("section", { class: "dsec", "aria-label": "Expenses" }, [
+        el("div", { class: "shead" }, [el("h2", { text: "Expenses" }), el("span", { id: "expCount", class: "shint" })]),
+        el("div", { class: "tasks" }, [
+          el("div", { class: "toolbar" }, [el("label", { class: "sr", for: "expSearch", text: "Search expenses" }), search, el("label", { class: "sr", for: "expLine", text: "Filter by budget line" }), lineF, el("label", { class: "sr", for: "expPerson", text: "Filter by person" }), personF]),
+          list
+        ])
+      ]),
+      tip
+    ], "Budget");
+    drawList();
+    var ids = S.budget.expenses.filter(function(e){ return e.voucher && e.voucher.indexOf("local:") === 0; }).map(function(e){ return e.voucher.slice(6); });
+    if (ids.length) resolveBlobs(ids).then(function(m){ blobs = m; drawList(); });
+  }
+
   // ---------- View: about ----------
   function viewAbout(){
     setNav("about");
@@ -1164,7 +1441,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       LINKEDIN ? el("a", { class: "btn", href: LINKEDIN, text: "LinkedIn" }) : null,
       el("a", { class: "btn", href: "https://github.com/" + REPO, text: "Source code" })
     ]);
-    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Team", "Each person's name, title, and department live in a team file in the repo; each task carries its assignee in a hidden note, so assignments survive in GitHub"], ["Documents", "A document register: program documents with versions, version history, and Draft/Approved status with who approved and when; plus every task file in one searchable list"], ["Attachments", "Reports, memos, and vouchers per task. Owner uploads are stored in the repo through the GitHub contents API; demo files stay in the visitor's browser (IndexedDB)"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
+    var rows = [["Data", "GitHub Issues, Milestones, and Labels (the single source of truth)"], ["Automation", "GitHub Actions: one-click plan loader, plus a dashboard that redraws whenever a task changes and once a day"], ["Scripts", "Python 3.12, standard library only: REST API calls, pagination, retry on rate limits, safe to re-run"], ["Website", "HTML, CSS, and vanilla JavaScript on GitHub Pages; works on phones; dark mode; keyboard accessible"], ["Team", "Each person's name, title, and department live in a team file in the repo; each task carries its assignee in a hidden note, so assignments survive in GitHub"], ["Budget", "Spending against the approved budget: summary tiles, a bar per budget line that turns amber near the limit and red when over, a donut of where the money went, and an expense log with vouchers"], ["Documents", "A document register: program documents with versions, version history, and Draft/Approved status with who approved and when; plus every task file in one searchable list"], ["Attachments", "Reports, memos, and vouchers per task. Owner uploads are stored in the repo through the GitHub contents API; demo files stay in the visitor's browser (IndexedDB)"], ["Owner mode", "Calls the GitHub REST API from the browser with a private, repo-limited key"], ["Demo mode", "Saves visitor changes in the browser only, so the real data is never touched"]];
     var table = el("table", { class: "simple" }, [el("tr", {}, [el("th", { text: "Layer" }), el("th", { text: "What it uses" })])]);
     rows.forEach(function(r){ table.appendChild(el("tr", {}, [el("td", {}, [el("b", { text: r[0] })]), el("td", { text: r[1] })])); });
     var ch = [["Couldn't create the planned GitHub organization (sign-in lockout)", "Built on the personal account instead, without waiting"], ["Push refused (HTTP 403)", "Granted the app access to the new repo and refreshed the connection"], ["Loading 55 tasks without setup work", "Moved loading into a GitHub Action that uses the repo's own token: one click, safe to repeat"], ["\"Up next\" showed tasks backwards", "GitHub returns newest first; sorted by task number"], ["Visitors shouldn't change real data", "Two modes: demo saves locally; owner mode needs a private key"], ["First demo data was too close to a real project", "Rebuilt with a fictional research study and a clean repository history, since edits leave the old text visible"]];
@@ -1182,7 +1459,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       el("h3", { text: "Technology" }), table,
       el("h3", { text: "Challenges and fixes" }), ctable,
       el("h3", { text: "Try it" }),
-      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Open Documents to see the program plan, budget, and schedule. Approve the draft risk register, or upload a new version and watch it go back to Draft." }), el("li", { text: "Attach a report, memo, or voucher to a task. Tasks #4, #5, and #17 already have sample documents." }), el("li", { text: "Reassign a task, or open the Team page to add someone and see who owns what." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
+      el("ul", {}, [el("li", { text: "Open any task and mark it done, then watch the progress numbers change." }), el("li", { text: "Add a note to a task, or create a new task." }), el("li", { text: "Open Budget and log an expense. Watch the line bars and the donut chart update, and see the warning when a line nears its limit." }), el("li", { text: "Open Documents to see the program plan, budget, and schedule. Approve the draft risk register, or upload a new version and watch it go back to Draft." }), el("li", { text: "Attach a report, memo, or voucher to a task. Tasks #4, #5, and #17 already have sample documents." }), el("li", { text: "Reassign a task, or open the Team page to add someone and see who owns what." }), el("li", { text: "Use Reset demo in the banner to start over." })]),
       el("p", { class: "hint", text: "Lanternfield Labs, Project Keystone, the study, the team, and the sample documents are fictional. They exist to demo the tracker with realistic data." })
     ])], "About this build");
   }
@@ -1232,6 +1509,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     else if (h === "about") viewAbout();
     else if (h === "team") viewTeam();
     else if (h === "documents") viewDocs();
+    else if (h === "budget") viewBudget();
     else if (h === "owner") viewOwner();
     else viewHome();
     window.scrollTo(0, 0);
