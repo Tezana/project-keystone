@@ -531,7 +531,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   <main id="view" tabindex="-1"></main>
   <footer>
     <span id="footName">Project Keystone · Lanternfield Labs</span>
-    <span>Built by Tezana White · <a href="#/owner">Owner sign-in</a></span>
+    <span><span id="builtBy"></span><a href="#/owner">Owner sign-in</a></span>
   </footer>
 </div>
 <div class="toast" id="toast" hidden></div>
@@ -540,15 +540,26 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
 (function(){
   "use strict";
   // ---------- Settings ----------
-  var REPO = "Tezana/project-keystone";
-  var PORTFOLIO = "https://tezana.github.io/";
-  var LINKEDIN = ""; // add your LinkedIn URL here to show it on the About page
+  // ================= SITE SETTINGS: the only block you need to change for a new copy =================
+  var SITE = {
+    repo: "Tezana/project-keystone",      // GitHub owner/repository this site reads and writes
+    builtBy: "Tezana White",              // shown in the footer
+    portfolio: "https://tezana.github.io/", portfolioLabel: "Tezana's portfolio",  // About page button ("" hides it)
+    linkedin: "",                         // LinkedIn URL for the About page ("" hides it)
+    storagePrefix: "keystone",            // keeps each copy's browser data separate; use a new word for each copy
+    demoMode: true,                       // true: visitors can try everything, saved only in their browser
+                                          // false: visitors can only look; changes need owner sign-in
+    reportFooter: "Fictional study for demonstration."  // bottom line of the printed progress report ("" hides it)
+  };
+  // =====================================================================================================
+  var REPO = SITE.repo, PORTFOLIO = SITE.portfolio, LINKEDIN = SITE.linkedin;
   var API = "https://api.github.com";
-  var DEMO_KEY = "keystone-demo-v1", TOKEN_KEY = "keystone-owner-token";
+  var DEMO_KEY = SITE.storagePrefix + "-demo-v1", TOKEN_KEY = SITE.storagePrefix + "-owner-token";
   // Hidden markers in each issue body hold the due date and the person assigned
   var MARK_RE = /\n?<!-- keystone:(due|owner|after)=([\w,-]+) -->/g;
 
   // ---------- Small helpers ----------
+  function viewOnly(){ return !SITE.demoMode && !S.owner; }
   function $(id){ return document.getElementById(id); }
   function el(tag, attrs, kids){
     var n = document.createElement(tag);
@@ -664,6 +675,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
 
   // ---------- Write actions (owner → GitHub, demo → this browser) ----------
   function saveTask(n, changes){
+    if (viewOnly()) return Promise.reject(new Error("Sign in as the owner to make changes."));
     var t = find(n);
     if (S.owner){
       var payload = {};
@@ -680,6 +692,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     return Promise.resolve();
   }
   function createTask(f){
+    if (viewOnly()) return Promise.reject(new Error("Sign in as the owner to make changes."));
     if (S.owner){
       return gh("POST", "/issues", { title: f.title, body: joinBody(f.body, { due: f.due, owner: f.owner, after: f.after }), labels: f.labels, milestone: S.milestones[f.phase] || undefined })
         .then(function(i){ var t = fromIssue(i); S.tasks.push(t); return t.number; });
@@ -695,6 +708,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     return Promise.resolve((demo().notes[n] || []).slice());
   }
   function addNote(n, text){
+    if (viewOnly()) return Promise.reject(new Error("Sign in as the owner to make changes."));
     if (S.owner) return gh("POST", "/issues/" + n + "/comments", { body: text });
     var d = demo(); (d.notes[n] = d.notes[n] || []).push({ text: text, at: today() }); saveDemo(d); return Promise.resolve();
   }
@@ -711,6 +725,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     return id;
   }
   function saveTeam(team, msg){
+    if (viewOnly()) return Promise.reject(new Error("Sign in as the owner to make changes."));
     var json = "[\n" + team.map(function(p){ return "  " + JSON.stringify({ id: p.id, name: p.name, title: p.title, team: p.team }); }).join(",\n") + "\n]\n";
     if (S.owner){
       return gh("PUT", "/contents/tracker/team.json", { message: msg, content: toB64(json), sha: S.teamSha || undefined, branch: "main" })
@@ -758,6 +773,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   }
   function readB64(file){ return new Promise(function(ok, no){ var r = new FileReader(); r.onload = function(){ ok(String(r.result).split(",")[1] || ""); }; r.onerror = function(){ no(r.error); }; r.readAsDataURL(file); }); }
   function addAttachment(n, file, kind, existing){
+    if (viewOnly()) return Promise.reject(new Error("Sign in as the owner to make changes."));
     if (file.size > MAX_MB * 1048576) return Promise.reject(new Error("That file is over " + MAX_MB + " MB. Try a smaller one."));
     var name = safeName(file.name), taken = existing.map(function(a){ return a.name; }), i = 2, dot = name.lastIndexOf(".");
     while (taken.indexOf(name) > -1){ name = (dot > 0 ? name.slice(0, dot) : name).replace(/\(\d+\)$/, "") + "(" + i++ + ")" + (dot > 0 ? safeName(file.name).slice(dot) : ""); }
@@ -775,6 +791,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     });
   }
   function removeAttachment(n, a){
+    if (viewOnly()) return Promise.reject(new Error("Sign in as the owner to make changes."));
     var note = "Removed a " + kindName(a.kind).toLowerCase() + ": " + a.name.replace(/_/g, " ");
     if (S.owner) return gh("DELETE", "/contents/" + a.path.split("/").map(encodeURIComponent).join("/"), { message: "Remove " + a.name + " from task #" + n, sha: a.sha, branch: "main" }).then(function(){ return addNote(n, note); });
     var d = demo();
@@ -794,6 +811,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   function hrefFor(v, blobs){ return v.local ? (blobs[v.local] || "") : S.owner ? rawUrl(v.file) : v.file; }
   function nextVersion(v){ var p = String(v || "0.0").split("."); return (+p[0] || 0) + "." + ((+p[1] || 0) + 1); }
   function saveDocs(docs, msg){
+    if (viewOnly()) return Promise.reject(new Error("Sign in as the owner to make changes."));
     var clean = docs.map(function(d){ var c = JSON.parse(JSON.stringify(d)); delete c.size; (c.history || []).forEach(function(h){ delete h.size; }); return c; });
     if (S.owner){
       return gh("PUT", "/contents/tracker/documents.json", { message: msg, content: toB64(JSON.stringify(clean, null, 2) + "\n"), sha: S.docsSha || undefined, branch: "main" })
@@ -803,6 +821,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     var d = demo(); d.docs = docs; saveDemo(d); S.docs = docs; return Promise.resolve();
   }
   function uploadDocFile(file, title, version){
+    if (viewOnly()) return Promise.reject(new Error("Sign in as the owner to make changes."));
     if (file.size > MAX_MB * 1048576) return Promise.reject(new Error("That file is over " + MAX_MB + " MB. Try a smaller one."));
     var ext = (/\.[A-Za-z0-9]{1,5}$/.exec(file.name) || [""])[0].toLowerCase();
     var base = safeName(title).replace(/\.+$/, "") + "_v" + version;
@@ -833,6 +852,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   var USD2 = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 });
   function money(n){ return Math.round(n) === n ? USD.format(n) : USD2.format(n); }
   function saveBudget(budget, msg){
+    if (viewOnly()) return Promise.reject(new Error("Sign in as the owner to make changes."));
     if (S.owner){
       return gh("PUT", "/contents/tracker/budget.json", { message: msg, content: toB64(JSON.stringify(budget, null, 2) + "\n"), sha: S.budgetSha || undefined, branch: "main" })
         .then(function(r){ S.budgetSha = r.content.sha; S.budget = budget; })
@@ -841,6 +861,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     var d = demo(); d.budget = budget; saveDemo(d); S.budget = budget; return Promise.resolve();
   }
   function uploadVoucher(file, date){
+    if (viewOnly()) return Promise.reject(new Error("Sign in as the owner to make changes."));
     if (file.size > MAX_MB * 1048576) return Promise.reject(new Error("That file is over " + MAX_MB + " MB. Try a smaller one."));
     var name = date + "--" + safeName(file.name);
     if (S.owner){
@@ -886,6 +907,9 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     if (S.owner){
       b.appendChild(el("span", {}, [el("b", { text: "Owner mode. " }), "Changes save to GitHub."]));
       b.appendChild(el("button", { type: "button", class: "linkbtn", text: "Lock owner mode", onclick: function(){ store(TOKEN_KEY, null); S.owner = false; boot("Owner mode locked."); } }));
+    } else if (!SITE.demoMode){
+      b.appendChild(el("span", {}, [el("b", { text: "View only. " }), "Owner sign-in is needed to make changes."]));
+      b.appendChild(el("a", { class: "linkbtn", href: "#/owner", text: "Owner sign-in" }));
     } else {
       b.appendChild(el("span", {}, [el("b", { text: "Live demo: try it. " }), "Open a task, mark it done, add notes, attach a file, or create a task. Changes stay on this device."]));
       b.appendChild(el("button", { type: "button", class: "linkbtn", text: "Reset demo", onclick: function(){ saveDemo(null); store(DEMO_KEY, null); idbDo("readwrite", function(st){ return st.clear(); }).catch(function(){}); boot("Demo reset."); } }));
@@ -896,7 +920,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     var inMenu = !!document.querySelector('#menuPanel [data-nav="' + which + '"]'), mb = $("menuBtn");
     if (mb){ mb.classList.toggle("is-current", inMenu && which !== "home"); var cur = document.querySelector('#menuPanel [aria-current="page"] b'); mb.querySelector(".mlabel").textContent = inMenu && cur && which !== "home" ? cur.textContent : "Menu"; }
   }
-  function mount(nodes, title){ var v = $("view"); v.textContent = ""; nodes.forEach(function(n){ if (n) v.appendChild(n); }); document.title = (title ? title + " · " : "") + "Project Keystone Tracker"; }
+  function mount(nodes, title){ var v = $("view"); v.textContent = ""; nodes.forEach(function(n){ if (n) v.appendChild(n); }); document.title = (title ? title + " · " : "") + ((S.base && S.base.project) || "Project") + " Tracker"; }
 
   // ---------- Shared chart bits ----------
   function makeTip(){
@@ -949,6 +973,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
 
   // ---------- Messages (owner → tracker/messages.json, demo → this browser) ----------
   function saveMsgs(msgs, msg){
+    if (viewOnly()) return Promise.reject(new Error("Sign in as the owner to make changes."));
     if (S.owner){
       return gh("PUT", "/contents/tracker/messages.json", { message: msg, content: toB64("[\n" + msgs.map(function(m){ return "  " + JSON.stringify(m); }).join(",\n") + "\n]\n"), sha: S.msgsSha || undefined, branch: "main" })
         .then(function(r){ S.msgsSha = r.content.sha; S.msgs = msgs; badge(); })
@@ -1886,7 +1911,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   }
 
   // ---------- View: stakeholder status report ----------
-  var REPORT_KEY = "keystone-report-v1";
+  var REPORT_KEY = SITE.storagePrefix + "-report-v1";
   function addDays(iso, n){ var p = iso.split("-").map(Number), d = new Date(p[0], p[1]-1, p[2] + n); return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
   function reportData(days){
     var now = today(), from = addDays(now, -days);
@@ -2030,7 +2055,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
         sec("Decisions needed", [list(R.decisions.map(function(t){ var li = taskLi(t); if (R.urgentDec.indexOf(t) > -1) li.insertBefore(el("span", { class: "rflag f-near soon", text: "● Needed soon" }), li.firstChild); return li; }), "No open decisions.")]),
         sec("Documents awaiting approval", [list(R.drafts.map(function(d){ return el("li", {}, [el("a", { href: "#/documents", text: d.title + " v" + d.version }), el("span", { class: "rmeta", text: " · " + who(d.owner) + " · updated " + niceDate(d.updated) })]); }), "All program documents are approved.")])
       ]),
-      el("footer", { class: "rfoot" }, [el("span", { text: "Generated from the live tracker on " + niceDate(R.now) + "." }), el("span", { text: "Fictional study for demonstration." })])
+      el("footer", { class: "rfoot" }, [el("span", { text: "Generated from the live tracker on " + niceDate(R.now) + "." }), SITE.reportFooter ? el("span", { text: SITE.reportFooter }) : null])
     ]);
     mount([el("a", { class: "back noprint", href: "#/", text: "← Back to dashboard" }), controls, report], "Status report");
   }
@@ -2038,6 +2063,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   // ---------- Calendar (owner → tracker/calendar.json, demo → this browser) ----------
   var LEVELS = { study: "Study-wide", leadership: "Leadership", department: "Department" };
   function saveCal(cal, msg){
+    if (viewOnly()) return Promise.reject(new Error("Sign in as the owner to make changes."));
     if (S.owner){
       return gh("PUT", "/contents/tracker/calendar.json", { message: msg, content: toB64(JSON.stringify(cal, null, 2) + "\n"), sha: S.calSha || undefined, branch: "main" })
         .then(function(r){ S.calSha = r.content.sha; S.cal = cal; })
@@ -2276,7 +2302,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     function arr(){ return el("span", { class: "arr", "aria-hidden": "true", text: "→" }); }
     var links = el("div", { class: "byline" }, [
       el("a", { class: "btn primary", href: "build-history.pdf", download: "Project_Keystone_Tracker_Build_History.pdf", text: "Download the build history (PDF)" }),
-      el("a", { class: "btn", href: PORTFOLIO, text: "Tezana's portfolio" }),
+      PORTFOLIO ? el("a", { class: "btn", href: PORTFOLIO, text: SITE.portfolioLabel || "Portfolio" }) : null,
       LINKEDIN ? el("a", { class: "btn", href: LINKEDIN, text: "LinkedIn" }) : null,
       el("a", { class: "btn", href: "https://github.com/" + REPO, text: "Source code" })
     ]);
@@ -2331,7 +2357,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
         el("ol", {}, [
           el("li", {}, ["On GitHub, open ", el("a", { href: "https://github.com/settings/personal-access-tokens/new", target: "_blank", rel: "noopener", text: "new fine-grained token" }), "."]),
           el("li", { text: "Name it \"Keystone tracker\" and pick an expiration date." }),
-          el("li", { text: "Repository access: Only select repositories → project-keystone." }),
+          el("li", { text: "Repository access: Only select repositories → " + REPO.split("/")[1] + "." }),
           el("li", { text: "Permissions → Repository permissions → Issues: Read and write, and Contents: Read and write (for team changes and attachments). Leave everything else as is." }),
           el("li", { text: "Click Generate token, copy it, and paste it above." })
         ])
@@ -2363,6 +2389,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       var b = S.base;
       $("project").textContent = b.project; $("company").textContent = b.company; $("summary").textContent = b.summary || "";
       $("footName").textContent = b.project + " · " + b.company;
+      $("builtBy").textContent = SITE.builtBy ? "Built by " + SITE.builtBy + " · " : "";
       $("updated").textContent = S.owner ? "Live from GitHub" : "Data updated " + niceDate(b.updated);
       banner(); badge(); route(); if (msg) toast(msg);
     }).catch(function(){ $("updated").textContent = "Couldn't load tasks. Refresh in a minute."; });

@@ -65,7 +65,7 @@ def load_local_preview():
                           "phase": p["title"], "labels": t["labels"], "url": "#",
                           "body": t["body"] + (f"\n\n<!-- keystone:due={t['due']} -->" if t.get("due") else "") + (f"\n<!-- keystone:owner={t['owner']} -->" if t.get("owner") else "")
                                   + (f"\n<!-- keystone:after={','.join(map(str, t['after']))} -->" if t.get("after") else ""),
-                          "closed": "", "created": "", "reason": ""})
+                          "closed": p["due"] if t["done"] else "", "created": "", "reason": ""})
             if not t["done"]:
                 open_items.append(item)
                 if "decision" in t["labels"]:

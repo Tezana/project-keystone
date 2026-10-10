@@ -64,6 +64,13 @@ _Updated automatically Oct 10, 2026._
 2. Click **Load tasks** on the left, then **Run workflow** > **Run workflow**.
 3. Wait about two minutes. The tasks, phases, labels, and the dashboard above will appear.
 
+## Maintaining this project
+
+- **Settings for a new copy** live in one block at the top of the script in `docs/index.html` (search for `SITE SETTINGS`): repository, your name, portfolio and LinkedIn links, a storage word, demo or view-only mode, and the report footer.
+- **The plan and data** live in `tracker/*.json`: tasks, team, documents, budget, calendar, and messages.
+- **Tests:** run `tests/run.sh` after any change. See `tests/README.md`.
+- **Version 1.0** is tagged `v1.0`, so you can always get back to it.
+
 ## What's in this repo
 
 | Path | What it is |
@@ -79,4 +86,5 @@ _Updated automatically Oct 10, 2026._
 | `tracker/budget.json` | Budget lines and the expense log |
 | `tracker/documents.json` | The document register: version, status, owner, and approver for each program document |
 | `docs/documents/` | Program document files, including previous versions. The included ones are fictional samples. |
+| `tests/` | Browser tests for the website (`tests/run.sh`) |
 | `docs/attachments/` | Files attached to tasks, one folder per task. The three included are fictional samples. |

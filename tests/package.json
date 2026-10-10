@@ -1,0 +1,7 @@
+{
+  "name": "tracker-tests",
+  "private": true,
+  "description": "Browser tests for the project tracker website",
+  "scripts": { "test": "../tests/run.sh" },
+  "dependencies": { "playwright": "1.47.2" }
+}
