@@ -568,6 +568,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
 
   // ---------- Small helpers ----------
   function viewOnly(){ return !SITE.demoMode && !S.owner; }
+  function modeTag(){ return SITE.demoMode ? "demo" : "view only"; }
   function $(id){ return document.getElementById(id); }
   function el(tag, attrs, kids){
     var n = document.createElement(tag);
@@ -911,6 +912,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   function taskStatus(t){ return t.reason === "not_planned" ? "Won't do" : t.state === "closed" ? "Done" : "Open"; }
   function stClass(s){ return "st-" + s.split(/[ ']/)[0]; }
   function banner(){
+    var nt = document.querySelector('[data-nav="new"]'); if (nt) nt.hidden = viewOnly(); // newTaskBtn
     var b = $("banner"); b.textContent = ""; b.className = "banner" + (S.owner ? " owner" : "");
     if (S.owner){
       b.appendChild(el("span", {}, [el("b", { text: "Owner mode. " }), "Changes save to GitHub."]));
@@ -1314,7 +1316,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     mount([
       el("a", { class: "back", href: "#/", text: "← Back to dashboard" }),
       el("div", { class: "sheet" }, [
-        el("div", { class: "eyebrow", text: S.owner ? "New task · saves to GitHub" : "New task · demo" }),
+        el("div", { class: "eyebrow", text: S.owner ? "New task · saves to GitHub" : "New task · " + modeTag() }),
         el("h2", { class: "t", text: "Add a task" }),
         taskForm({ phase: first ? first.title : "", labels: [], owner: person(S.ui.person) ? S.ui.person : "" }, function(f){
           return createTask(f).then(function(n){ toast("Task created."); location.hash = "#/task/" + n; });
@@ -1509,7 +1511,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     mount([
       el("a", { class: "back", href: "#/", text: "← Back to dashboard" }),
       el("div", { class: "row", style: "align-items:flex-end;flex-wrap:wrap;margin-bottom:20px" }, [
-        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? W.teamTitle + " · saves to GitHub" : W.teamTitle + " · demo" }), el("h2", { class: "t", text: "Team", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 4px" }),
+        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? W.teamTitle + " · saves to GitHub" : W.teamTitle + " · " + modeTag() }), el("h2", { class: "t", text: "Team", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 4px" }),
           el("p", { style: "margin:0;color:var(--muted)", text: S.team.length + " people in " + departments().length + " departments" + (unassigned ? " · " + unassigned + " open task" + (unassigned === 1 ? "" : "s") + " unassigned" : " · every open task has an owner") })]),
         (function(){ var b = el("button", { type: "button", class: "btn primary", text: "+ Add member", onclick: function(){ memberForm(null); } }); b.style.marginLeft = "auto"; return b; })()
       ]),
@@ -1705,7 +1707,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     mount([
       el("a", { class: "back", href: "#/", text: "← Back to dashboard" }),
       el("div", { class: "row", style: "align-items:flex-end;flex-wrap:wrap;margin-bottom:20px" }, [
-        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? "Document register · saves to GitHub" : "Document register · demo" }),
+        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? "Document register · saves to GitHub" : "Document register · " + modeTag() }),
           el("h2", { class: "t", text: "Documents", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 4px" }),
           el("p", { style: "margin:0;color:var(--muted)", text: S.docs.length + " program documents (" + approved + " approved, " + (S.docs.length - approved) + " draft) · " + all.length + " task files" })]),
         (function(){ var b = el("button", { type: "button", class: "btn primary", text: "+ Add document", onclick: addForm }); b.style.marginLeft = "auto"; return b; })()
@@ -1893,7 +1895,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     mount([
       el("a", { class: "back", href: "#/", text: "← Back to dashboard" }),
       el("div", { class: "row", style: "align-items:flex-end;flex-wrap:wrap;margin-bottom:20px" }, [
-        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? "Budget tracking · saves to GitHub" : "Budget tracking · demo" }),
+        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? "Budget tracking · saves to GitHub" : "Budget tracking · " + modeTag() }),
           el("h2", { class: "t", text: "Budget", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 4px" }),
           el("p", { style: "margin:0;color:var(--muted)" }, ["Spending against the approved budget", doc ? [" (", el("a", { href: "#/documents", text: doc.title + " v" + doc.version }), ")"] : null].reduce(function(a, x){ return a.concat(x || []); }, []))]),
         (function(){ var b = el("button", { type: "button", class: "btn primary", text: "+ Log expense", onclick: function(){ expenseForm(null); } }); b.style.marginLeft = "auto"; return b; })()
@@ -2280,7 +2282,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     mount([
       el("a", { class: "back", href: "#/", text: "← Back to dashboard" }),
       el("div", { class: "row", style: "align-items:flex-end;flex-wrap:wrap;margin-bottom:16px" }, [
-        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? "Calendar · saves to GitHub" : "Calendar · demo" }),
+        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? "Calendar · saves to GitHub" : "Calendar · " + modeTag() }),
           el("h2", { class: "t", text: "Calendar", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 4px" }),
           el("p", { style: "margin:0;color:var(--muted)", text: "What's due and when the team meets, at every level." })]),
         (function(){ var b = el("button", { type: "button", class: "btn primary", text: "+ Add meeting", onclick: function(){ meetingForm(null); } }); b.style.marginLeft = "auto"; return b; })()
