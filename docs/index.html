@@ -549,8 +549,16 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     storagePrefix: "keystone",            // keeps each copy's browser data separate; use a new word for each copy
     demoMode: true,                       // true: visitors can try everything, saved only in their browser
                                           // false: visitors can only look; changes need owner sign-in
-    reportFooter: "Fictional study for demonstration."  // bottom line of the printed progress report ("" hides it)
+    reportFooter: "Fictional study for demonstration.",  // bottom line of the printed progress report ("" hides it)
+    words: {                              // wording that names this kind of project
+      org: "study",                       // "Documents for the whole study"
+      wide: "Study-wide",                 // the whole-team meeting level
+      leadTeam: "Study Leadership",       // department name of the leadership team
+      decider: "the study lead",          // "Decisions waiting: need a choice from …"
+      teamTitle: "Study team"             // label on the Team page
+    }
   };
+  var W = SITE.words;
   // =====================================================================================================
   var REPO = SITE.repo, PORTFOLIO = SITE.portfolio, LINKEDIN = SITE.linkedin;
   var API = "https://api.github.com";
@@ -1102,7 +1110,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       statCard("all", "Overall progress", { show: "all" }, [el("div", { class: "k", text: "Overall progress" }), el("div", { class: "v", text: pct + "%" }), (function(){ var b = el("div", { class: "bar" }, [el("span")]); b.style.marginTop = "10px"; b.firstChild.style.width = pct + "%"; return b; })()]),
       statCard("done", "Tasks done", { show: "done" }, [el("div", { class: "k", text: "Tasks done" }), el("div", { class: "v", text: done + " / " + live.length }), el("div", { class: "s", text: (live.length - done) + " still open" })]),
       statCard("deadline", "Next deadline", { show: "open", phase: next ? next.title : "" }, [el("div", { class: "k", text: "Next deadline" }), el("div", { class: "v", text: next ? (nd < 0 ? Math.abs(nd) + " days late" : nd === 0 ? "Today" : nd + " days") : "All clear" }), el("div", { class: "s", text: next ? next.title + " · " + niceDate(next.due) : "" })]),
-      statCard("decisions", "Decisions waiting", { show: "open", label: "decision" }, [el("div", { class: "k", text: "Decisions waiting" }), el("div", { class: "v", text: String(decisions.length) }), el("div", { class: "s", text: "Need a choice from the study lead" })])
+      statCard("decisions", "Decisions waiting", { show: "open", label: "decision" }, [el("div", { class: "k", text: "Decisions waiting" }), el("div", { class: "v", text: String(decisions.length) }), el("div", { class: "s", text: "Need a choice from " + W.decider })])
     ]);
 
     var cards = el("div", { class: "phases" });
@@ -1501,7 +1509,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     mount([
       el("a", { class: "back", href: "#/", text: "← Back to dashboard" }),
       el("div", { class: "row", style: "align-items:flex-end;flex-wrap:wrap;margin-bottom:20px" }, [
-        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? "Study team · saves to GitHub" : "Study team · demo" }), el("h2", { class: "t", text: "Team", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 4px" }),
+        el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? W.teamTitle + " · saves to GitHub" : W.teamTitle + " · demo" }), el("h2", { class: "t", text: "Team", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 4px" }),
           el("p", { style: "margin:0;color:var(--muted)", text: S.team.length + " people in " + departments().length + " departments" + (unassigned ? " · " + unassigned + " open task" + (unassigned === 1 ? "" : "s") + " unassigned" : " · every open task has an owner") })]),
         (function(){ var b = el("button", { type: "button", class: "btn primary", text: "+ Add member", onclick: function(){ memberForm(null); } }); b.style.marginLeft = "auto"; return b; })()
       ]),
@@ -1705,7 +1713,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       formBox,
       el("section", { class: "dsec", "aria-label": "Program documents" }, [
         el("div", { class: "shead" }, [el("h2", { text: "Program documents" }), seg]),
-        el("p", { class: "shint", text: "Documents for the whole study. Each has a version and a status, and new versions need approval again." }),
+        el("p", { class: "shint", text: "Documents for the whole " + W.org + ". Each has a version and a status, and new versions need approval again." }),
         docList
       ]),
       el("section", { class: "dsec", "aria-label": "Task files" }, [
@@ -1887,7 +1895,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       el("div", { class: "row", style: "align-items:flex-end;flex-wrap:wrap;margin-bottom:20px" }, [
         el("div", {}, [el("div", { class: "eyebrow", text: S.owner ? "Budget tracking · saves to GitHub" : "Budget tracking · demo" }),
           el("h2", { class: "t", text: "Budget", style: "font-family:inherit;text-transform:none;letter-spacing:0;font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 4px" }),
-          el("p", { style: "margin:0;color:var(--muted)" }, ["Spending against the approved study budget", doc ? [" (", el("a", { href: "#/documents", text: doc.title + " v" + doc.version }), ")"] : null].reduce(function(a, x){ return a.concat(x || []); }, []))]),
+          el("p", { style: "margin:0;color:var(--muted)" }, ["Spending against the approved budget", doc ? [" (", el("a", { href: "#/documents", text: doc.title + " v" + doc.version }), ")"] : null].reduce(function(a, x){ return a.concat(x || []); }, []))]),
         (function(){ var b = el("button", { type: "button", class: "btn primary", text: "+ Log expense", onclick: function(){ expenseForm(null); } }); b.style.marginLeft = "auto"; return b; })()
       ]),
       formBox,
@@ -2061,7 +2069,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
   }
 
   // ---------- Calendar (owner → tracker/calendar.json, demo → this browser) ----------
-  var LEVELS = { study: "Study-wide", leadership: "Leadership", department: "Department" };
+  var LEVELS = { study: W.wide, leadership: "Leadership", department: "Department" };
   function saveCal(cal, msg){
     if (viewOnly()) return Promise.reject(new Error("Sign in as the owner to make changes."));
     if (S.owner){
@@ -2132,8 +2140,8 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       formBox.textContent = "";
       var err = el("p", { class: "error", role: "alert", hidden: true });
       var title = el("input", { type: "text", id: "c-title", maxlength: 100, value: m ? m.title : "", autocomplete: "off" });
-      var level = el("select", { id: "c-level" }, [el("option", { value: "study", text: "Study-wide (whole team)" }), el("option", { value: "leadership", text: "Leadership" })]);
-      departments().filter(function(d){ return d !== "Study Leadership"; }).forEach(function(d){ level.appendChild(el("option", { value: "dept:" + d, text: "Department: " + d })); });
+      var level = el("select", { id: "c-level" }, [el("option", { value: "study", text: W.wide + " (whole team)" }), el("option", { value: "leadership", text: "Leadership" })]);
+      departments().filter(function(d){ return d !== W.leadTeam; }).forEach(function(d){ level.appendChild(el("option", { value: "dept:" + d, text: "Department: " + d })); });
       level.value = m ? (m.level === "department" ? "dept:" + m.team : m.level) : "study";
       var date = el("input", { type: "date", id: "c-date", value: m ? m.start : (presetDate || ui.day) });
       var time = el("input", { type: "time", id: "c-time", value: m ? m.time : "10:00", step: 900 });
@@ -2149,7 +2157,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
       S.team.forEach(function(p){ att.appendChild(el("label", { for: "c-a-" + p.id }, [el("input", { type: "checkbox", id: "c-a-" + p.id, value: p.id, checked: m ? m.attendees.indexOf(p.id) > -1 : true }), p.name])); });
       function preset(){ // pick the obvious people for the level
         var v = level.value;
-        att.querySelectorAll("input").forEach(function(i){ var p = person(i.value); i.checked = v === "study" ? true : v === "leadership" ? p.team === "Study Leadership" : p.team === v.slice(5); });
+        att.querySelectorAll("input").forEach(function(i){ var p = person(i.value); i.checked = v === "study" ? true : v === "leadership" ? p.team === W.leadTeam : p.team === v.slice(5); });
       }
       level.addEventListener("change", preset); if (!m) preset();
       var go = el("button", { type: "submit", class: "btn primary", text: m ? "Save meeting" : "Add meeting" });
@@ -2161,7 +2169,7 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
           var bad = !title.value.trim() ? [title, "Give the meeting a name."] : !date.value ? [date, "Pick a date."] : !time.value ? [time, "Pick a start time."] : !people.length ? [att.querySelector("input"), "Pick at least one person."] : every.value !== "0" && until.value && until.value < date.value ? [until, "The repeat end date is before the first meeting."] : null;
           if (bad){ err.textContent = bad[1]; err.hidden = false; bad[0].focus(); return; }
           var lv = level.value.indexOf("dept:") === 0 ? "department" : level.value;
-          var rec = { title: title.value.trim(), level: lv, team: lv === "department" ? level.value.slice(5) : lv === "leadership" ? "Study Leadership" : "", start: date.value, until: every.value === "0" ? "" : until.value, time: time.value, minutes: +mins.value, every: +every.value, attendees: people, location: place.value.trim(), notes: notes.value.trim() };
+          var rec = { title: title.value.trim(), level: lv, team: lv === "department" ? level.value.slice(5) : lv === "leadership" ? W.leadTeam : "", start: date.value, until: every.value === "0" ? "" : until.value, time: time.value, minutes: +mins.value, every: +every.value, attendees: people, location: place.value.trim(), notes: notes.value.trim() };
           var cal = JSON.parse(JSON.stringify(S.cal));
           if (m) Object.assign(cal.meetings.filter(function(x){ return x.id === m.id; })[0], rec);
           else { var n = cal.meetings.reduce(function(a, x){ return Math.max(a, +String(x.id).replace(/\D/g, "") || 0); }, 0) + 1; cal.meetings.push(Object.assign({ id: "mt" + n }, rec)); }
@@ -2257,15 +2265,15 @@ footer{margin-top:40px;font-size:13px;color:var(--faint);display:flex;flex-wrap:
     });
 
     // Filters
-    var lvl = el("select", { id: "c-flevel", onchange: function(e){ ui.level = e.target.value; viewCalendar(); } }, [el("option", { value: "", text: "All levels" }), el("option", { value: "study", text: "Study-wide" }), el("option", { value: "leadership", text: "Leadership" })]);
-    departments().filter(function(d){ return d !== "Study Leadership"; }).forEach(function(d){ lvl.appendChild(el("option", { value: d, text: d })); });
+    var lvl = el("select", { id: "c-flevel", onchange: function(e){ ui.level = e.target.value; viewCalendar(); } }, [el("option", { value: "", text: "All levels" }), el("option", { value: "study", text: W.wide }), el("option", { value: "leadership", text: "Leadership" })]);
+    departments().filter(function(d){ return d !== W.leadTeam; }).forEach(function(d){ lvl.appendChild(el("option", { value: d, text: d })); });
     lvl.value = ui.level;
     var ppl = ownerSelect("c-fperson", ui.person, "Everyone", true); ppl.addEventListener("change", function(e){ ui.person = e.target.value; viewCalendar(); });
     function toggle(key, label){ var id = "c-show-" + key; return el("label", { class: "tgl", for: id }, [el("input", { type: "checkbox", id: id, checked: ui[key], onchange: function(e){ ui[key] = e.target.checked; viewCalendar(); } }), label]); }
     var viewSeg = el("div", { class: "seg", role: "group", "aria-label": "View" });
     [["month", "Month"], ["agenda", "List"]].forEach(function(o){ viewSeg.appendChild(el("button", { type: "button", "aria-pressed": String(ui.view === o[0]), text: o[1], onclick: function(){ ui.view = o[0]; viewCalendar(); } })); });
     var legend = el("div", { class: "clegend", "aria-label": "Key" }, [
-      el("span", { class: "ev ev-study", text: "Study-wide meeting" }), el("span", { class: "ev ev-leadership", text: "Leadership meeting" }), el("span", { class: "ev ev-department", text: "Department meeting" }),
+      el("span", { class: "ev ev-study", text: W.wide + " meeting" }), el("span", { class: "ev ev-leadership", text: "Leadership meeting" }), el("span", { class: "ev ev-department", text: "Department meeting" }),
       el("span", { class: "ev ev-task", text: "Due: task" }), el("span", { class: "ev ev-phase", text: "Deadline: phase" }), el("span", { class: "ev ev-closed", text: "Closed" })
     ]);
 
