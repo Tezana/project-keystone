@@ -13,7 +13,7 @@ A working project tracker built on GitHub, demoed with a fictional research stud
 | --- | --- | --- | --- |
 | Phase 0: Study concept | Oct 10, 2026 | 9 / 9 | Complete |
 | Phase 1: Approvals | Nov 30, 2026 | 0 / 7 | Not started |
-| Phase 2: Protocol and materials | Oct 31, 2026 | 0 / 7 | Not started |
+| Phase 2: Protocol and materials | Oct 31, 2026 | 0 / 7 | Past due |
 | Phase 3: Lab setup | Nov 7, 2026 | 0 / 8 | Not started |
 | Phase 4: Participant testing | Dec 19, 2026 | 0 / 16 | Not started |
 | Phase 5: Analysis and report | Jan 30, 2027 | 0 / 8 | Not started |
@@ -37,7 +37,7 @@ A working project tracker built on GitHub, demoed with a fictional research stud
 - [#26 Choose the sample storage vendor](https://github.com/Tezana/project-keystone/issues/26)
 - [#53 Decide whether to submit to a journal](https://github.com/Tezana/project-keystone/issues/53)
 
-_Updated automatically Oct 31, 2026._
+_Updated automatically Nov 1, 2026._
 <!-- STATUS:END -->
 
 ## How this tracker works

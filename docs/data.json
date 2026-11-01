@@ -3,7 +3,7 @@
  "company": "Lanternfield Labs",
  "summary": "A 60-participant clinical validation study of a wearable hydration sensor, from concept to final report.",
  "repo": "Tezana/project-keystone",
- "updated": "2026-10-31",
+ "updated": "2026-11-01",
  "phases": [
   {
    "title": "Phase 0: Study concept",
@@ -24,7 +24,7 @@
    "due": "2026-10-31",
    "done": 0,
    "total": 7,
-   "status": "Not started"
+   "status": "Past due"
   },
   {
    "title": "Phase 3: Lab setup",
